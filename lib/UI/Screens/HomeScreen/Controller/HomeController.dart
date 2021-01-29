@@ -1,0 +1,9 @@
+
+class HomeScreenController {
+  
+  void goToDailyReading(){
+    
+  }
+
+
+}
