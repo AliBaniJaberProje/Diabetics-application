@@ -9,6 +9,7 @@ import 'UI/Screens/ProfilePersonly/ProfilePersonly.dart';
 import 'UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 import 'core/Providers/MyDoseProvider.dart';
 import 'core/Providers/NotificationProvider.dart';
+import 'core/Providers/PersonProvider.dart';
 import 'core/Providers/ProfileProvider.dart';
 import 'core/Providers/test.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,6 +32,7 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: NotificationsProvider()),
         ChangeNotifierProvider.value(value: ProfileProvider()),
         ChangeNotifierProvider.value(value: MyDoseProvider()),
+        ChangeNotifierProvider.value(value: PersonChatProvider()),
       ],
       child: MyApp(),
     );

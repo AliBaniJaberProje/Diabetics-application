@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
-class Person {
+class PersonProfile {
   String username = "بيان منذر ";
   double weight = 55.6;
   double length = 75;
@@ -16,7 +16,7 @@ class Person {
 }
 
 class ProfileProvider with ChangeNotifier {
-  Person _person = new Person();
+  PersonProfile _person = new PersonProfile();
   //-----------------------------------------data-------------------------
   bool _updateweight = false;
   bool _updatelength = false;

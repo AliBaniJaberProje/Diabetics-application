@@ -1,10 +1,7 @@
-
-
 import 'package:ali_muntaser_final_project/core/Providers/MyDoseProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'IdDoseContainer.dart';
 import 'TimeDoseContainer.dart';
 import 'TitleDoseContainer.dart';
@@ -123,43 +120,49 @@ class _MyDoseBodyState extends State<MyDoseBody> {
             Expanded(
               child: ListView.builder(
                 itemBuilder: (ctx, i) {
-                  Color _color =
-                      (Provider.of<MyDoseProvider>(ctx, listen: true)
-                              .listDose[i]
-                              .color as Color)
-                          .withOpacity(.56);
+                  Color _color = (Provider.of<MyDoseProvider>(ctx, listen: true)
+                          .listDose[i]
+                          .color as Color)
+                      .withOpacity(.56);
 
-                  return Provider.of<MyDoseProvider>(context, listen: true).listDose[i].take? Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        width: 2,
-                        color: _color,
-                      ),
-                    ),
-                    width: double.infinity,
-                    height: 80,
-                    margin: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TimeDoseContainer(
-                            Provider.of<MyDoseProvider>(context, listen: true)
-                                .listDose[i]
-                                .time_dose,
-                            _color.withOpacity(.5)),
-                        TitleDoseContainer(
-                            Provider.of<MyDoseProvider>(context, listen: true)
-                                .listDose[i]
-                                .dosetitle),
-                        IdDoseContainer(
-                            Provider.of<MyDoseProvider>(context, listen: true)
-                                .listDose[i]
-                                .id,
-                            _color.withOpacity(.5)),
-                      ],
-                    ),
-                  ):Container();
+                  return Provider.of<MyDoseProvider>(context, listen: true)
+                          .listDose[i]
+                          .take
+                      ? Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 2,
+                              color: _color,
+                            ),
+                          ),
+                          width: double.infinity,
+                          height: 80,
+                          margin: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TimeDoseContainer(
+                                  Provider.of<MyDoseProvider>(context,
+                                          listen: true)
+                                      .listDose[i]
+                                      .time_dose,
+                                  _color.withOpacity(.5)),
+                              TitleDoseContainer(Provider.of<MyDoseProvider>(
+                                      context,
+                                      listen: true)
+                                  .listDose[i]
+                                  .dosetitle),
+                              IdDoseContainer(
+                                  Provider.of<MyDoseProvider>(context,
+                                          listen: true)
+                                      .listDose[i]
+                                      .id,
+                                  _color.withOpacity(.5)),
+                            ],
+                          ),
+                        )
+                      : Container();
                 },
                 itemCount: Provider.of<MyDoseProvider>(context, listen: true)
                     .listDose

@@ -23,8 +23,8 @@ import 'icon_with_number.dart';
             child: IconWithNumber(icon:Icons.notifications,number: context.watch<NotificationsProvider>().getNotReadNotificationNumber(),),
           ),
           Tab(
-            child: NormalIcon(icon: Icons.home,sizeIcon: 30,),
-            // child: IconWithNumber(icon: Icons.chat,number: 8,),
+            //child: NormalIcon(icon: Icons.home,sizeIcon: 30,),
+             child: IconWithNumber(icon: Icons.chat,number: 8,),
           ),
           // Tab(
           //   child: NormalIcon(icon: Icons.person,sizeIcon: 30,),

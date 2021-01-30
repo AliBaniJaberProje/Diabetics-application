@@ -1,3 +1,4 @@
+import 'package:ali_muntaser_final_project/UI/Screens/chat/PersonChat/PersonChatScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/notifications/NotificationScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
@@ -28,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
             BodyHonePage(),
             //Scaffold(),
             NotificationsScreen(),
-            Scaffold(),
+            PersonChatScreen(),
             //  PersonalScreen(),
           ],
         ),
