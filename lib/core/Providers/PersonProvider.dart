@@ -8,8 +8,25 @@ class PersonChatProvider with ChangeNotifier {
     return _douctursList[index];
   }
 
+  Person getDocturWherId(String id) {
+    for (int i = 0; i < this._douctursList.length; i++) {
+      if (this._douctursList[i].getId() == id) return this._douctursList[i];
+    }
+  }
+
+  int _numberofmsgNotification = 0;
+
   int getNumberDoctur() {
     return this._douctursList.length;
+  }
+
+  int getNumberMsgNotRead() {
+    this._numberofmsgNotification = 0;
+    for (int i = 0; i < this._douctursList.length; i++) {
+      this._numberofmsgNotification =
+          this._numberofmsgNotification + this._douctursList[i].getNumberMsg();
+    }
+    return this._numberofmsgNotification;
   }
 
   void addDoctur(
@@ -26,6 +43,17 @@ class PersonChatProvider with ChangeNotifier {
       new Person(id, name, imgurl, lastaccesstime, numbermsg, status, typeuser,
           lastmsg, timeLastMsg),
     );
+  }
+
+  void showmsgForthisDoctur(String id) {
+    for (int i = 0; i < this._douctursList.length; i++) {
+      if (this._douctursList[i].getId() == id) {
+        this._douctursList[i].setNumberMsg(0);
+        this._numberofmsgNotification = this._numberofmsgNotification -
+            this._douctursList[i].getNumberMsg();
+      }
+    }
+    notifyListeners();
   }
 
   PersonChatProvider() {
@@ -54,7 +82,7 @@ class PersonChatProvider with ChangeNotifier {
       timeLastMsg: DateTime.parse("2021-01-29"),
     );
     addDoctur(
-      id: "2",
+      id: "3",
       name: "   د انسام محمد",
       imgurl:
           "https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg",
@@ -66,7 +94,7 @@ class PersonChatProvider with ChangeNotifier {
       timeLastMsg: DateTime.parse("2021-01-30 23:30:30"),
     );
     addDoctur(
-      id: "2",
+      id: "4",
       name: "   د ايمان محمد",
       imgurl:
           "https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg",

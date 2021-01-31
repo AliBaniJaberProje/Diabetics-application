@@ -1,5 +1,6 @@
 import 'package:ali_muntaser_final_project/UI/Screens/MyDoseScreen/MyDoseScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/ProfilePersonly/ProfilePersonly.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/chat/MsgChat/msgChatScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 import 'package:ali_muntaser_final_project/core/Constant/HomePageConstant.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,7 @@ class MyGridTitle extends StatelessWidget {
 
                 print("دليل جرعاتي ");
               } else if (data['title'] == MainFeture[2]['title']) {
-                // Navigator.pushReplacementNamed(context, MyPersonScreen.routeName);
+                 Navigator.pushReplacementNamed(context, ChatScreen.routeName);
                 print("هل هذا صحي لي ؟");
               } else if (data['title'] == MainFeture[3]['title']) {
                 print("وجبتي هذا اليوم");

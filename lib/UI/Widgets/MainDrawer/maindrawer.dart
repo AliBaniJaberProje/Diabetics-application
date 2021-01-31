@@ -52,7 +52,7 @@ class MainDrawer extends StatelessWidget {
                       height: 100,
                       margin: EdgeInsets.only(top: 0, left: 75, right: 75),
                       child: CircularProfileAvatar(
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWtMDksH9GzFdMinyAkGbtLJNx6xynLETTNN5akjxirL3QD5Rj',
+                        context.watch<ProfileProvider>().getImgUrl(),
                         errorWidget: (context, url, error) => Container(
                           child: Icon(Icons.error),
                         ),

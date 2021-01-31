@@ -492,7 +492,7 @@ class _HomePageState extends State<MyPersonScreen> {
             width: 150,
             height: 150,
             child: CircularProfileAvatar(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWtMDksH9GzFdMinyAkGbtLJNx6xynLETTNN5akjxirL3QD5Rj',
+              context.watch<ProfileProvider>().getImgUrl(),
               errorWidget: (context, url, error) => Container(
                 child: Icon(Icons.error),
               ),

@@ -13,6 +13,8 @@ class PersonProfile {
   String id = "1122334455";
   String diabetesType = "النوع الاول ";
   File imagePerson = null;
+  String imgurl =
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWtMDksH9GzFdMinyAkGbtLJNx6xynLETTNN5akjxirL3QD5Rj";
 }
 
 class ProfileProvider with ChangeNotifier {
@@ -54,6 +56,14 @@ class ProfileProvider with ChangeNotifier {
 
   double getLength() {
     return this._person.length;
+  }
+
+  String getImgUrl() {
+    return this._person.imgurl;
+  }
+
+  void setImgUrl(String imgurl) {
+    this._person.imgurl = imgurl;
   }
 
   String getDateBirth() {

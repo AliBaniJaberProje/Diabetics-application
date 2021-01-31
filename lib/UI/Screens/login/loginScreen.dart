@@ -89,8 +89,8 @@ class LoginScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         gradient: LinearGradient(
                           colors: [
-                            Color.fromRGBO(143, 148, 251, 1),
-                            Color.fromRGBO(143, 148, 251, .6),
+                            Colors.purple,
+                            Colors.purple.withOpacity(.6),
                           ],
                         ),
                       ),
@@ -118,7 +118,7 @@ class LoginScreen extends StatelessWidget {
                     Text(
                       "هل نسيت كلمة السر",
                       style: TextStyle(
-                          color: Color.fromRGBO(143, 148, 251, 1),
+                          color: Colors.purple,
                           fontWeight: FontWeight.bold,
                           fontSize: 15),
                       textAlign: TextAlign.center,

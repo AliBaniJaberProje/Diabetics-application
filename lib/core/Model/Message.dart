@@ -4,14 +4,13 @@ import 'package:flutter/foundation.dart';
 class Message {
   String _id;
   String _title;
-  Person _from;
   Person _to;
   DateTime _timeSend;
   DateTime _timeReceved;
   DateTime _timeshow;
   bool _seen;
 
-  Message(this._id, this._title, this._from, this._to, this._timeSend,
+  Message(this._id, this._title, this._to, this._timeSend,
       this._timeReceved, this._timeshow, this._seen);
 
   bool get seen => this._seen;
@@ -44,11 +43,7 @@ class Message {
     this._to = value;
   }
 
-  Person get from => this._from;
-
-  set from(Person value) {
-    this._from = value;
-  }
+ 
 
   String get title => this._title;
 

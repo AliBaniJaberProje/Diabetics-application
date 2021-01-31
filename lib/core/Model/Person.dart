@@ -15,38 +15,56 @@ class Person {
   Status _status;
   TypeUser _typeuser;
   DateTime _timeLastMsg;
+ 
+  Person(
+      this._id,
+      this._name,
+      this._imgURL,
+      this._lastAccessTime,
+      this._numbermsg,
+      this._status,
+      this._typeuser,
+      this._lastmsg,
+      this._timeLastMsg);
 
-  Person(this._id, this._name, this._imgURL, this._lastAccessTime,
-      this._numbermsg, this._status, this._typeuser,this._lastmsg,this._timeLastMsg);
 
-  void setLastmsg(String msg){
-    this._lastmsg=msg;
+
+  void setLastmsg(String msg) {
+    this._lastmsg = msg;
   }
-  String getlastmsg(){
+
+  String getlastmsg() {
     return this._lastmsg;
   }
 
-  void setTimeLastMsg(DateTime time){
-    this._timeLastMsg=time;
+  bool isOnline() {
+    if (this._status == Status.ONLINE) return true;
+    return false;
   }
-  
-  String getFormatLastMsgTime(){
- 
-     if(this._timeLastMsg.day==DateTime.now().day-1){
+
+  bool isOfline() {
+    if (this._status == Status.OFLINE) return true;
+    return false;
+  }
+
+  void setTimeLastMsg(DateTime time) {
+    this._timeLastMsg = time;
+  }
+
+  String getFormatLastMsgTime() {
+    if (this._timeLastMsg.day == DateTime.now().day - 1) {
       return "امس            ";
-    }
-    else if(this._timeLastMsg.day==DateTime.now().day) {
-      return this._timeLastMsg.hour.toString()+":"+this._timeLastMsg.minute.toString()+"         ";
-    }
-    else if(this._timeLastMsg.year==DateTime.now().year){
-      return new DateFormat.MMMd().format(this._timeLastMsg)+"   ";
-    }
-    else{
+    } else if (this._timeLastMsg.day == DateTime.now().day) {
+      return this._timeLastMsg.hour.toString() +
+          ":" +
+          this._timeLastMsg.minute.toString() +
+          "         ";
+    } else if (this._timeLastMsg.year == DateTime.now().year) {
+      return new DateFormat.MMMd().format(this._timeLastMsg) + "   ";
+    } else {
       return new DateFormat.yMMMd().format(this._timeLastMsg);
     }
-
   }
-
 
   void setId(String id) {
     this._id = id;
