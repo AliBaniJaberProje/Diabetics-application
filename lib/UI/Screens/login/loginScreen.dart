@@ -5,16 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:ui';
 import 'package:provider/provider.dart';
-import '../login/Widgets/FadeAnimation.dart';
 import 'Widgets/HeaderLogin.dart';
-import 'controller/controalLogin.dart';
+import 'controalLogin.dart';
 
 class LoginScreen extends StatelessWidget {
   static final String routeName = "/";
-  LoginController _logincontroller = new LoginController();
+
   var idController = TextEditingController();
+  var passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    LoginController _logincontroller = new LoginController(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -67,6 +68,7 @@ class LoginScreen extends StatelessWidget {
                             child: TextField(
                               obscureText: true,
                               textAlign: TextAlign.end,
+                              controller: passwordController,
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "كلمة السر",
@@ -103,12 +105,17 @@ class LoginScreen extends StatelessWidget {
                               fontSize: 30),
                           textAlign: TextAlign.center,
                         ),
-                        onTap: () {
-                          context
-                              .read<LoginProvider>()
-                              .setid(idController.text);
-                          Navigator.pushReplacementNamed(
-                              context, HomeScreen.routeName);
+                        onTap: () async {
+                          if (await _logincontroller.isLogin(
+                              idController.text, passwordController.text)) {
+                            context
+                                .read<LoginProvider>()
+                                .setid(idController.text);
+                            Navigator.pushReplacementNamed(
+                                context, HomeScreen.routeName);
+                          } else {
+                            return;
+                          }
                         },
                       ),
                     ),

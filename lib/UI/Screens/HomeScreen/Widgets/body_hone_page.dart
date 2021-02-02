@@ -113,33 +113,42 @@ class TipOfDayContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (ctx, c) => Container(
-        margin: EdgeInsets.only(left: 10, right: 10),
-        padding: EdgeInsets.only(right: 7),
-        width: MediaQuery.of(ctx).size.width,
-        height: 100,
-        decoration: BoxDecoration(
-          color: Colors.pink.withOpacity(.3),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              " نصيحة اليوم",
-              style: TextStyle(
-                fontSize: 25,
+      builder: (ctx, c) => Card(
+        color: Colors.purpleAccent.withOpacity(.5),
+        elevation: 5,
+              child: Container(
+          
+          margin: EdgeInsets.only(left: 10, right: 10),
+          padding: EdgeInsets.only(right: 7),
+          width: MediaQuery.of(ctx).size.width,
+          height: 100,
+          decoration: BoxDecoration(
+            
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                " نصيحة اليوم",
+                style: TextStyle(
+                  fontSize: 25,
+                ),
               ),
-            ),
-            Text(
-              "الوزن الصحي يمنحك القدرة على معواجهة اي مرض بكفاء أكبر . ويساعدك في التحكم في نسبة السكر بالدم ",
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                fontSize: 16,
+              Text(
+                "الوزن الصحي يمنحك القدرة على معواجهة اي مرض بكفاء أكبر . ويساعدك في التحكم في نسبة السكر بالدم ",
+                textAlign: TextAlign.end,
+                overflow: TextOverflow.ellipsis,
+                
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic
+                ),
+                maxLines: 2,
               ),
-              maxLines: 2,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -177,7 +186,7 @@ class BodyHonePage extends StatelessWidget {
             ),
             TipOfDayContainer(),
             SizedBox(
-              height: constraint.maxHeight * .03,
+              height: constraint.maxHeight * .02,
             ),
             MainFituerContainer(),
           ],

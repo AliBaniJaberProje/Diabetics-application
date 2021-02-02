@@ -8,6 +8,7 @@ import 'UI/Screens/MyDoseScreen/MyDoseScreen.dart';
 import 'UI/Screens/ProfilePersonly/ProfilePersonly.dart';
 import 'UI/Screens/chat/MsgChat/msgChatScreen.dart';
 import 'UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
+import 'core/Providers/ChatProvider.dart';
 import 'core/Providers/MsgProvider.dart';
 import 'core/Providers/MyDoseProvider.dart';
 import 'core/Providers/NotificationProvider.dart';
@@ -36,8 +37,9 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: ProfileProvider()),
         ChangeNotifierProvider.value(value: MyDoseProvider()),
         ChangeNotifierProvider.value(value: PersonChatProvider()),
-        ChangeNotifierProvider.value(value: MessageProvider()),
+       // ChangeNotifierProvider.value(value: MessageProvider()),
         ChangeNotifierProvider.value(value: MsgProvider()),
+        ChangeNotifierProvider.value(value: ChatProvider())
       ],
       child: MyApp(),
     );
@@ -49,6 +51,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.purple,
+      ),
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),

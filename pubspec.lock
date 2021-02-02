@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0-nullsafety.1"
+  bubble_chart:
+    dependency: "direct main"
+    description:
+      name: bubble_chart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   cached_network_image:
     dependency: transitive
     description:
@@ -272,6 +279,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.5.2"
+  flutter_chat_bubble:
+    dependency: "direct main"
+    description:
+      name: flutter_chat_bubble
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   flutter_launcher_icons:
     dependency: "direct main"
     description:

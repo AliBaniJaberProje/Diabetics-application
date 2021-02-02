@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -10,7 +12,7 @@ class PersonProfile {
   DateTime dateBirth = DateTime.now();
   String phoneNumber = "0598420284";
   String location = "عقربا ";
-  String id = "1122334455";
+  String id;
   String diabetesType = "النوع الاول ";
   File imagePerson = null;
   String imgurl =
@@ -29,6 +31,11 @@ class ProfileProvider with ChangeNotifier {
   //------------------------------------------ methods ------------------------
   void setPhoneNumber(String newName) {
     this._person.phoneNumber = newName;
+  }
+
+  void setId(String userid) {
+    _person.id = userid;
+    notifyListeners();
   }
 
   void setUserName(String name) {
@@ -115,6 +122,18 @@ class ProfileProvider with ChangeNotifier {
     final pickedfile = await imagepicker.getImage(source: src);
     if (pickedfile != null) {
       _person.imagePerson = File(pickedfile.path);
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child('user_image')
+          .child(this._person.id + ".jpg");
+      await ref.putFile(_person.imagePerson);
+      final url = await ref.getDownloadURL();
+
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(this._person.id)
+          .update({'imgurl': url});
+          this._person.imgurl=url;
     }
     notifyListeners();
   }

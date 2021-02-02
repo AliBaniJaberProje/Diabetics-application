@@ -2,43 +2,43 @@ import 'package:ali_muntaser_final_project/core/Model/Person.dart';
 import 'package:intl/intl.dart';
 
 class Msg {
-  String _message;
-  bool _isMe;
-  DateTime _timesend;
-  bool _isShow;
-  Person _doctur;
+  String message;
+  bool isme;
+  DateTime timesend;
+  bool isShow;
+  //Person doctur;
 
-  Msg(this._message, this._isMe, this._timesend, this._isShow, this._doctur);
+  Msg({this.message, this.isme, this.timesend, this.isShow});
 
   String getMessage() {
-    return this._message;
+    return this.message;
   }
 
   bool isMe() {
-    return this._isMe;
+    return this.isme;
   }
 
 //new DateFormat.MMMd().format(this._timeLastMsg)
   String getTimeSendFormat() {
     String timeFormat = "";
-    if (DateTime.now().year == this._timesend.year &&
-        DateTime.now().month == this._timesend.month &&
-        DateTime.now().day == this._timesend.day) {
-      timeFormat = new DateFormat.MMMd().format(this._timesend).toString();
+    if (DateTime.now().year == this.timesend.year &&
+        DateTime.now().month == this.timesend.month &&
+        DateTime.now().day == this.timesend.day) {
+      timeFormat = new DateFormat.MMMd().format(this.timesend).toString();
     }
-    if (DateTime.now().day - 1 == this._timesend.day) {
+    if (DateTime.now().day - 1 == this.timesend.day) {
       timeFormat = "امس";
     }
-    if (DateTime.now().year == this._timesend.year &&
-        DateTime.now().month == this._timesend.month) {
-      timeFormat = new DateFormat.MMMd().format(this._timesend).toString();
+    if (DateTime.now().year == this.timesend.year &&
+        DateTime.now().month == this.timesend.month) {
+      timeFormat = new DateFormat.MMMd().format(this.timesend).toString();
     } else {
-      timeFormat = new DateFormat.yMMMd().format(this._timesend).toString();
+      timeFormat = new DateFormat.yMMMd().format(this.timesend).toString();
     }
     return timeFormat;
   }
 
-  void setDocturToChat(Person doctur) {
-    this._doctur = doctur;
-  }
+  // void setDocturToChat(Person doctur) {
+  //   this.doctur = doctur;
+  // }
 }
