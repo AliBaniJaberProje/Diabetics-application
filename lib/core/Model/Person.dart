@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../Model/Person.dart';
@@ -9,7 +10,7 @@ class Person {
   String _id;
   String _name;
   String _imgURL;
-  DateTime _lastAccessTime;
+  Timestamp _lastAccessTime;
   String _lastmsg;
   int _numbermsg;
   Status _status;
@@ -90,11 +91,11 @@ class Person {
     return this._imgURL;
   }
 
-  void setLastAccessTime(DateTime time) {
+  void setLastAccessTime(Timestamp time) {
     this._lastAccessTime = time;
   }
 
-  DateTime getLastAccessTime() {
+  Timestamp getLastAccessTime() {
     return this._lastAccessTime;
   }
 

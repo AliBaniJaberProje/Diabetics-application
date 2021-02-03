@@ -3,6 +3,7 @@ import 'package:ali_muntaser_final_project/core/Providers/ChatProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/PersonProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -113,7 +114,7 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
                             ],
                           ),
                         ),
-                        onTap: () {
+                        onTap: () async {
                           context
                               .read<PersonChatProvider>()
                               .showmsgForthisDoctur(
@@ -137,6 +138,31 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
                           docturobj.isOnline()
                               ? context.read<ChatProvider>().setOnline()
                               : context.read<ChatProvider>().setOfline();
+
+                          await FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(context.read<ChatProvider>().getIdSender())
+                              .update({"lastAccessTime": Timestamp.now()});
+
+                          context
+                              .read<ChatProvider>()
+                              .setTimeLastAccessChat(docturobj.getLastAccessTime());
+                          // await FirebaseFirestore.instance
+                          //     .collection("chat")
+                          //     .doc(context.read<ChatProvider>().getIdSender())
+                          //     .update({"lastAccessTime": Timestamp.now()});
+
+                          // await FirebaseFirestore.instance
+                          //     .collection("chat")
+                          //     .doc(context.read<ChatProvider>().getIdSender())
+                          //     .update({"lastAccessTime": Timestamp.now()});
+
+                          //         await FirebaseFirestore.instance
+                          // .collection("chat")
+                          // .doc(context.read<ChatProvider>().getIdSender())
+                          // .collection(context.read<ChatProvider>().getReceverId()).add({
+                          //   "lastAccessPatient":Timestamp.now()
+                          // });
 
                           Navigator.pushReplacementNamed(
                             context,

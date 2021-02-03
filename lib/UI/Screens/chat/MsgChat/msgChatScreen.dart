@@ -23,10 +23,10 @@ import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_7.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_8.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_9.dart';
 
-class BoobleMessage extends StatelessWidget {
+class BubbleMessage extends StatelessWidget {
   final Msg msg;
 
-  const BoobleMessage({this.msg});
+  const BubbleMessage({this.msg});
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +35,56 @@ class BoobleMessage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ChatBubble(
-                clipper: ChatBubbleClipper9(type: BubbleType.sendBubble),
+                clipper: ChatBubbleClipper4(type: BubbleType.sendBubble),
                 alignment: Alignment.topRight,
+                elevation: 3,
                 margin: EdgeInsets.only(top: 3, bottom: 3),
                 backGroundColor: Colors.purple[300],
                 child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.7,
-                  ),
-                  child: Text(
-                    msg.message,
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                ),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.7,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          msg.message,
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        //Icon(Icons.remove_red_eye_outlined,size: 17,),
+                        Wrap(
+                          //alignment: WrapAlignment.spaceBetween,
+                          children: [
+                            Wrap(
+                              alignment: WrapAlignment.end,
+                              children: [
+                                Text(
+                                  msg.getTimeSendFormat(),
+                                  style: TextStyle(color: Colors.yellow),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Icon(
+                                  msg.isShow
+                                      ? Icons.remove_red_eye_outlined
+                                      : Icons.check,
+                                  color: Colors.yellow,
+                                ),
+                                // Icon(
+                                //   Icons.check,
+                                //   size: 13,
+                                // ),
+                                // Icon(
+                                //   Icons.check,
+                                //   size: 13,
+                                // ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    )),
               ),
               Container(
                 margin: EdgeInsets.only(
@@ -82,14 +119,46 @@ class BoobleMessage extends StatelessWidget {
                 backGroundColor: Color(0xffE7E7ED),
                 margin: EdgeInsets.only(top: 2, bottom: 2),
                 child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.7,
-                  ),
-                  child: Text(
-                    msg.message,
-                    style: TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.7,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          msg.message,
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        Wrap(
+                          //alignment: WrapAlignment.spaceBetween,
+                          children: [
+                            Wrap(
+                              alignment: WrapAlignment.end,
+                              children: [
+                                Text(
+                                  msg.getTimeSendFormat(),
+                                  style: TextStyle(color: Colors.purple),
+                                ),
+                                // SizedBox(
+                                //   width: 15,
+                                // ),
+                                // Icon(
+                                //   Icons.remove_red_eye_outlined,
+                                //   size: 17,
+                                // ),
+                                // Icon(
+                                //   Icons.check,
+                                //   size: 13,
+                                // ),
+                                // Icon(
+                                //   Icons.check,
+                                //   size: 13,
+                                // ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    )),
               )
             ],
           );
@@ -126,11 +195,17 @@ class _NewMessageState extends State<NewMessage> {
                 textAlign: TextAlign.end,
                 keyboardType: TextInputType.multiline,
                 maxLines: null, //grow automatically
-                // focusNode: mrFocus,
+
                 controller: meesageController,
+                onTap: () {
+                  FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(context.read<ChatProvider>().getIdSender())
+                      .update({"lastAccessTime": Timestamp.now()});
+                },
                 onChanged: (val) {
                   setState(() {
-                    msgToSendText = val;
+                    msgToSendText = val.trim();
                   });
                 },
                 //   onSubmitted: currentIsComposing ? _handleSubmitted : null,
@@ -156,14 +231,22 @@ class _NewMessageState extends State<NewMessage> {
                         'text': meesageController.text,
                         'timeSend': Timestamp.now(),
                       });
-                      // context.read<MsgProvider>().sendMsgToDoctur(
-                      //     message: meesageController.text,
-                      //     dateTime: DateTime.now(),
-                      //     isShow: false);
-                      setState(() {
-                        meesageController.clear();
-                        msgToSendText = "";
-                      });
+
+                      // await FirebaseFirestore.instance.collection("users").doc(context.read<ChatProvider>().getIdSender()).update({
+                      //   "lastmsgtime":Timestamp.now(),
+                      // });
+                      //   await FirebaseFirestore.instance.collection("users").doc(context.read<ChatProvider>().getReceverId()).update({
+                      //   "lastmsgtime":Timestamp.now(),
+                      // });
+                      //  FirebaseFirestore.instance
+                      //     .collection("users")
+                      //     .doc(context.read<ChatProvider>().getIdSender())
+                      //     .update({"lastAccessTime": Timestamp.now()});
+
+                      // setState(() {
+                      //   meesageController.clear();
+                      //   msgToSendText = "";
+                      // });
                     },
               icon: Icon(
                 Icons.send,
@@ -181,6 +264,31 @@ class _NewMessageState extends State<NewMessage> {
 
 class ChatScreen extends StatelessWidget {
   static String routeName = "/MyWaveClipper";
+
+//   @override
+//   _ChatScreenState createState() => _ChatScreenState();
+// }
+
+// class _ChatScreenState extends State<ChatScreen> {
+//   @override
+//   void initState() {
+//     super.initState();
+
+//     FirebaseFirestore.instance
+//         .collection("users")
+//         .doc(context.read<ChatProvider>().getIdSender())
+//         .update({"lastAccessTime": Timestamp.now()}).then((value) {});
+
+//     FirebaseFirestore.instance
+//         .collection("users")
+//         .doc(context.read<ChatProvider>().getReceverId())
+//         .get()
+//         .then((value) {
+//       context
+//           .read<ChatProvider>()
+//           .setTimeLastAccessChat(value["lastAccessTime"] as Timestamp);
+//     });
+//   }
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +348,7 @@ class ChatScreen extends StatelessWidget {
                       borderWidth: 2,
                       borderColor: Colors.yellow,
                       backgroundColor: Colors.purple.withOpacity(.4),
-                      radius: 40,
+                      radius: 30,
                     ),
                   ),
                 ],
@@ -270,22 +378,56 @@ class ChatScreen extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  //print(snapshot.data);
 
                   return Expanded(
                     child: Container(
-                      //child: Text(snapshot.toString()),
                       child: ListView.builder(
                         reverse: true,
-                        itemBuilder: (ctx, index) => Container(
-                          child: BoobleMessage(
-                            msg: Msg(
-                                message: snapshot.data.docs[index]["text"],
-                                isShow: snapshot.data.docs[index]["isShow"],
-                                isme: snapshot.data.docs[index]["isPatient"],
-                                timesend: DateTime.now()), //isPatient
-                          ),
-                        ),
+                        itemBuilder: (ctx, index) {
+
+
+                          return Container(
+                            child: StreamBuilder(
+                                stream: FirebaseFirestore.instance
+                                    .collection("users")
+                                    .doc(context
+                                        .read<ChatProvider>()
+                                        .getReceverId())
+                                    .snapshots(),
+                                builder: (ctx, po) {
+                                  int compervar = (snapshot.data.docs[index]
+                                          ["timeSend"] as Timestamp)
+                                      .compareTo(po.data["lastAccessTime"]
+                                          as Timestamp);
+
+                                  bool isSeen = false;
+                                  if (compervar <= 0) {
+                                    isSeen = true;
+                                  }
+                                  if (po.connectionState ==
+                                          ConnectionState.waiting ||
+                                      po.data == null) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else {
+                                    return BubbleMessage(
+                                      msg: Msg(
+                                        message: snapshot.data.docs[index]
+                                            ["text"],
+                                        isShow: isSeen,
+                                        isme: snapshot.data.docs[index]
+                                            ["isPatient"],
+                                        timesend: snapshot.data.docs[index]
+                                            ["timeSend"],
+                                      ),
+
+                                      //isPatient
+                                    );
+                                  }
+                                }),
+                          );
+                        },
                         itemCount: snapshot.data.documents.length,
                       ),
                     ),

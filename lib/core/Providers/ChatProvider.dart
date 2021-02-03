@@ -1,10 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 
 /// done--------------------------
 ///
 ///
-///
-class Messagef {}
 
 class ChatProvider with ChangeNotifier {
   String _sendIdUser;
@@ -14,6 +13,16 @@ class ChatProvider with ChangeNotifier {
   String _imgurlSender;
   String _imgurlRecever;
   String _usernameDoctur;//
+  Timestamp _timestamplastaccess;
+
+  void setTimeLastAccessChat(Timestamp timestamp){
+    this._timestamplastaccess=timestamp;
+    notifyListeners();
+
+  }
+  Timestamp getTimeLastAccessChat(){
+    return this._timestamplastaccess;
+  } 
 
   bool _online;
 
@@ -76,4 +85,6 @@ class ChatProvider with ChangeNotifier {
   bool isOnline() {
     return this._online;
   }
+
+
 }

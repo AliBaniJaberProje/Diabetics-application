@@ -39,7 +39,7 @@ void clearPreavesDoctors(){
       {String id,
       String name,
       String imgurl,
-      DateTime lastaccesstime,
+      Timestamp lastaccesstime,
       int numbermsg,
       Status status,
       TypeUser typeuser,
@@ -129,11 +129,11 @@ void clearPreavesDoctors(){
             id: user["userId"],
             name:  user["username"],
             imgurl: user["imgurl"],
-            lastaccesstime: DateTime.now(),
+            lastaccesstime: user["lastAccessTime"],
             numbermsg: 3,
             status: user["status"]=="online"?Status.ONLINE:Status.OFLINE,
             lastmsg: "قم بمراجعتي",
-            timeLastMsg: DateTime.now()
+            timeLastMsg:DateTime.now()
 
           );
           notifyListeners();

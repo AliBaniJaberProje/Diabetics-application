@@ -1,14 +1,19 @@
-import 'package:ali_muntaser_final_project/core/Model/Person.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class Msg {
   String message;
   bool isme;
-  DateTime timesend;
+  Timestamp timesend;
   bool isShow;
+  bool samePreves = false;
   //Person doctur;
 
-  Msg({this.message, this.isme, this.timesend, this.isShow});
+  Msg({this.message, this.isme, this.timesend, this.isShow, this.samePreves});
+
+  bool isSamePreveas() {
+    return this.samePreves;
+  }
 
   String getMessage() {
     return this.message;
@@ -20,22 +25,24 @@ class Msg {
 
 //new DateFormat.MMMd().format(this._timeLastMsg)
   String getTimeSendFormat() {
-    String timeFormat = "";
-    if (DateTime.now().year == this.timesend.year &&
-        DateTime.now().month == this.timesend.month &&
-        DateTime.now().day == this.timesend.day) {
-      timeFormat = new DateFormat.MMMd().format(this.timesend).toString();
-    }
-    if (DateTime.now().day - 1 == this.timesend.day) {
-      timeFormat = "امس";
-    }
-    if (DateTime.now().year == this.timesend.year &&
-        DateTime.now().month == this.timesend.month) {
-      timeFormat = new DateFormat.MMMd().format(this.timesend).toString();
+    DateTime time = this.timesend.toDate();
+    if (DateTime.now().year == time.year &&
+        DateTime.now().month == time.month &&
+        DateTime.now().day == time.day) {
+      return new DateFormat.Hms().format(time).toString();
     } else {
-      timeFormat = new DateFormat.yMMMd().format(this.timesend).toString();
+      return new DateFormat.yMMMd().format(time).toString();
     }
-    return timeFormat;
+    // if (DateTime.now().day - 1 == time.day) {
+    //   timeFormat = "امس";
+    // }
+    // if (DateTime.now().year == time.year &&
+    //     DateTime.now().month == time.month) {
+    //   timeFormat = new DateFormat.MMMd().format(time).toString();
+    // } else {
+    //   timeFormat = new DateFormat.yMMMd().format(time).toString();
+    // }
+    // return timeFormat;
   }
 
   // void setDocturToChat(Person doctur) {
