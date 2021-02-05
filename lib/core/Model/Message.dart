@@ -1,59 +1,39 @@
-import 'package:ali_muntaser_final_project/core/Model/Person.dart';
-import 'package:flutter/foundation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class Message {
-  String _id;
-  String _title;
-  Person _to;
-  DateTime _timeSend;
-  DateTime _timeReceved;
-  DateTime _timeshow;
-  bool _seen;
+  String message;
+  bool isme;
+  Timestamp timesend;
+  bool isShow;
+  String typemessage;
 
-  Message(this._id, this._title, this._to, this._timeSend,
-      this._timeReceved, this._timeshow, this._seen);
 
-  bool get seen => this._seen;
 
-  set seen(bool value) {
-    this._seen = value;
+  Message({this.message, this.isme, this.timesend, this.isShow,this.typemessage});
+
+  String getMessage() {
+    return this.message;
+  }
+  bool isImageMessage(){
+    return this.typemessage=='image';
+  }
+  String getTypeMessage(){
+    return this.typemessage;
   }
 
-  DateTime get timeshow => this._timeshow;
-
-  set timeshow(DateTime value) {
-    this._timeshow = value;
+  bool isMe() {
+    return this.isme;
   }
 
-  DateTime get timeReceved => this._timeReceved;
-
-  set timeReceved(DateTime value) {
-    this._timeReceved = value;
-  }
-
-  DateTime get timeSend => this._timeSend;
-
-  set timeSend(DateTime value) {
-    this._timeSend = value;
-  }
-
-  Person get to => this._to;
-
-  set to(Person value) {
-    this._to = value;
-  }
-
- 
-
-  String get title => this._title;
-
-  set title(String value) {
-    this._title = value;
-  }
-
-  String get id => this._id;
-
-  set id(String value) {
-    this._id = value;
+  String getTimeSendFormat() {
+    DateTime time = this.timesend.toDate();
+    if (DateTime.now().year == time.year &&
+        DateTime.now().month == time.month &&
+        DateTime.now().day == time.day) {
+      return new DateFormat.Hms().format(time).toString();
+    } else {
+      return new DateFormat.yMMMd().format(time).toString();
+    }
   }
 }

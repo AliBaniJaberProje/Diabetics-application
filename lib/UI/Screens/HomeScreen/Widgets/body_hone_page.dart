@@ -1,9 +1,12 @@
 import 'package:ali_muntaser_final_project/UI/Screens/MyDoseScreen/MyDoseScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/ProfilePersonly/ProfilePersonly.dart';
-import 'package:ali_muntaser_final_project/UI/Screens/chat/MsgChat/msgChatScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/TestCard.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/chat/MsgChat/MessagesScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 import 'package:ali_muntaser_final_project/core/Constant/HomePageConstant.dart';
 import 'package:flutter/material.dart';
+
+import '../../TestScreen.dart';
 
 class HeaderContainer extends StatelessWidget {
   final bool showname;
@@ -85,16 +88,21 @@ class MyGridTitle extends StatelessWidget {
 
                 print("دليل جرعاتي ");
               } else if (data['title'] == MainFeture[2]['title']) {
-                 Navigator.pushReplacementNamed(context, ChatScreen.routeName);
+                 Navigator.pushReplacementNamed(context, MessagesScreen.routeName);
                 print("هل هذا صحي لي ؟");
               } else if (data['title'] == MainFeture[3]['title']) {
                 print("وجبتي هذا اليوم");
               } else if (data['title'] == MainFeture[4]['title']) {
+                
+                Navigator.pushReplacementNamed(context, TestScreen.routName);
+
                 print('حجز موعد');
               } else if (data['title'] == MainFeture[5]['title']) {
                 print("عدد الخطوات ");
               } else if (data['title'] == MainFeture[6]['title']) {
                 print('معلومات ونصائح ');
+                Navigator.pushReplacementNamed(context, TestCard.routName);
+
                 //  Navigator.pushReplacementNamed(context, MyPersonScreen.routeName);
               }
             },

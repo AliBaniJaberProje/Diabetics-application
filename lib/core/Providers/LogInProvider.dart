@@ -1,3 +1,4 @@
+import 'package:ali_muntaser_final_project/core/Model/Person.dart';
 import 'package:flutter/cupertino.dart';
 
 class LoginProvider with ChangeNotifier {
@@ -6,15 +7,11 @@ class LoginProvider with ChangeNotifier {
 
   void setid(String id) {
     this._id = id;
-    print(this._id);
   }
-
   void setPassword(String password) {
     this._password = password;
-    notifyListeners();
   }
-
-  Future<bool> isAuthorizedUser()async{
+  Future<Person> isAuthorizedUser()async{
     
   }
 }

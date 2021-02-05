@@ -1,4 +1,4 @@
-List<Map<String, String>> MainFeture = [
+const List<Map<String, String>> MainFeture = [
   {"title": "القراءت اليومية", "image": "assets/images/img7.png"},
   {"title": "دليل جرعاتي", "image": "assets/images/img1.png"},
   {"title": "هل هذا صحي لي ؟", "image": "assets/images/img3.png"},
