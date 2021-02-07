@@ -6,14 +6,14 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PersonProfile {
-  String username = "بيان منذر ";
+  String username ;
   double weight = 55.6;
   double length = 75;
   DateTime dateBirth = DateTime.now();
-  String phoneNumber = "0598420284";
-  String location = "عقربا ";
+  String phoneNumber ;
+  String location ;
   String id;
-  String diabetesType = "النوع الاول ";
+  String diabetesType;
   File imagePerson = null;
   String imgurl =
       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWtMDksH9GzFdMinyAkGbtLJNx6xynLETTNN5akjxirL3QD5Rj";
@@ -31,6 +31,12 @@ class ProfileProvider with ChangeNotifier {
   //------------------------------------------ methods ------------------------
   void setPhoneNumber(String newName) {
     this._person.phoneNumber = newName;
+  }
+  void setdateBirth(DateTime time){
+    this._person.dateBirth=time;
+  }
+  void setdiabetesType(String type){
+    this._person.diabetesType=type;
   }
 
   void setId(String userid) {

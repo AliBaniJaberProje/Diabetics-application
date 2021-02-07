@@ -1,6 +1,8 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
 import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:ali_muntaser_final_project/core/Servies_api/firebase/login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,6 +26,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   String _password = "";
   UsersFirebase usersFirebase = new UsersFirebase();
 
+  DateTime convertTimeStampToDateTime(Timestamp time) => time.toDate();
+
   //------------------------------ login function ------------------------------
   Future sleep2() {
     return new Future.delayed(const Duration(seconds: 1), () => "2");
@@ -39,12 +43,12 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     return true;
   }
 
-  void errorLogin() {
-    buildCenterFlushbar();
+  void errorLogin(String message) {
+    buildCenterFlushbar(message);
     context.read<LoginProvider>().reastLodingLoginStatus();
   }
 
-  void _trySubmit()async {
+  void _trySubmit() async {
     // fbm.getToken().then((value) => print(value));
     var _loginProvider = context.read<LoginProvider>();
     _loginProvider.setLodingLoginStatus();
@@ -53,20 +57,40 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
 
     if (isValidUserId() && isValidPassword()) {
       _formKey.currentState.save();
-       usersFirebase.isAuthorized(_userId, _password).then((value) => print(value));
+      var resultLogin = await usersFirebase.isAuthorized(_userId, _password);
+      if (resultLogin["status"] == "yes") {
+        print("yes");
+        Patient userLogedin = resultLogin["patient"];
+        context.read<LoginProvider>().reastLodingLoginStatus();
+        var _profileProvider = context.read<ProfileProvider>();
+        _profileProvider.setUserName(userLogedin.username);
+        _profileProvider.setLength(userLogedin.length);
+        _profileProvider.setId(userLogedin.id);
+        _profileProvider.setWeight(userLogedin.weight);
+        _profileProvider
+            .setdateBirth(convertTimeStampToDateTime(userLogedin.dateBirth));
+        _profileProvider.setLocation(userLogedin.location);
+        _profileProvider.setImgUrl(userLogedin.imgurl);
+        _profileProvider.setPhoneNumber(userLogedin.phoneNumber);
+        _profileProvider.setdiabetesType(userLogedin.diabtesType);
 
-
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      } else {
+        errorLogin("لا يوجد مستخدم بالبيانات المدخلة");
+        print("no");
+      }
     } else {
-      errorLogin();
+      errorLogin("تاكد من ادخال البيانات ");
       sleep2().then((value) {
         idController.clear();
         passwordController.clear();
+        context.read<LoginProvider>().reastLodingLoginStatus();
       });
     }
   }
 
 //------------------------------------error widgit -----------------------------
-  Center buildCenterFlushbar() {
+  Center buildCenterFlushbar(String message) {
     Flushbar(
       duration: Duration(seconds: 4),
       flushbarPosition: FlushbarPosition.BOTTOM,
@@ -79,13 +103,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         },
       ),
       icon: Icon(Icons.error_outline),
-      backgroundColor: Colors.purple,
+      backgroundColor: Colors.redAccent,
       message: "الرجاء المحاولة مرة اخرى ",
       messageText: Text(
-        "البيانات المدخلة خاظىء ",
+        message,
         textAlign: TextAlign.end,
         style: TextStyle(
-          fontSize: 24,
+          fontSize: 18,
           color: Colors.white70,
         ),
       ),
@@ -138,7 +162,10 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                               children: <Widget>[
                                 Expanded(
                                   child: TextFormField(
+
                                     key: ValueKey('id_user'),
+                                    cursorColor: Colors.deepPurple,
+                                    cursorHeight: 25,
                                     onSaved: (val) => _userId = val,
                                     keyboardType: TextInputType.datetime,
                                     style: TextStyle(fontSize: 25),
@@ -195,8 +222,12 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                 children: <Widget>[
                                   Expanded(
                                     child: TextFormField(
+
                                       key: ValueKey('password'),
                                       onSaved: (val) => _password = val,
+                                      cursorColor: Colors.deepPurple,
+
+                                      cursorHeight: 25,
                                       style: TextStyle(fontSize: 25),
                                       obscureText: !context
                                           .watch<LoginProvider>()
@@ -279,14 +310,6 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                       onTap: () {
                         _trySubmit();
                         _loginProvider.setLodingLoginStatus();
-                        // if (await _logincontroller.isLogin(
-                        //     idController.text, passwordController.text)) {
-                        //   context.read<LoginProvider>().setid(idController.text);
-                        //   Navigator.pushReplacementNamed(
-                        //       context, HomeScreen.routeName);
-                        // } else {
-                        //   return;
-                        // }
                       },
                     ),
                   ),

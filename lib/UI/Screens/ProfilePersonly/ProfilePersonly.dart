@@ -499,15 +499,17 @@ class _HomePageState extends State<MyPersonScreen> {
               placeHolder: (context, url) => Container(
                 width: 100,
                 height: 100,
-                child: CircleAvatar(
-                    backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Nizar_Rawi_Personal_Photo.jpg/319px-Nizar_Rawi_Personal_Photo.jpg'),
-                    //backgroundColor: Colors.white,
-                    //child: Image.network("")
-                    ),
+                child:CircularProgressIndicator(strokeWidth: 10,) ,
+                // child: CircleAvatar(
+                //     backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Nizar_Rawi_Personal_Photo.jpg/319px-Nizar_Rawi_Personal_Photo.jpg'),
+                //     //backgroundColor: Colors.white,
+                //     //child: Image.network("")
+                //     ),
               ),
               radius: 90,
               backgroundColor: Colors.transparent,
               borderWidth: 3,
+
 //                  initialsText: Text(
 //                    "AD",
 //                    style: TextStyle(fontSize: 40, color: Colors.white),
