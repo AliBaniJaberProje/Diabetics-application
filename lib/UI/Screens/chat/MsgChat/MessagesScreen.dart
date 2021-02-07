@@ -1,9 +1,11 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
 import 'package:ali_muntaser_final_project/core/Model/Message.dart';
+import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/MessagesProvider.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -113,7 +115,7 @@ class BubbleMessage extends StatelessWidget {
                           : Text(
                               msg.message,
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
+                                  TextStyle(color: Colors.black, fontSize: 20),
                             ),
                       Wrap(
                         alignment: WrapAlignment.end,
@@ -211,79 +213,78 @@ class _NewMessageState extends State<NewMessage> {
             child: FlatButton.icon(
               label: Text(""),
               onPressed: () {
-                      var alertDialog = AlertDialog(
-                        title: Text(
-                          "اختيار الصورة من ",
-                          textAlign: TextAlign.end,
+                var alertDialog = AlertDialog(
+                  title: Text(
+                    "اختيار الصورة من ",
+                    textAlign: TextAlign.end,
+                  ),
+                  content: Container(
+                    height: 150,
+                    child: Column(
+                      children: [
+                        Divider(
+                          color: Colors.black,
                         ),
-                        content: Container(
-                          height: 150,
-                          child: Column(
-                            children: [
-                              Divider(
-                                color: Colors.black,
-                              ),
-                              Container(
-                                width: 300,
-                                color: Colors.purple,
-                                child: ListTile(
-                                  trailing: Icon(Icons.image),
-                                  title: Text(
-                                    "صوري",
-                                    textAlign: TextAlign.end,
-                                  ),
-                                  onTap: () {
-                                    _ChatProvider.getImageUrlToSend(
-                                            ImageSource.gallery)
-                                        .then((value) {
-                                      if (value != null && value.isNotEmpty) {
-                                        _ChatProvider.sendMessage(
-                                            _ChatProvider.getIdSenderPatient(),
-                                            _ChatProvider.getReceverId(),
-                                            value,
-                                            'image');
-                                      }
-                                    });
+                        Container(
+                          width: 300,
+                          color: Colors.purple,
+                          child: ListTile(
+                            trailing: Icon(Icons.image),
+                            title: Text(
+                              "صوري",
+                              textAlign: TextAlign.end,
+                            ),
+                            onTap: () {
+                              _ChatProvider.getImageUrlToSend(
+                                      ImageSource.gallery)
+                                  .then((value) {
+                                if (value != null && value.isNotEmpty) {
+                                  _ChatProvider.sendMessage(
+                                      _ChatProvider.getIdSenderPatient(),
+                                      _ChatProvider.getReceverId(),
+                                      value,
+                                      'image');
+                                }
+                              });
 
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                width: 300,
-                                color: Colors.purple,
-                                child: ListTile(
-                                    trailing: Icon(Icons.camera_alt),
-                                    title: Text(
-                                      "الكميرا",
-                                      textAlign: TextAlign.end,
-                                    ),
-                                    onTap: () {
-                                      _ChatProvider.getImageUrlToSend(
-                                              ImageSource.camera)
-                                          .then((value) {
-                                        if (value != null && value.isNotEmpty) {
-                                          _ChatProvider.sendMessage(
-                                              _ChatProvider
-                                                  .getIdSenderPatient(),
-                                              _ChatProvider.getReceverId(),
-                                              value,
-                                              'image');
-                                        }
-                                        print(value);
-                                      });
-                                      Navigator.of(context).pop();
-                                    }),
-                              )
-                            ],
+                              Navigator.of(context).pop();
+                            },
                           ),
                         ),
-                      );
-                      showDialog(context: context, child: alertDialog);
-                    },
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: 300,
+                          color: Colors.purple,
+                          child: ListTile(
+                              trailing: Icon(Icons.camera_alt),
+                              title: Text(
+                                "الكميرا",
+                                textAlign: TextAlign.end,
+                              ),
+                              onTap: () {
+                                _ChatProvider.getImageUrlToSend(
+                                        ImageSource.camera)
+                                    .then((value) {
+                                  if (value != null && value.isNotEmpty) {
+                                    _ChatProvider.sendMessage(
+                                        _ChatProvider.getIdSenderPatient(),
+                                        _ChatProvider.getReceverId(),
+                                        value,
+                                        'image');
+                                  }
+                                  print(value);
+                                });
+                                Navigator.of(context).pop();
+                              }),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+                showDialog(context: context, child: alertDialog);
+              },
               icon: Icon(
                 Icons.photo_camera,
                 size: 25,
@@ -404,9 +405,43 @@ class CantAccessChatWidget extends StatelessWidget {
   }
 }
 
-class MessagesScreen extends StatelessWidget {
+class MessagesScreen extends StatefulWidget {
   static String routeName = "/MyWaveClipper";
+
+  @override
+  _MessagesScreen createState() => _MessagesScreen();
+
+}
+
+class _MessagesScreen extends State<MessagesScreen> {
+
   bool isSeen = false;
+
+  @override
+  void initState(){
+    super.initState();
+    final fbm =FirebaseMessaging();
+    fbm.configure(onMessage: (msg){
+      print(msg);
+      return ;
+    },
+    onLaunch: (msg){
+      print(msg);
+      return ;
+    },
+    onResume: (msg){
+      print(msg);
+      return ;
+    }
+    );
+    fbm.subscribeToTopic("chat");
+    fbm.subscribeToTopic("testnot");
+    fbm.getToken().then((value) {
+      print(value);
+    });
+
+    fbm.subscribeToTopic("notification_msg");
+  }
 
   Widget build(BuildContext context) {
     var _ChatProvider = context.read<MessagesProvider>();

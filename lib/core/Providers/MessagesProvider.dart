@@ -114,7 +114,6 @@ class MessagesProvider with ChangeNotifier {
         'isPatient': true,
         'message': data,
         'timestamp': Timestamp.now().microsecondsSinceEpoch,
-
     });
   }
 }

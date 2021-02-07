@@ -151,7 +151,7 @@ class TipOfDayContainer extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic
+                  //fontStyle: FontStyle.italic
                 ),
                 maxLines: 2,
               ),

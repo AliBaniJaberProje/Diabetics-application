@@ -33,7 +33,7 @@ dependencies:
   page_view_indicator: ^2.0.4
   intl: 0.16.1
   shared_preferences: ^0.5.12+4
-  flutter_launcher_icons: ^0.8.1
+
   flutter_bloc:
   equatable:
   flutter_calendar_carousel: ^1.5.2
@@ -50,7 +50,8 @@ dependencies:
   fancy_bottom_navigation:
   circular_profile_avatar:
   http:
-  firebase_database:   
+  firebase_database:
+
 
   flutter_chat_bubble:
   bubble_chart:
@@ -58,6 +59,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.8.1
+
+flutter_icons:
+  android: true
+  image_path: "dev_assets/logo.jpg"
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
