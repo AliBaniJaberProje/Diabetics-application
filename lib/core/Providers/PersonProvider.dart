@@ -5,7 +5,10 @@ import '../Servies_api/doctorsToShowInChat.dart';
 
 class PersonChatProvider with ChangeNotifier {
   List<Person> _douctursList = [];
-  int _numberofmsgNotification = 0;
+  int _numberofmsgNotification = 3;
+
+
+
   Person getDoctur(int index) {
     return _douctursList[index];
   }

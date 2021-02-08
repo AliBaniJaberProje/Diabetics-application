@@ -184,7 +184,6 @@ class BodyHonePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //color: Colors.grey,
       child: LayoutBuilder(
         builder: (ctx, constraint) => Column(
           children: [

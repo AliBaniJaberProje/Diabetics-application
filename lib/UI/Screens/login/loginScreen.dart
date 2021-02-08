@@ -1,5 +1,6 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
 import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/NotificationProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:ali_muntaser_final_project/core/Servies_api/firebase/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -67,12 +68,12 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         _profileProvider.setLength(userLogedin.length);
         _profileProvider.setId(userLogedin.id);
         _profileProvider.setWeight(userLogedin.weight);
-        _profileProvider
-            .setdateBirth(convertTimeStampToDateTime(userLogedin.dateBirth));
+        _profileProvider.setdateBirth(convertTimeStampToDateTime(userLogedin.dateBirth));
         _profileProvider.setLocation(userLogedin.location);
         _profileProvider.setImgUrl(userLogedin.imgurl);
         _profileProvider.setPhoneNumber(userLogedin.phoneNumber);
         _profileProvider.setdiabetesType(userLogedin.diabtesType);
+
 
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       } else {

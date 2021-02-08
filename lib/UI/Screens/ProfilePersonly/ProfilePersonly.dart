@@ -500,11 +500,7 @@ class _HomePageState extends State<MyPersonScreen> {
                 width: 100,
                 height: 100,
                 child:CircularProgressIndicator(strokeWidth: 10,) ,
-                // child: CircleAvatar(
-                //     backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Nizar_Rawi_Personal_Photo.jpg/319px-Nizar_Rawi_Personal_Photo.jpg'),
-                //     //backgroundColor: Colors.white,
-                //     //child: Image.network("")
-                //     ),
+
               ),
               radius: 90,
               backgroundColor: Colors.transparent,
