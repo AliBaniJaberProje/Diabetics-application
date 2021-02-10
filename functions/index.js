@@ -45,7 +45,7 @@ exports.notificationTrigarMsg2=functions.database.ref("pushNotification/{notific
     async (snp,context)=>{
         var tokent=[];
         tokent.push(snp.toJSON()["token"].toString());
-                var payload={notification:{title:snp.toJSON()["title"].toString(),body:snp.toJSON()["token"].toString(),},
+                var payload={notification:{title:snp.toJSON()["title"].toString(),body:snp.toJSON()["body"].toString(),},
             data:{click_action:"FLUTTER_NOTIFICATION_CLICK"}
         }
         const  res= await admin.messaging().sendToDevice(tokent,payload);
