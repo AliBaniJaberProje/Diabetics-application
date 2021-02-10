@@ -17,12 +17,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   context.read<NotificationsProvider>().getNotificationFromFirebase();
-  //
-  // }
+  @override
+  void initState() {
+    super.initState();
+    context.read<NotificationsProvider>().startStreamNotification("123456789");
+
+  }
 
   int currentPage;
   @override

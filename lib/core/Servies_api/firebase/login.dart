@@ -32,7 +32,6 @@ class Patient {
       this._diabtesType,
       this._lastdoctor);
 
-
   List<dynamic> get lastdoctor => _lastdoctor;
 
   Timestamp get dateBirth => _dateBirth;
@@ -74,10 +73,12 @@ class UsersFirebase {
         try {
           if (snapshot.value["password"].toString() == password &&
               snapshot.value["usertype"] == "patient") {
-            Map<dynamic, dynamic> lastdoctor =
-                snapshot.value["lastdocturs"] as Map;
+            List<dynamic> lastdoctor = snapshot.value["lastdocturs"] as List;
 
-            List<dynamic> lastDoctorsList = lastdoctor.values.toList();
+            List<dynamic> lastDoctorsList = lastdoctor.toList();
+            for(int i=1;i<lastDoctorsList.length;i++){
+              lastDoctorsList[i-1]=lastDoctorsList[i];
+            }
 
             Patient patient = Patient(
                 snapshot.value["userid"],
@@ -88,7 +89,8 @@ class UsersFirebase {
                 snapshot.value["location"],
                 double.parse(snapshot.value["height"]),
                 double.parse(snapshot.value["weight"]),
-                Timestamp.fromMicrosecondsSinceEpoch(snapshot.value["dateBirth"]),
+                Timestamp.fromMicrosecondsSinceEpoch(
+                    snapshot.value["dateBirth"]),
                 snapshot.value["diabtesType"],
                 lastDoctorsList);
 
@@ -110,7 +112,7 @@ class UsersFirebase {
             return return_data;
           }
         } catch (e) {
-          print("exaption");
+          print("exaption ali");
           return_data["status"] = "no";
           return return_data;
         }

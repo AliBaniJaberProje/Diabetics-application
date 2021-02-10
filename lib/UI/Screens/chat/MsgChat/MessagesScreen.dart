@@ -1,29 +1,27 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
-import 'package:ali_muntaser_final_project/core/Model/Message.dart';
-import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
-import 'package:ali_muntaser_final_project/core/Providers/MessagesProvider.dart';
+import 'package:ali_muntaser_final_project/core/Model/messageStruct.dart';
+import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/chatProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/doctorChatProvider.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import '../../../../core/Servies_api/doctorsToShowInChat.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_4.dart';
 
+// ignore: must_be_immutable
 class BubbleMessage extends StatelessWidget {
-  final Message msg;
+  MessageStruct msg;
 
-  const BubbleMessage({this.msg});
+   BubbleMessage({this.msg});
 
   @override
   Widget build(BuildContext context) {
-    return msg.isMe()
+    return msg.isMe
         ? Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -32,7 +30,7 @@ class BubbleMessage extends StatelessWidget {
                 alignment: Alignment.topRight,
                 elevation: 3,
                 margin: EdgeInsets.only(top: 3, bottom: 3),
-                backGroundColor: Colors.purple[400],
+                backGroundColor: Colors.purple,
                 child: Container(
                     constraints: BoxConstraints(
                       maxWidth: MediaQuery.of(context).size.width * 0.7,
@@ -41,9 +39,20 @@ class BubbleMessage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         msg.isImageMessage()
-                            ? Image.network(msg.message)
+                            ? Image.network(msg.data,loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes
+                                  : null,
+                            ),
+                          );
+                        },)
                             : Text(
-                                msg.message,
+                                msg.data,
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 20),
                               ),
@@ -57,10 +66,10 @@ class BubbleMessage extends StatelessWidget {
                                   style: TextStyle(color: Colors.yellow),
                                 ),
                                 SizedBox(
-                                  width: 15,
+                                  width: 10,
                                 ),
                                 Icon(
-                                  msg.isShow
+                                  msg.isSeen
                                       ? Icons.remove_red_eye_outlined
                                       : Icons.check,
                                   color: Colors.yellow,
@@ -77,7 +86,7 @@ class BubbleMessage extends StatelessWidget {
                   bottom: 4,
                 ),
                 child: CircularProfileAvatar(
-                  context.read<MessagesProvider>().getImgUrlSender(),
+                  context.read<ChatProvider>().imgUrlPatient,
                   borderWidth: 2,
                   borderColor: Colors.yellow,
                   backgroundColor: Colors.purple.withOpacity(.4),
@@ -93,7 +102,7 @@ class BubbleMessage extends StatelessWidget {
                   top: 15,
                 ),
                 child: CircularProfileAvatar(
-                  context.read<MessagesProvider>().getImgUrlRecever(),
+                  context.read<ChatProvider>().imgUrlDoctor,
                   borderWidth: 2,
                   borderColor: Colors.yellow,
                   backgroundColor: Colors.purple.withOpacity(.4),
@@ -111,9 +120,20 @@ class BubbleMessage extends StatelessWidget {
                   child: Column(
                     children: [
                       msg.isImageMessage()
-                          ? Image.network(msg.message)
+                          ? Image.network(msg.data,loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes
+                                : null,
+                          ),
+                        );
+                      },)
                           : Text(
-                              msg.message,
+                              msg.data,
                               style:
                                   TextStyle(color: Colors.black, fontSize: 20),
                             ),
@@ -144,20 +164,13 @@ class _NewMessageState extends State<NewMessage> {
   var meesageController = TextEditingController();
 
   String msgToSendText = "";
-
   @override
   Widget build(BuildContext context) {
-    var _firebaseRef = FirebaseDatabase()
-        .reference()
-        .child('chat')
-        .child(context.read<MessagesProvider>().getIdSenderPatient())
-        .child(context.read<MessagesProvider>().getReceverId())
-        .child("messages")
-        .child("chat");
-    var _ChatProvider = context.read<MessagesProvider>();
+    var chatProvider = context.read<ChatProvider>();
+
+
     return Container(
       width: double.infinity,
-      //  color: Colors.amberAccent,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -170,12 +183,7 @@ class _NewMessageState extends State<NewMessage> {
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 controller: meesageController,
-                onTap: () {
-                  _firebaseRef.child("time").update({
-                    "lastaccesstimepatient":
-                        Timestamp.now().microsecondsSinceEpoch,
-                  });
-                },
+                onTap: ()=>context.read<ChatProvider>().updateAccessTimePatient(),
                 onChanged: (val) {
                   setState(() {
                     msgToSendText = val.trim();
@@ -192,12 +200,11 @@ class _NewMessageState extends State<NewMessage> {
               onPressed: msgToSendText.isEmpty
                   ? null
                   : () {
-                      _firebaseRef.push().set({
-                        'type': 'text',
-                        'isPatient': true,
-                        'message': meesageController.text,
-                        'timestamp': Timestamp.now().microsecondsSinceEpoch,
-                      });
+                      chatProvider.sendMessage(
+                        data: msgToSendText,
+                        type: "text",
+                      );
+
                       meesageController.clear();
                       msgToSendText = "";
                     },
@@ -235,15 +242,12 @@ class _NewMessageState extends State<NewMessage> {
                               textAlign: TextAlign.end,
                             ),
                             onTap: () {
-                              _ChatProvider.getImageUrlToSend(
-                                      ImageSource.gallery)
-                                  .then((value) {
-                                if (value != null && value.isNotEmpty) {
-                                  _ChatProvider.sendMessage(
-                                      _ChatProvider.getIdSenderPatient(),
-                                      _ChatProvider.getReceverId(),
-                                      value,
-                                      'image');
+                              chatProvider
+                                  .getImageUrlToSend(ImageSource.gallery)
+                                  .then((imgurl) {
+                                if (imgurl != null && imgurl.isNotEmpty) {
+                                  chatProvider.sendMessage(
+                                      data: imgurl, type: "image");
                                 }
                               });
 
@@ -264,17 +268,14 @@ class _NewMessageState extends State<NewMessage> {
                                 textAlign: TextAlign.end,
                               ),
                               onTap: () {
-                                _ChatProvider.getImageUrlToSend(
-                                        ImageSource.camera)
-                                    .then((value) {
-                                  if (value != null && value.isNotEmpty) {
-                                    _ChatProvider.sendMessage(
-                                        _ChatProvider.getIdSenderPatient(),
-                                        _ChatProvider.getReceverId(),
-                                        value,
-                                        'image');
+                                chatProvider
+                                    .getImageUrlToSend(ImageSource.camera)
+                                    .then((imgurl) {
+                                  if (imgurl != null && imgurl.isNotEmpty) {
+                                    chatProvider.sendMessage(
+                                        data: imgurl, type: "image");
                                   }
-                                  print(value);
+                                  print(imgurl);
                                 });
                                 Navigator.of(context).pop();
                               }),
@@ -299,73 +300,6 @@ class _NewMessageState extends State<NewMessage> {
   }
 }
 
-class HeaderChatScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 130,
-      child: Container(
-        padding: EdgeInsets.only(top: 50),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              margin: EdgeInsets.only(right: 30),
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                  size: 25,
-                ),
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-                },
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(right: 40),
-              child: context.watch<MessagesProvider>().isOnline()
-                  ? Icon(
-                      Icons.circle,
-                      color: Colors.yellow,
-                      size: 20,
-                    )
-                  : Icon(
-                      Icons.trip_origin_rounded,
-                      color: Colors.yellow,
-                      size: 20,
-                    ),
-            ),
-            Container(
-              padding: EdgeInsets.only(right: 40),
-              child: Text(
-                context.watch<MessagesProvider>().getUserNameDoctor(),
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.white),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(right: 4),
-              child: CircularProfileAvatar(
-                context.watch<MessagesProvider>().getImgUrlRecever(),
-                borderWidth: 2,
-                borderColor: Colors.yellow,
-                backgroundColor: Colors.purple.withOpacity(.4),
-                radius: 30,
-              ),
-            ),
-          ],
-        ),
-      ),
-      decoration: BoxDecoration(
-        color: Colors.purple,
-      ),
-    );
-  }
-}
 
 class CantAccessChatWidget extends StatelessWidget {
   const CantAccessChatWidget({
@@ -410,121 +344,192 @@ class MessagesScreen extends StatefulWidget {
 
   @override
   _MessagesScreen createState() => _MessagesScreen();
-
 }
 
 class _MessagesScreen extends State<MessagesScreen> {
-
   bool isSeen = false;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    final fbm =FirebaseMessaging();
-    fbm.configure(onMessage: (msg){
-      print(msg);
-      return ;
-    },
-    onLaunch: (msg){
-      print(msg);
-      return ;
-    },
-    onResume: (msg){
-      print(msg);
-      return ;
-    }
-    );
-    fbm.subscribeToTopic("chat");
-    fbm.subscribeToTopic("testnot");
-    fbm.getToken().then((value) {
-      print(value);
-    });
+    context.read<ChatProvider>().startListenLastAccessTimeDoctor();
+    context.read<ChatProvider>().startStreamChat();
 
-    fbm.subscribeToTopic("notification_msg");
+    //  context.read<ChatProvider>().fetchLastMessages();
+
+    // final fbm =FirebaseMessaging();
+    // fbm.configure(onMessage: (msg){
+    //   print(msg);
+    //   return ;
+    // },
+    // onLaunch: (msg){
+    //   print(msg);
+    //   return ;
+    // },
+    // onResume: (msg){
+    //   print(msg);
+    //   return ;
+    // }
+    // );
+    // fbm.subscribeToTopic("chat");
+    // fbm.subscribeToTopic("testnot");
+    // fbm.getToken().then((value) {
+    //   print(value);
+    // });
+    //
+    // fbm.subscribeToTopic("notification_msg");
   }
 
+
   Widget build(BuildContext context) {
-    var _ChatProvider = context.read<MessagesProvider>();
-
     return Scaffold(
-      body: Column(
-        children: [
-          HeaderChatScreen(),
-          StreamBuilder(
-            stream: _ChatProvider.fetchStreamMessages(
-                _ChatProvider.getIdSenderPatient(),
-                _ChatProvider.getReceverId()),
-            builder: (context, snap) {
-              if (snap.hasData &&
-                  !snap.hasError &&
-                  snap.data.snapshot.value != null) {
-                Map data = snap.data.snapshot.value;
-                List item = [];
+      appBar: AppBar(
 
-                data.forEach((index, data) {
-                  item.add({"key": index, ...data});
-                });
+        actions: [
+          Expanded(child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
 
-                return Expanded(
-                  child: ListView.builder(
-                    reverse: true,
-                    itemCount: item.length,
-                    itemBuilder: (context, index) {
-                      item.sort((b, a) {
-                        return int.parse(a['timestamp'].toString()).compareTo(
-                          int.parse(
-                            b['timestamp'].toString(),
-                          ),
-                        );
-                      });
-
-                      if (item[item.length - 1]["lastaccesstimedoctor"] >
-                          item[index]["timestamp"]) {
-                        isSeen = true;
-                      } else {
-                        isSeen = false;
-                      }
-                      if (item[index]["key"] != "time") {
-                        return Container(
-                          child: BubbleMessage(
-                            msg: Message(
-                              message: item[index]["message"],
-                              isShow: isSeen,
-                              isme: item[index]["isPatient"],
-                              typemessage: item[index]["type"],
-                              timesend: Timestamp.fromMicrosecondsSinceEpoch(
-                                item[index]["timestamp"],
-                              ),
-                            ),
-                          ),
-                        );
-                      } else {
-                        return Center(
-                          child: Text(""),
-                        );
-                      }
-                    },
+                margin: EdgeInsets.only(right: 30),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 20,
                   ),
-                );
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+                    context.read<ChatProvider>().clearChatWhenClose();
+                  },
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(right: 40),
+                child: Icon(
+                  Icons.circle,
+                  color: Colors.yellow,
+                  size: 15,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(right: 40),
+                child: Text(
+                  context.read<ChatProvider>().usernameDoctor,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.white),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 4),
+                child: CircularProfileAvatar(
+                  context.watch<ChatProvider>().imgUrlDoctor,
+                  borderWidth: 2,
+                  borderColor: Colors.yellow,
+                  backgroundColor: Colors.purple.withOpacity(.4),
+                 radius: 25,
+                ),
+              ),
+            ],
+          ),)
+        ],
+      ),
+        body: Container(
+      child: Column(
+        children: [
+          // HeaderChatScreen(),
+          Expanded(
+            child: ListView.builder(
+              reverse: true,
+              itemCount: context.watch<ChatProvider>().getNumberMessages(),
+              itemBuilder: (ctx, index){
+
+                return BubbleMessage(msg: context.read<ChatProvider>().getMessageAt(index : index),);
               }
-              if (snap.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else
-                return Center(
-                  child: Text("لا نوجد محادثه سابقه"),
-                );
-            },
+            ),
           ),
-          if (context.read<MessagesProvider>().getReceverId() ==
-              StoragToPassDotorsId.idCurantDuctor)
-            NewMessage(),
-          if (context.read<MessagesProvider>().getReceverId() !=
-              StoragToPassDotorsId.idCurantDuctor)
+          if(context.read<ChatProvider>().idDoctor==context.read<DoctorChatProvider>().currentDoctorId)
+          NewMessage(),
+          if(context.read<ChatProvider>().idDoctor!=context.read<DoctorChatProvider>().currentDoctorId)
             CantAccessChatWidget(),
         ],
       ),
-    );
+    ),);
+    //  HeaderChatScreen(),
+    // StreamBuilder(
+    //   stream: _messagesProvider.fetchStreamMessages(
+    //       _messagesProvider.getIdSenderPatient(),
+    //       _messagesProvider.getReceverId()),
+    //   builder: (context, snap) {
+    //     if (snap.hasData &&
+    //         !snap.hasError &&
+    //         snap.data.snapshot.value != null) {
+    //       Map data = snap.data.snapshot.value;
+    //       List item = [];
+    //
+    //       data.forEach((index, data) {
+    //         item.add({"key": index, ...data});
+    //       });
+    //
+    //       return Expanded(
+    //         child: ListView.builder(
+    //           reverse: true,
+    //           itemCount: item.length,
+    //           itemBuilder: (context, index) {
+    //             item.sort((b, a) {
+    //               return int.parse(a['timestamp'].toString()).compareTo(
+    //                 int.parse(
+    //                   b['timestamp'].toString(),
+    //                 ),
+    //               );
+    //             });
+    //
+    //             if (item[item.length - 1]["lastaccesstimedoctor"] >
+    //                 item[index]["timestamp"]) {
+    //               isSeen = true;
+    //             } else {
+    //               isSeen = false;
+    //             }
+    //             if (item[index]["key"] != "time") {
+    //               return Container(
+    //                 child: BubbleMessage(
+    //                   msg: Message(
+    //                     message: item[index]["message"],
+    //                     isShow: isSeen,
+    //                     isme: item[index]["isPatient"],
+    //                     typemessage: item[index]["type"],
+    //                     timesend: Timestamp.fromMicrosecondsSinceEpoch(
+    //                       item[index]["timestamp"],
+    //                     ),
+    //                   ),
+    //                 ),
+    //               );
+    //             } else {
+    //               return Center(
+    //                 child: Text(""),
+    //               );
+    //             }
+    //           },
+    //         ),
+    //       );
+    //     }
+    //     if (snap.connectionState == ConnectionState.waiting) {
+    //       return Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     } else
+    //       return Center(
+    //         child: Text("لا نوجد محادثه سابقه"),
+    //       );
+    //   },
+    // ),
+    // if (context.read<MessagesProvider>().getReceverId() ==
+    //     StoragToPassDotorsId.idCurantDuctor)
+    //   NewMessage(),
+    // if (context.read<MessagesProvider>().getReceverId() !=
+    //     StoragToPassDotorsId.idCurantDuctor)
+    //   CantAccessChatWidget(),
   }
 }

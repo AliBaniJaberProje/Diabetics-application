@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
             ),
             Tab(
               //child: NormalIcon(icon: Icons.home,sizeIcon: 30,)
-              child: IconWithNumber(icon:Icons.notifications,number :context.watch<NotificationsProvider>().NotificationsNumber,),
+              child: IconWithNumber(icon:Icons.notifications,number :context.watch<NotificationsProvider>().notificationNumber,),
             ),
             Tab(
               //child: NormalIcon(icon: Icons.home,sizeIcon: 30,),

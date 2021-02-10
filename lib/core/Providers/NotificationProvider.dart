@@ -1,98 +1,86 @@
-
-import 'dart:async';
-
 import 'package:ali_muntaser_final_project/core/Model/NotificationStruct.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NotificationsProvider with ChangeNotifier {
-  int NotificationsNumber = 8;
-  int _NotificationsNumberNotReaded=10;
 
-  List<NotificationStruct> NotificationsList = [];
-
+  ///------------------------------data-----------------------------------------
+  int notificationNumber=0;
 
   var _firebaseRef = FirebaseDatabase().reference();
 
-  getFireRif()=>_firebaseRef;
+  List<NotificationStruct> _notificationsList = [];
 
+  ///-----------------------------functions-------------------------------------
 
+  void _addNotificationToList(dynamic jsonNotification) {
+    this._notificationsList.add(NotificationStruct.fromJson(jsonNotification));
+    notifyListeners();
+  }
 
+  void _processResult(Map data) {
 
-  Stream<List> getNotificatioFirebaseStre(String id) {
+    List item = [];
+    data.forEach((index, data) {
+      item.add({"key": index, ...data});
+    });
+    item.sort((b, a) {
+      return int.parse(a['timestamp'].toString()).compareTo(
+        int.parse(
+          b['timestamp'].toString(),
+        ),
+      );
+    });
+    this.notificationNumber=0;
+    for (int i = 0; i < item.length; i++) {
+      if(item[i]["status"]!="seen")
+         this.notificationNumber++;
+      _addNotificationToList(item[i]);
+
+    }
+    notifyListeners();
+  }
+
+  ///----------------------------public functions-------------------------------
+
+  getFireRif() => _firebaseRef;
+
+  void startStreamNotification(String idUser) {
     try {
-      print("in try");
- _firebaseRef
-
-          .child('notifications').child("123456789").onValue.listen((event) {
-            
-           // _firebaseRef.child('notifications').child("123456789").child("notification").child("numbernutification")
-            print(event.snapshot.value["numbernutification"]);
-            this.NotificationsNumber=event.snapshot.value["numbernutification"];
-            var t=event.snapshot.value;
-            notifyListeners();
-            List<dynamic> item = [];
-
- });
-
-
-
-
+      _firebaseRef
+          .child('notifications')
+          .child(idUser)
+          .onValue
+          .listen((event) {
+        this._notificationsList.clear();
+        //this.notificationNumber = event.snapshot.value["numbernutification"];
+        Map data = event.snapshot.value["notification"];
+        _processResult(data);
+        notifyListeners();
+      });
     } catch (e) {
       print("error in  conection  stream");
     }
   }
 
-
-  int getNotReadNotificationNumber(){
-    return _NotificationsNumberNotReaded;
-  }
-  void setNotificationReadedDone(int id){
-
-    // for(int i =0; i<NotificationsList.length;i++){
-    //   if(NotificationsList[i].id==id && NotificationsList[i].statusR_NR==STATUSR_NR.NOT_READ){
-    //     NotificationsList[i].statusR_NR=STATUSR_NR.READ;
-    //     _NotificationsNumberNotReaded--;
-    //     break;
-    //   }
-    // }
-    notifyListeners();
+  NotificationStruct getNotificationOf(int index){
+    return _notificationsList[index];
   }
 
+  void updateStatusToSeen(String userId,String notificationId){
+    _firebaseRef.child("notifications").child(userId).child("notification").child(notificationId).update({
+       "status":"seen"
+    });
+  }
 
-  // void addNotification(int id, String title, String auther, STATUSR_NR status,
-  //     DateTime dateTime) {
-  //   NotificationsList.add(new NotificationStruct(
-  //       id: id,
-  //       title: title,
-  //       auther: auther,
-  //       statusR_NR: status,
-  //       dateTime: dateTime));
-  //
-  //   this.NotificationsNumber++;
-  //   this._NotificationsNumberNotReaded++;
-  //   notifyListeners();
-  // }
-  //
-  // void deleteNotifcation(int id){
-  //   for(int i =0; i<NotificationsList.length;i++){
-  //     if(NotificationsList[i].id==id){
-  //       if(NotificationsList[i].statusR_NR==STATUSR_NR.READ){
-  //         NotificationsNumber--;
-  //       }
-  //       else if(NotificationsList[i].statusR_NR==STATUSR_NR.NOT_READ){
-  //         NotificationsNumber--;
-  //         _NotificationsNumberNotReaded--;
-  //       }
-  //       NotificationsList.removeAt(i);
-  //
-  //     }
-  //   }
-  //
-  //   notifyListeners();
-  // }
+  void deleteNotification(String userId,String notificationId){
+    _firebaseRef.child("notifications").child(userId).child("notification").child(notificationId).remove();
+  }
 
+  int getNumberNotification(){
+    return this._notificationsList.length;
+  }
 
+  ///--------------------------------done---------------------------------------
 
 }

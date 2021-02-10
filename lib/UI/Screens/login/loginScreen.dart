@@ -2,6 +2,8 @@ import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart
 import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/NotificationProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/chatProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/doctorChatProvider.dart';
 import 'package:ali_muntaser_final_project/core/Servies_api/firebase/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -23,8 +25,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   var idController = TextEditingController();
   var passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  String _userId = "";
-  String _password = "";
+  String _userId = "123456789";
+  String _password = "ali1234";
   UsersFirebase usersFirebase = new UsersFirebase();
 
   DateTime convertTimeStampToDateTime(Timestamp time) => time.toDate();
@@ -73,7 +75,10 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         _profileProvider.setImgUrl(userLogedin.imgurl);
         _profileProvider.setPhoneNumber(userLogedin.phoneNumber);
         _profileProvider.setdiabetesType(userLogedin.diabtesType);
-
+         context.read<DoctorChatProvider>().setCurrentDoctorId(userLogedin.idCurantDoctur);
+         context.read<DoctorChatProvider>().setPreviousDoctors(userLogedin.lastdoctor);
+         context.read<ChatProvider>().idPatient=userLogedin.id;
+         context.read<ChatProvider>().imgUrlPatient=userLogedin.imgurl;
 
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       } else {
@@ -170,7 +175,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                     onSaved: (val) => _userId = val,
                                     keyboardType: TextInputType.datetime,
                                     style: TextStyle(fontSize: 25),
-                                    controller: idController,
+                                    controller: idController..text="123456789",
                                     textAlign: TextAlign.end,
                                     decoration: InputDecoration(
                                       filled: true,
@@ -224,6 +229,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                   Expanded(
                                     child: TextFormField(
 
+
                                       key: ValueKey('password'),
                                       onSaved: (val) => _password = val,
                                       cursorColor: Colors.deepPurple,
@@ -234,7 +240,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                           .watch<LoginProvider>()
                                           .visibilStatePassword(),
                                       textAlign: TextAlign.end,
-                                      controller: passwordController,
+                                      controller: passwordController..text="ali1234",
                                       decoration: InputDecoration(
                                         filled: true,
                                         fillColor: Colors.grey[300],

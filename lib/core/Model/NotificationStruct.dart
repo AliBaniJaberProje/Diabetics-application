@@ -5,16 +5,33 @@ import 'package:intl/intl.dart';
 enum STATUSR_NR { READ, NOT_READ }
 
 class NotificationStruct {
-  int id;
-  String title;
-  String body;
-  String imgsender;
-  Timestamp timesend;
+  String _key;
+  String _title;
+  String _body;
+  String _status;
+  String _imgSender;
+  Timestamp _timeSend;
 
-  NotificationStruct({this.id, this.title, this.body, this.imgsender, this.timesend});
+
+  String get key => _key;
+
+  NotificationStruct({
+    String key,
+    String imgsender,
+    String body,
+    String title,
+    String status,
+    Timestamp timestamp}){
+    _key = key;
+    _imgSender = imgsender;
+    _body = body;
+    _title = title;
+    _status = status;
+    _timeSend = timestamp;
+  }
 
   String getformatTimeStamp(){
-    DateTime time = this.timesend.toDate();
+    DateTime time = this._timeSend.toDate();
     if (DateTime.now().year == time.year &&
         DateTime.now().month == time.month &&
         DateTime.now().day == time.day) {
@@ -24,5 +41,34 @@ class NotificationStruct {
     }
   }
 
+  String get title => _title;
 
+  String get body => _body;
+
+  String get status => _status;
+
+  String get imgSender => _imgSender;
+
+  Timestamp get timeSend => _timeSend;
+
+
+  NotificationStruct.fromJson(dynamic json) {
+    _key = json["key"];
+    _imgSender = json["imgsender"];
+    _body = json["body"];
+    _title = json["title"];
+    _status = json["status"];
+    _timeSend = Timestamp.fromMicrosecondsSinceEpoch(json["timestamp"]);
+  }
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{};
+    map["key"] = _key;
+    map["imgsender"] = _imgSender;
+    map["body"] = _body;
+    map["title"] = _title;
+    map["status"] = _status;
+    map["timestamp"] = _timeSend;
+    return map;
+  }
 }
