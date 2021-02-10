@@ -2,6 +2,8 @@ import 'package:ali_muntaser_final_project/UI/Screens/chat/PersonChat/PersonChat
 import 'package:ali_muntaser_final_project/UI/Screens/notifications/NotificationScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
 import 'package:ali_muntaser_final_project/core/Providers/NotificationProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +22,30 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<NotificationsProvider>().startStreamNotification("123456789");
+    context.read<NotificationsProvider>().startStreamNotification(context.read<ProfileProvider>().getId());
+    //  context.read<ChatProvider>().fetchLastMessages();
 
+    final fbm =FirebaseMessaging();
+    fbm.configure(onMessage: (msg){
+      print(msg);
+      return ;
+    },
+    onLaunch: (msg){
+      print(msg);
+      return ;
+    },
+    onResume: (msg){
+      print(msg);
+      return ;
+    }
+    );
+    fbm.subscribeToTopic("pushNotifications");
+  //  fbm.subscribeToTopic("testnot");
+    fbm.getToken().then((value) {
+      print(value);
+    });
+
+    fbm.subscribeToTopic("notification_msg");
   }
 
   int currentPage;
