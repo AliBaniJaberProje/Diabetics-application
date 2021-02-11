@@ -40,11 +40,9 @@ class MessageStruct with ChangeNotifier {
   }
   void setSeen(){
     this._isSeen=true;
-
   }
   void unseen(){
     this._isSeen=false;
-
   }
   bool get isMe => _isMe;
 

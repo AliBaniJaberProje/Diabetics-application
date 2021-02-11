@@ -17,7 +17,7 @@ import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_4.dart';
 class BubbleMessage extends StatelessWidget {
   MessageStruct msg;
 
-   BubbleMessage({this.msg});
+  BubbleMessage({this.msg});
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +39,25 @@ class BubbleMessage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         msg.isImageMessage()
-                            ? Image.network(msg.data,loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes
-                                  : null,
-                            ),
-                          );
-                        },)
+                            ? Image.network(
+                                msg.data,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value: loadingProgress
+                                                  .expectedTotalBytes !=
+                                              null
+                                          ? loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress.expectedTotalBytes
+                                          : null,
+                                    ),
+                                  );
+                                },
+                              )
                             : Text(
                                 msg.data,
                                 style: TextStyle(
@@ -86,7 +93,7 @@ class BubbleMessage extends StatelessWidget {
                   bottom: 4,
                 ),
                 child: CircularProfileAvatar(
-                  context.read<ChatProvider>().imgUrlPatient,
+                  context.read<ProfileProvider>().getImgUrl(),
                   borderWidth: 2,
                   borderColor: Colors.yellow,
                   backgroundColor: Colors.purple.withOpacity(.4),
@@ -120,18 +127,24 @@ class BubbleMessage extends StatelessWidget {
                   child: Column(
                     children: [
                       msg.isImageMessage()
-                          ? Image.network(msg.data,loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        );
-                      },)
+                          ? Image.network(
+                              msg.data,
+                              loadingBuilder: (BuildContext context,
+                                  Widget child,
+                                  ImageChunkEvent loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes
+                                        : null,
+                                  ),
+                                );
+                              },
+                            )
                           : Text(
                               msg.data,
                               style:
@@ -168,7 +181,6 @@ class _NewMessageState extends State<NewMessage> {
   Widget build(BuildContext context) {
     var chatProvider = context.read<ChatProvider>();
 
-
     return Container(
       width: double.infinity,
       child: Row(
@@ -183,7 +195,8 @@ class _NewMessageState extends State<NewMessage> {
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 controller: meesageController,
-                onTap: ()=>context.read<ChatProvider>().updateAccessTimePatient(),
+                onTap: () =>
+                    context.read<ChatProvider>().updateAccessTimePatient(),
                 onChanged: (val) {
                   setState(() {
                     msgToSendText = val.trim();
@@ -300,7 +313,6 @@ class _NewMessageState extends State<NewMessage> {
   }
 }
 
-
 class CantAccessChatWidget extends StatelessWidget {
   const CantAccessChatWidget({
     Key key,
@@ -354,109 +366,102 @@ class _MessagesScreen extends State<MessagesScreen> {
     super.initState();
     context.read<ChatProvider>().startListenLastAccessTimeDoctor();
     context.read<ChatProvider>().startStreamChat();
-
-    //  context.read<ChatProvider>().fetchLastMessages();
-
-    // final fbm =FirebaseMessaging();
-    // fbm.configure(onMessage: (msg){
-    //   print(msg);
-    //   return ;
-    // },
-    // onLaunch: (msg){
-    //   print(msg);
-    //   return ;
-    // },
-    // onResume: (msg){
-    //   print(msg);
-    //   return ;
-    // }
-    // );
-    // fbm.subscribeToTopic("chat");
-    // fbm.subscribeToTopic("testnot");
-    // fbm.getToken().then((value) {
-    //   print(value);
-    // });
-    //
-    // fbm.subscribeToTopic("notification_msg");
   }
 
-
   Widget build(BuildContext context) {
+    var _chatProvider = context.read<ChatProvider>();
     return Scaffold(
       appBar: AppBar(
-
         actions: [
-          Expanded(child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-
-                margin: EdgeInsets.only(right: 30),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-                    context.read<ChatProvider>().clearChatWhenClose();
-                  },
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(right: 40),
-                child: Icon(
-                  Icons.circle,
-                  color: Colors.yellow,
-                  size: 15,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(right: 40),
-                child: Text(
-                  context.read<ChatProvider>().usernameDoctor,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                      color: Colors.white),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(right: 4),
-                child: CircularProfileAvatar(
-                  context.watch<ChatProvider>().imgUrlDoctor,
-                  borderWidth: 2,
-                  borderColor: Colors.yellow,
-                  backgroundColor: Colors.purple.withOpacity(.4),
-                 radius: 25,
-                ),
-              ),
-            ],
-          ),)
-        ],
-      ),
-        body: Container(
-      child: Column(
-        children: [
-          // HeaderChatScreen(),
           Expanded(
-            child: ListView.builder(
-              reverse: true,
-              itemCount: context.watch<ChatProvider>().getNumberMessages(),
-              itemBuilder: (ctx, index){
-
-                return BubbleMessage(msg: context.read<ChatProvider>().getMessageAt(index : index),);
-              }
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, HomeScreen.routeName);
+                      context.read<ChatProvider>().clearChatWhenClose();
+                    },
+                  ),
+                ),
+                _chatProvider.doctor.id ==
+                        context.read<ProfileProvider>().getIdCurantDoctor()
+                    ? _chatProvider.doctor.isOnline()
+                        ? Container(
+                            padding: EdgeInsets.only(right: 40),
+                            child: Icon(
+                              Icons.circle,
+                              color: Colors.yellow,
+                              size: 15,
+                            ),
+                          )
+                        : Container(
+                            padding: EdgeInsets.only(right: 40),
+                            child: Icon(
+                              Icons.radio_button_off,
+                              color: Colors.yellow,
+                              size: 15,
+                            ),
+                          )
+                    : Container(),
+                Container(
+                  padding: EdgeInsets.only(right: 40),
+                  child: Text(
+                    context.read<ChatProvider>().usernameDoctor,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.white),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 4),
+                  child: CircularProfileAvatar(
+                    context.watch<ChatProvider>().imgUrlDoctor,
+                    borderWidth: 2,
+                    borderColor: Colors.yellow,
+                    backgroundColor: Colors.purple.withOpacity(.4),
+                    radius: 25,
+                  ),
+                ),
+              ],
             ),
-          ),
-          if(context.read<ChatProvider>().idDoctor==context.read<DoctorChatProvider>().currentDoctorId)
-          NewMessage(),
-          if(context.read<ChatProvider>().idDoctor!=context.read<DoctorChatProvider>().currentDoctorId)
-            CantAccessChatWidget(),
+          )
         ],
       ),
-    ),);
-
+      body: Container(
+        child: Column(
+          children: [
+            // HeaderChatScreen(),
+            Expanded(
+              child: ListView.builder(
+                  reverse: true,
+                  itemCount: context.watch<ChatProvider>().getNumberMessages(),
+                  itemBuilder: (ctx, index) {
+                    return BubbleMessage(
+                      msg: context
+                          .read<ChatProvider>()
+                          .getMessageAt(index: index),
+                    );
+                  }),
+            ),
+            if (context.read<ChatProvider>().idDoctor ==
+                context.read<DoctorChatProvider>().currentDoctorId)
+              NewMessage(),
+            if (context.read<ChatProvider>().idDoctor !=
+                context.read<DoctorChatProvider>().currentDoctorId)
+              CantAccessChatWidget(),
+          ],
+        ),
+      ),
+    );
   }
 }

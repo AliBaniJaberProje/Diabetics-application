@@ -1,5 +1,6 @@
 import 'package:ali_muntaser_final_project/UI/Screens/MyDoseScreen/MyDoseScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/ProfilePersonly/ProfilePersonly.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/StepCount/StepScren.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/TestCard.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/chat/MsgChat/MessagesScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
@@ -98,6 +99,8 @@ class MyGridTitle extends StatelessWidget {
 
                 print('حجز موعد');
               } else if (data['title'] == MainFeture[5]['title']) {
+                Navigator.pushReplacementNamed(context, NumberOfStep.routeName);
+
                 print("عدد الخطوات ");
               } else if (data['title'] == MainFeture[6]['title']) {
                 print('معلومات ونصائح ');

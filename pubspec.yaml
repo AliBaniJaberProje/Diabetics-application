@@ -51,6 +51,9 @@ dependencies:
   circular_profile_avatar:
   http:
   firebase_database:
+  pedometer: ^0.0.5
+  percent_indicator: ^1.0.14
+#  flutter_launcher_icons: ^0.7.0
 
 
   flutter_chat_bubble:

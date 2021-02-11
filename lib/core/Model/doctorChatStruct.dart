@@ -39,9 +39,8 @@ class DoctorChatStruct {
 
   String get id => _id;
 
-  // ignore: unnecessary_getters_setters
-  set online(String value) {
-    _online = value;
+  bool isOnline() {
+   return this._online=="online";
   }
 
 }

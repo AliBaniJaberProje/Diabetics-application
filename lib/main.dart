@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 import 'UI/Screens/HomeScreen/HomeScreen.dart';
 import 'UI/Screens/MyDoseScreen/MyDoseScreen.dart';
 import 'UI/Screens/ProfilePersonly/ProfilePersonly.dart';
+import 'UI/Screens/StepCount/StepScren.dart';
 import 'UI/Screens/TestCard.dart';
 import 'UI/Screens/chat/MsgChat/MessagesScreen.dart';
 import 'UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
-import 'core/Model/messageStruct.dart';
 import 'core/Providers/MessagesProvider.dart';
 import 'core/Providers/MyDoseProvider.dart';
 import 'core/Providers/NotificationProvider.dart';
@@ -17,7 +17,7 @@ import 'core/Providers/chatProvider.dart';
 import 'core/Providers/doctorChatProvider.dart';
 import 'core/Providers/ProfileProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import './core/Model/messageStruct.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
@@ -39,6 +39,7 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: MessagesProvider()),
         ChangeNotifierProvider.value(value: ChatProvider()),
         ChangeNotifierProvider.value(value: MessageStruct()),
+
       ],
       child: MyApp(),
     );
@@ -62,8 +63,10 @@ class MyApp extends StatelessWidget {
         MyPersonScreen.routeName: (context) => MyPersonScreen(),
         MyDoseScreen.routeName: (context) => MyDoseScreen(),
         MessagesScreen.routeName: (context) => MessagesScreen(),
-        //TestScreen.routName:(context)=>TestScreen(),
-        TestCard.routName:(context)=>TestCard()
+        NumberOfStep.routeName:(context)=>NumberOfStep(),
+
+        TestCard.routName:(context)=>TestCard(),
+
       },
     );
   }

@@ -97,10 +97,10 @@ class MyPersonScreen extends StatefulWidget {
 }
 
 class _HomePageState extends State<MyPersonScreen> {
-  double updateweight;
-  double updatelength;
-  String updatephone;
-  String updatelocation;
+  double updateWeight;
+  double updateLength;
+  String updatePhone;
+  String updateLocation;
   final GlobalKey<FormState> _formKey = GlobalKey();
   final GlobalKey<FormState> _formKey1 = GlobalKey();
   final GlobalKey<FormState> _formKey2 = GlobalKey();
@@ -140,51 +140,6 @@ class _HomePageState extends State<MyPersonScreen> {
               SizedBox(
                 height: 100,
               ),
-
-              // Stack(
-              //   children: [
-              //     Container(
-              //       child: TopBar(),
-              //     ),
-              //     Row(
-              //       children: [
-              //         Container(
-              //           width: 200,
-              //           height: 200,
-              //           child: CircleAvatar(
-              //             backgroundImage: context
-              //                         .watch<ProfileProvider>()
-              //                         .getImagePerson() ==
-              //                     null
-              //                 ? NetworkImage(
-              //                     "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Nizar_Rawi_Personal_Photo.jpg/319px-Nizar_Rawi_Personal_Photo.jpg")
-              //                 : FileImage(
-              //                     context.watch<ProfileProvider>().getImagePerson()),
-              //             child: Container(
-              //               decoration: BoxDecoration(
-              //                 shape: BoxShape.circle,
-              //                 border: Border.all(
-              //                   color: Colors.white,
-              //                   width: 2,
-              //                 ),
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //         SizedBox(
-              //           width: MediaQuery.of(context).size.width * .05,
-              //         ),
-              //         Container(
-              //           margin: EdgeInsets.all(2),
-              //           child: Text(
-              //             "${context.watch<ProfileProvider>().getUserName()}",
-              //             style: TextStyle(fontSize: 20, color: Colors.white),
-              //           ),
-              //         )
-              //       ],
-              //     ),
-              //   ],
-              // ),
               Container(
                 child: ListTile(
                   trailing: Icon(
@@ -221,7 +176,7 @@ class _HomePageState extends State<MyPersonScreen> {
                     color: Colors.purple,
                   ),
                   title: Text(
-                    "${context.watch<ProfileProvider>().getId()}",//context.watch<ProfileProvider>().getId()
+                    "${context.watch<ProfileProvider>().getId()}", //context.watch<ProfileProvider>().getId()
                     style: TextStyle(fontSize: 25),
                     textAlign: TextAlign.end,
                   ),
@@ -229,25 +184,25 @@ class _HomePageState extends State<MyPersonScreen> {
               ),
               Container(
                 child: ListTile(
-                  leading: !context.watch<ProfileProvider>().getUpdatephone()
+                  leading: !context.watch<ProfileProvider>().getUpdatePhone()
                       ? FlatButton.icon(
                           onPressed: () {
-                            context.read<ProfileProvider>().togoleUpdatPhone();
+                            context.read<ProfileProvider>().toggleUpdatePhone();
                           },
                           icon: Icon(Icons.edit),
                           label: Text(""))
                       : FlatButton.icon(
                           onPressed: () {
-                            context.read<ProfileProvider>().togoleUpdatPhone();
+                            context.read<ProfileProvider>().toggleUpdatePhone();
                             if (!_formKey2.currentState.validate()) return;
                             _formKey2.currentState.save();
                             context
                                 .read<ProfileProvider>()
-                                .setPhoneNumber(updatephone);
+                                .setPhoneNumber(updatePhone);
                           },
                           icon: Icon(Icons.save),
                           label: Text("حفظ")),
-                  title: !context.watch<ProfileProvider>().getUpdatephone()
+                  title: !context.watch<ProfileProvider>().getUpdatePhone()
                       ? Text(
                           context.watch<ProfileProvider>().getPhoneNumber(),
                           style: TextStyle(fontSize: 25),
@@ -276,7 +231,7 @@ class _HomePageState extends State<MyPersonScreen> {
                               if (val.isEmpty) return "يرجى ادخال القيمة";
                             },
                             onSaved: (val) {
-                              updatephone = val;
+                              updatePhone = val;
                             },
                           ),
                         ),
@@ -289,12 +244,12 @@ class _HomePageState extends State<MyPersonScreen> {
               ),
               Container(
                 child: ListTile(
-                  leading: !context.watch<ProfileProvider>().getUpdatelocation()
+                  leading: !context.watch<ProfileProvider>().getUpdateLocation()
                       ? FlatButton.icon(
                           onPressed: () {
                             context
                                 .read<ProfileProvider>()
-                                .togoleUpdatlocation();
+                                .toggleUpdateLocation();
                           },
                           icon: Icon(Icons.edit),
                           label: Text(""))
@@ -302,19 +257,19 @@ class _HomePageState extends State<MyPersonScreen> {
                           onPressed: () {
                             context
                                 .read<ProfileProvider>()
-                                .togoleUpdatlocation();
+                                .toggleUpdateLocation();
                             if (!_formKey3.currentState.validate()) return;
                             _formKey3.currentState.save();
                             context
                                 .read<ProfileProvider>()
-                                .setLocation(updatelocation);
+                                .setLocation(updateLocation);
                             context
                                 .read<ProfileProvider>()
-                                .setLocation(updatelocation);
+                                .setLocation(updateLocation);
                           },
                           icon: Icon(Icons.save),
                           label: Text("حفظ")),
-                  title: !context.watch<ProfileProvider>().getUpdatelocation()
+                  title: !context.watch<ProfileProvider>().getUpdateLocation()
                       ? Text(
                           context.watch<ProfileProvider>().getLocation(),
                           style: TextStyle(fontSize: 25),
@@ -342,7 +297,7 @@ class _HomePageState extends State<MyPersonScreen> {
                               if (val.isEmpty) return "يرجى ادخال القيمة";
                             },
                             onSaved: (val) {
-                              updatelocation = val;
+                              updateLocation = val;
                             },
                           ),
                         ),
@@ -355,12 +310,12 @@ class _HomePageState extends State<MyPersonScreen> {
               ),
               Container(
                 child: ListTile(
-                  leading: !context.watch<ProfileProvider>().getUpdateweight()
+                  leading: !context.watch<ProfileProvider>().getUpdateWeight()
                       ? FlatButton.icon(
                           onPressed: () {
                             context
                                 .read<ProfileProvider>()
-                                .togoleUpdateWeight();
+                                .toggleUpdateWeight();
                           },
                           icon: Icon(Icons.edit),
                           label: Text(""))
@@ -368,19 +323,19 @@ class _HomePageState extends State<MyPersonScreen> {
                           onPressed: () {
                             context
                                 .read<ProfileProvider>()
-                                .togoleUpdateWeight();
+                                .toggleUpdateWeight();
                             if (!_formKey1.currentState.validate()) return;
                             _formKey1.currentState.save();
                             context
                                 .read<ProfileProvider>()
-                                .setWeight(updateweight);
+                                .setWeight(updateWeight);
                             context
                                 .read<ProfileProvider>()
-                                .setWeight(updateweight);
+                                .setWeight(updateWeight);
                           },
                           icon: Icon(Icons.save),
                           label: Text("حفظ")),
-                  title: !context.watch<ProfileProvider>().getUpdateweight()
+                  title: !context.watch<ProfileProvider>().getUpdateWeight()
                       ? Text(
                           "${context.watch<ProfileProvider>().getWeight()}",
                           style: TextStyle(fontSize: 25),
@@ -408,7 +363,7 @@ class _HomePageState extends State<MyPersonScreen> {
                               if (val.isEmpty) return "يرجى ادخال القيمة";
                             },
                             onSaved: (val) {
-                              updateweight = double.parse(val);
+                              updateWeight = double.parse(val);
                             },
                           ),
                         ),
@@ -421,12 +376,12 @@ class _HomePageState extends State<MyPersonScreen> {
               ),
               Container(
                 child: ListTile(
-                  leading: !context.watch<ProfileProvider>().getUpdatelength()
+                  leading: !context.watch<ProfileProvider>().getUpdateLength()
                       ? FlatButton.icon(
                           onPressed: () {
                             context
                                 .read<ProfileProvider>()
-                                .togoleUpdateLength();
+                                .toggleUpdateLength();
                           },
                           icon: Icon(Icons.edit),
                           label: Text(""))
@@ -434,19 +389,19 @@ class _HomePageState extends State<MyPersonScreen> {
                           onPressed: () {
                             context
                                 .read<ProfileProvider>()
-                                .togoleUpdateLength();
+                                .toggleUpdateLength();
                             if (!_formKey.currentState.validate()) return;
                             _formKey.currentState.save();
                             context
                                 .read<ProfileProvider>()
-                                .setLength(updatelength);
+                                .setLength(updateLength);
                             context
                                 .read<ProfileProvider>()
-                                .setLength(updatelength);
+                                .setLength(updateLength);
                           },
                           icon: Icon(Icons.save),
                           label: Text("حفظ")),
-                  title: !context.watch<ProfileProvider>().getUpdatelength()
+                  title: !context.watch<ProfileProvider>().getUpdateLength()
                       ? Text(
                           "${context.watch<ProfileProvider>().getLength()}",
                           style: TextStyle(fontSize: 25),
@@ -474,7 +429,7 @@ class _HomePageState extends State<MyPersonScreen> {
                               if (val.isEmpty) return "يرجى ادخال القيمة";
                             },
                             onSaved: (val) {
-                              updatelength = double.parse(val);
+                              updateLength = double.parse(val);
                             },
                           ),
                         ),
@@ -499,8 +454,9 @@ class _HomePageState extends State<MyPersonScreen> {
               placeHolder: (context, url) => Container(
                 width: 100,
                 height: 100,
-                child:CircularProgressIndicator(strokeWidth: 10,) ,
-
+                child: CircularProgressIndicator(
+                  strokeWidth: 10,
+                ),
               ),
               radius: 90,
               backgroundColor: Colors.transparent,
@@ -526,7 +482,12 @@ class _HomePageState extends State<MyPersonScreen> {
         child: Icon(Icons.add_a_photo_outlined),
         onPressed: () {
           var alertDialog = AlertDialog(
-            title: Text("اختيار الصورة من "),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            title: Text(
+              "اختيار الصورة من ",
+              textAlign: TextAlign.end,
+            ),
             content: Container(
               height: 150,
               child: Column(
@@ -535,8 +496,8 @@ class _HomePageState extends State<MyPersonScreen> {
                     color: Colors.black,
                   ),
                   Container(
-                    width: 300,
                     color: Colors.purple,
+                    width: 300,
                     child: ListTile(
                       trailing: Icon(Icons.image),
                       title: Text(
@@ -560,7 +521,7 @@ class _HomePageState extends State<MyPersonScreen> {
                     child: ListTile(
                         trailing: Icon(Icons.camera_alt),
                         title: Text(
-                          "الكميرا",
+                          "الكاميرا",
                           textAlign: TextAlign.end,
                         ),
                         onTap: () {

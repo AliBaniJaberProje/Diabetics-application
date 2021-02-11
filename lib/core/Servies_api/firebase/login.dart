@@ -1,66 +1,10 @@
+import 'package:ali_muntaser_final_project/core/Model/patient.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-class Patient {
-  String _id;
-  String _username;
-  String _idCurantDoctur;
-  String _imgurl;
-  String _phoneNumber;
-  String _location;
-  double _length;
-  double _weight;
-  Timestamp _dateBirth;
-  String _diabtesType;
-
-  List<dynamic> _lastdoctor = [];
-  String getFromLastDoctor(int index) {
-    return this._lastdoctor[index];
-  }
-
-  Patient(
-      this._id,
-      this._username,
-      this._idCurantDoctur,
-      this._imgurl,
-      this._phoneNumber,
-      this._location,
-      this._length,
-      this._weight,
-      this._dateBirth,
-      this._diabtesType,
-      this._lastdoctor);
-
-  List<dynamic> get lastdoctor => _lastdoctor;
-
-  Timestamp get dateBirth => _dateBirth;
-
-  String get diabtesType => _diabtesType;
-
-  double get weight => _weight;
-
-  double get length => _length;
-
-  String get location => _location;
-
-  String get phoneNumber => _phoneNumber;
-
-  String get imgurl => _imgurl;
-
-  String get idCurantDoctur => _idCurantDoctur;
-
-  String get username => _username;
-
-  String get id => _id;
-}
-
 class UsersFirebase {
   var _firebaseRef = FirebaseDatabase().reference();
-
-  getRif() {
-    return _firebaseRef;
-  }
 
   Future<Map<String, dynamic>> isAuthorized(
       String userid, String password) async {
@@ -76,23 +20,24 @@ class UsersFirebase {
             List<dynamic> lastdoctor = snapshot.value["lastdocturs"] as List;
 
             List<dynamic> lastDoctorsList = lastdoctor.toList();
-            for(int i=1;i<lastDoctorsList.length;i++){
-              lastDoctorsList[i-1]=lastDoctorsList[i];
+            for (int i = 1; i < lastDoctorsList.length; i++) {
+              lastDoctorsList[i - 1] = lastDoctorsList[i];
             }
 
             Patient patient = Patient(
-                snapshot.value["userid"],
-                snapshot.value["username"],
-                snapshot.value["curant_doctor_id"],
-                snapshot.value["imgurl"],
-                snapshot.value["phoneNumber"],
-                snapshot.value["location"],
-                double.parse(snapshot.value["height"]),
-                double.parse(snapshot.value["weight"]),
-                Timestamp.fromMicrosecondsSinceEpoch(
-                    snapshot.value["dateBirth"]),
-                snapshot.value["diabtesType"],
-                lastDoctorsList);
+                id: snapshot.value["userid"],
+                username: snapshot.value["username"],
+                idCurantDoctur: snapshot.value["curant_doctor_id"],
+                imgurl: snapshot.value["imgurl"],
+                phoneNumber: snapshot.value["phoneNumber"],
+                location: snapshot.value["location"],
+                length: double.parse(snapshot.value["height"]),
+                weight: double.parse(snapshot.value["weight"]),
+                dateBirth: Timestamp.fromMicrosecondsSinceEpoch(
+                  snapshot.value["dateBirth"],
+                ),
+                diabtesType: snapshot.value["diabtesType"],
+                lastDoctor: lastDoctorsList);
 
             var token = await fbm.getToken();
 

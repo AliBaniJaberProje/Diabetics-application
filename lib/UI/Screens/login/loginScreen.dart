@@ -1,4 +1,5 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/core/Model/patient.dart';
 import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/NotificationProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
@@ -28,31 +29,25 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   String _userId = "123456789";
   String _password = "ali1234";
   UsersFirebase usersFirebase = new UsersFirebase();
-
   DateTime convertTimeStampToDateTime(Timestamp time) => time.toDate();
 
   //------------------------------ login function ------------------------------
   Future sleep2() {
     return new Future.delayed(const Duration(seconds: 1), () => "2");
   }
-
   bool isValidUserId() {
     if (_userId.isEmpty || _userId.length < 9) return false;
     return true;
   }
-
   bool isValidPassword() {
     if (_password.isEmpty || _password.length < 5) return false;
     return true;
   }
-
   void errorLogin(String message) {
     buildCenterFlushbar(message);
     context.read<LoginProvider>().reastLodingLoginStatus();
   }
-
   void _trySubmit() async {
-    // fbm.getToken().then((value) => print(value));
     var _loginProvider = context.read<LoginProvider>();
     _loginProvider.setLodingLoginStatus();
     _formKey.currentState.save();
@@ -63,24 +58,21 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
       var resultLogin = await usersFirebase.isAuthorized(_userId, _password);
       if (resultLogin["status"] == "yes") {
         print("yes");
-        Patient userLogedin = resultLogin["patient"];
+        Patient userPatient = resultLogin["patient"];
         context.read<LoginProvider>().reastLodingLoginStatus();
         var _profileProvider = context.read<ProfileProvider>();
-        _profileProvider.setUserName(userLogedin.username);
-        _profileProvider.setLength(userLogedin.length);
-        _profileProvider.setId(userLogedin.id);
-        _profileProvider.setWeight(userLogedin.weight);
-        _profileProvider.setdateBirth(convertTimeStampToDateTime(userLogedin.dateBirth));
-        _profileProvider.setLocation(userLogedin.location);
-        _profileProvider.setImgUrl(userLogedin.imgurl);
-        _profileProvider.setPhoneNumber(userLogedin.phoneNumber);
-        _profileProvider.setdiabetesType(userLogedin.diabtesType);
-         context.read<DoctorChatProvider>().setCurrentDoctorId(userLogedin.idCurantDoctur);
-         context.read<DoctorChatProvider>().setPreviousDoctors(userLogedin.lastdoctor);
-         context.read<ChatProvider>().idPatient=userLogedin.id;
-         context.read<ChatProvider>().imgUrlPatient=userLogedin.imgurl;
+        _profileProvider.person=userPatient;
 
+///--------------------Prepare Data in Profile Patient--------------------------
+         context.read<DoctorChatProvider>().setCurrentDoctorId(userPatient.idCurantDoctur);
+         context.read<DoctorChatProvider>().setPreviousDoctors(userPatient.lastdoctor);
+///--------------------Prepare Data in Chat Patient-----------------------------
+         context.read<ChatProvider>().idPatient=userPatient.id;
+         context.read<ChatProvider>().imgUrlPatient=userPatient.imgurl;
+///-----------------------------------------------------------------------------
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+
+
       } else {
         errorLogin("لا يوجد مستخدم بالبيانات المدخلة");
         print("no");

@@ -1,174 +1,162 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ali_muntaser_final_project/core/Model/patient.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
-class PersonProfile {
-  String username ;
-  double weight = 55.6;
-  double length = 75;
-  DateTime dateBirth = DateTime.now();
-  String phoneNumber ;
-  String location ;
-  String id;
-  String diabetesType;
-  File imagePerson = null;
-  String imgurl =
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRWtMDksH9GzFdMinyAkGbtLJNx6xynLETTNN5akjxirL3QD5Rj";
-}
+
 
 class ProfileProvider with ChangeNotifier {
-  PersonProfile _person = new PersonProfile();
+  Patient _patient = new Patient();
   //-----------------------------------------data-------------------------
-  bool _updateweight = false;
-  bool _updatelength = false;
-  bool _updatephone = false;
-  bool _updatelocation = false;
+  bool _updateWeight = false;
+  bool _updateLength = false;
+  bool _updatePhone = false;
+  bool _updateLocation = false;
+  File _imagePerson;
+  final imagePicker = ImagePicker();
 
-  final imagepicker = ImagePicker();
+
   //------------------------------------------ methods ------------------------
+  // ignore: unnecessary_getters_setters
+  Patient get patient =>_patient;
+
+  // ignore: unnecessary_getters_setters
+  set person(Patient value) {
+    _patient = value;
+  }
+
   void setPhoneNumber(String newName) {
-    this._person.phoneNumber = newName;
-  }
-  void setdateBirth(DateTime time){
-    this._person.dateBirth=time;
-  }
-  void setdiabetesType(String type){
-    this._person.diabetesType=type;
-  }
-
-  void setId(String userid) {
-    _person.id = userid;
-    notifyListeners();
-  }
-
-  void setUserName(String name) {
-    _person.username = name;
-    notifyListeners();
+    this._patient.phoneNumber = newName;
   }
 
   void setWeight(double weight) {
-    _person.weight = weight;
+    _patient.weight = weight;
     notifyListeners();
   }
 
   void setLength(double length) {
-    _person.length = length;
+    _patient.length = length;
     notifyListeners();
   }
 
   String getUserName() {
-    return this._person.username;
+    return this._patient.username;
   }
 
   double getWeight() {
-    return this._person.weight;
+    return this._patient.weight;
   }
 
   double getLength() {
-    return this._person.length;
+    return this._patient.length;
   }
 
   String getImgUrl() {
-    return this._person.imgurl;
+    return this._patient.imgurl;
+  }
+  void setImgUrl(String imgurl){
+    this._patient.imgurl=imgurl;
+    notifyListeners();
   }
 
-  void setImgUrl(String imgurl) {
-    this._person.imgurl = imgurl;
+  String getIdCurantDoctor(){
+    return this._patient.idCurantDoctur;
   }
+
 
   String getDateBirth() {
-    return this._person.dateBirth.year.toString() +
+    DateTime data = this._patient.dateBirth.toDate();
+    return data.year.toString() +
         "-" +
-        this._person.dateBirth.month.toString() +
+        data.month.toString() +
         "-" +
-        this._person.dateBirth.day.toString();
+        data.day.toString();
   }
 
   String getPhoneNumber() {
-    return this._person.phoneNumber;
+    return this._patient.phoneNumber;
   }
 
   String getId() {
-    return this._person.id;
+    return this._patient.id;
   }
 
   String getLocation() {
-    return this._person.location;
+    return this._patient.location;
   }
 
   File getImagePerson() {
-    return this._person.imagePerson;
+    return this._imagePerson;
   }
 
-  bool getUpdateweight() {
-    return this._updateweight;
+  bool getUpdateWeight() {
+    return this._updateWeight;
   }
 
-  bool getUpdatelength() {
-    return this._updatelength;
+  bool getUpdateLength() {
+    return this._updateLength;
   }
 
-  bool getUpdatephone() {
-    return this._updatephone;
+  bool getUpdatePhone() {
+    return this._updatePhone;
   }
 
-  bool getUpdatelocation() {
-    return this._updatelocation;
+  bool getUpdateLocation() {
+    return this._updateLocation;
   }
 
   String getDiabetesType() {
-    return this._person.diabetesType;
+    return this._patient.diabtesType;
   }
 
   Future getImage(ImageSource src) async {
-    _person.imagePerson = null;
-    final pickedfile = await imagepicker.getImage(source: src);
-    if (pickedfile != null) {
-      _person.imagePerson = File(pickedfile.path);
+    this._imagePerson = null;
+    final pickedFile = await imagePicker.getImage(source: src);
+    if (pickedFile != null) {
+      this._imagePerson = File(pickedFile.path);
       final ref = FirebaseStorage.instance
           .ref()
           .child('user_image')
-          .child(this._person.id + ".jpg");
-      await ref.putFile(_person.imagePerson);
+          .child(this._patient.id + ".jpg");
+      await ref.putFile(this._imagePerson);
       final url = await ref.getDownloadURL();
 
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(this._person.id)
+      await FirebaseDatabase().reference()
+          .child("users")
+          .child(this.getId())
           .update({'imgurl': url});
-          this._person.imgurl=url;
+      this.setImgUrl(url);
+
+      notifyListeners();
     }
-    notifyListeners();
+
   }
 
   void setLocation(String location) {
-    _person.location = location;
+    _patient.location = location;
     notifyListeners();
   }
 
-  void togoleUpdateWeight() {
-    this._updateweight = !this._updateweight;
+  void toggleUpdateWeight() {
+    this._updateWeight = !this._updateWeight;
     notifyListeners();
   }
 
-  void togoleUpdateLength() {
-    this._updatelength = !this._updatelength;
+  void toggleUpdateLength() {
+    this._updateLength = !this._updateLength;
     notifyListeners();
   }
 
-  void togoleUpdatPhone() {
-    this._updatephone = !this._updatephone;
+  void toggleUpdatePhone() {
+    this._updatePhone = !this._updatePhone;
     notifyListeners();
   }
 
-  void togoleUpdatlocation() {
-    this._updatelocation = !this._updatelocation;
+  void toggleUpdateLocation() {
+    this._updateLocation = !this._updateLocation;
     notifyListeners();
   }
-
-
-
 }

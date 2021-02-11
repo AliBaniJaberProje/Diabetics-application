@@ -478,6 +478,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.9.2"
+  pedometer:
+    dependency: "direct main"
+    description:
+      name: pedometer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
+  percent_indicator:
+    dependency: "direct main"
+    description:
+      name: percent_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.16"
   petitparser:
     dependency: transitive
     description:
