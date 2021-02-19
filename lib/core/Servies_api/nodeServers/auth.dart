@@ -57,6 +57,9 @@ class Auth with ChangeNotifier {
         injectionType: patientData["patient"]["injectionType"],
         capsuleType: patientData["patient"]["capsuleType"],
       );
+
+
+
       return_data["status"] = "yes";
       return_data["patient"] = patient;
       this._jwt = patientData["token"];
