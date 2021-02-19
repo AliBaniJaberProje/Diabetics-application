@@ -317,13 +317,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_zoom_drawer:
-    dependency: "direct main"
-    description:
-      name: flutter_zoom_drawer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4+1"
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -484,7 +477,7 @@ packages:
       name: pedometer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.5"
+    version: "2.0.2"
   percent_indicator:
     dependency: "direct main"
     description:

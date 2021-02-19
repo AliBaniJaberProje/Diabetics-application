@@ -1,13 +1,12 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
 import 'package:ali_muntaser_final_project/core/Model/patient.dart';
 import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
-import 'package:ali_muntaser_final_project/core/Providers/NotificationProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/chatProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/doctorChatProvider.dart';
 import 'package:ali_muntaser_final_project/core/Servies_api/firebase/login.dart';
+import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +14,7 @@ import 'package:flutter/widgets.dart';
 import 'dart:ui';
 import 'package:provider/provider.dart';
 import 'Widgets/HeaderLogin.dart';
+import 'package:http/http.dart' as http;
 
 class LoginFormWidget extends StatefulWidget {
   @override
@@ -28,7 +28,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   final _formKey = GlobalKey<FormState>();
   String _userId = "123456789";
   String _password = "ali1234";
-  UsersFirebase usersFirebase = new UsersFirebase();
+  Auth usersNodeServer = new Auth();
+
+
   DateTime convertTimeStampToDateTime(Timestamp time) => time.toDate();
 
   //------------------------------ login function ------------------------------
@@ -53,9 +55,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     _formKey.currentState.save();
     FocusScope.of(context).unfocus();
 
+
     if (isValidUserId() && isValidPassword()) {
       _formKey.currentState.save();
-      var resultLogin = await usersFirebase.isAuthorized(_userId, _password);
+
+
+
+      var resultLogin = await usersNodeServer.isAuthorizedPatient(_userId, _password);
       if (resultLogin["status"] == "yes") {
         print("yes");
         Patient userPatient = resultLogin["patient"];
@@ -66,6 +72,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
 ///--------------------Prepare Data in Profile Patient--------------------------
          context.read<DoctorChatProvider>().setCurrentDoctorId(userPatient.idCurantDoctur);
          context.read<DoctorChatProvider>().setPreviousDoctors(userPatient.lastdoctor);
+
 ///--------------------Prepare Data in Chat Patient-----------------------------
          context.read<ChatProvider>().idPatient=userPatient.id;
          context.read<ChatProvider>().imgUrlPatient=userPatient.imgurl;
@@ -232,7 +239,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                           .watch<LoginProvider>()
                                           .visibilStatePassword(),
                                       textAlign: TextAlign.end,
-                                      controller: passwordController..text="ali1234",
+                                      controller: passwordController..text="123456789",
                                       decoration: InputDecoration(
                                         filled: true,
                                         fillColor: Colors.grey[300],

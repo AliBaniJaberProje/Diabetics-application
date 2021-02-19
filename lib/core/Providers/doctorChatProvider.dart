@@ -24,6 +24,7 @@ class DoctorChatProvider with ChangeNotifier {
   ///----------------------------public functions-------------------------------
   void setPreviousDoctors(List<dynamic> doctors){
     this._previousDoctors=doctors;
+
   }
 
   void setCurrentDoctorId(String doctorCurrentId){
@@ -36,7 +37,7 @@ class DoctorChatProvider with ChangeNotifier {
    _processResult(_doctors.value);
    print(this._doctors[0].imgUrl);
 
-   for(int i=0;i<_previousDoctors.length-1;i++){
+   for(int i=0;i<_previousDoctors.length;i++){
      print(_previousDoctors[i]);
      _doctors=await _firebaseRef.child("users").child(_previousDoctors[i]).once();
      _processResult(_doctors.value);

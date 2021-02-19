@@ -1,22 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 class Patient {
   String _id;
   String _username;
-  String _idCurantDoctur;
-  String _imgurl;
-  String _phoneNumber;
-  String _location;
-  double _length;
-  double _weight;
+  String gender;
+  String location;
   Timestamp _dateBirth;
+  Timestamp _diagnosisYear;
+  String phoneNumber;
   String _diabtesType;
-
+  String _injectionType;
+  String _capsuleType;
+  double length;
+  double weight;
+  String _idCurantDoctur;
   List<dynamic> _lastdoctor = [];
-  String getFromLastDoctor(int index) {
-    return this._lastdoctor[index];
-  }
+  String imgurl;
 
   Patient(
       {String id,
@@ -29,62 +28,33 @@ class Patient {
       double weight,
       Timestamp dateBirth,
       String diabtesType,
+      Timestamp diagnosisYear,
+      String injectionType,
+      String capsuleType,
       List<dynamic> lastDoctor}) {
-    this._id=id;
-    this._username=username;
-    this._idCurantDoctur=idCurantDoctur;
-    this._imgurl=imgurl;
-    this._phoneNumber=phoneNumber;
-    this._location=location;
-    this._length=length;
-    this._weight=weight;
-    this._dateBirth=dateBirth;
-    this._diabtesType=diabtesType;
-    this._lastdoctor=lastDoctor;
-
-
+    this._id = id;
+    this._username = username;
+    this._idCurantDoctur = idCurantDoctur;
+    this.imgurl = imgurl;
+    this.phoneNumber = phoneNumber;
+    this.location = location;
+    this.length = length;
+    this.weight = weight;
+    this._dateBirth = dateBirth;
+    this._diabtesType = diabtesType;
+    this._lastdoctor = lastDoctor;
+    this._diagnosisYear = diagnosisYear;
+    this._injectionType = injectionType;
+    this._capsuleType = capsuleType;
   }
 
-
-  set imgurl(String value) {
-    _imgurl = value;
-  }
-
+  Timestamp get diagnosisYear => _diagnosisYear;
   List<dynamic> get lastdoctor => _lastdoctor;
-
   Timestamp get dateBirth => _dateBirth;
-
   String get diabtesType => _diabtesType;
-
-  double get weight => _weight;
-
-  double get length => _length;
-
-  String get location => _location;
-
-  String get phoneNumber => _phoneNumber;
-
-  String get imgurl => _imgurl;
-
   String get idCurantDoctur => _idCurantDoctur;
-
   String get username => _username;
-
   String get id => _id;
-
-  set phoneNumber(String value) {
-    _phoneNumber = value;
-  }
-
-  set location(String value) {
-    _location = value;
-  }
-
-  set length(double value) {
-    _length = value;
-  }
-
-  set weight(double value) {
-    _weight = value;
-  }
+  String get injectionType => _injectionType;
+  String get capsuleType => _capsuleType;
 }

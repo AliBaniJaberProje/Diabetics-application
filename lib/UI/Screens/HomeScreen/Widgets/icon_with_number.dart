@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class IconWithNumber extends StatelessWidget {
 
   final IconData icon;
-  final int number;
+   int number=0;
 
   IconWithNumber({@required this.icon,@required this.number});
 

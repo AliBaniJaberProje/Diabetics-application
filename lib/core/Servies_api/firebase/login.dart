@@ -1,13 +1,21 @@
 import 'package:ali_muntaser_final_project/core/Model/patient.dart';
+import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class UsersFirebase {
   var _firebaseRef = FirebaseDatabase().reference();
+  Auth _authServers =new Auth();
+
 
   Future<Map<String, dynamic>> isAuthorized(
       String userid, String password) async {
+
+    _authServers.isAuthorizedPatient(userid, password);
+
+
+
     var fbm = await FirebaseMessaging();
     Map<String, dynamic> return_data = new Map<String, dynamic>();
 

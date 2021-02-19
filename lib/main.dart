@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'UI/Screens/HomeScreen/HomeScreen.dart';
 import 'UI/Screens/MyDoseScreen/MyDoseScreen.dart';
 import 'UI/Screens/ProfilePersonly/ProfilePersonly.dart';
-import 'UI/Screens/StepCount/StepScren.dart';
+import 'UI/Screens/StepCount/StepScreen.dart';
 import 'UI/Screens/TestCard.dart';
 import 'UI/Screens/chat/MsgChat/MessagesScreen.dart';
 import 'UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
@@ -18,6 +18,10 @@ import 'core/Providers/doctorChatProvider.dart';
 import 'core/Providers/ProfileProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './core/Model/messageStruct.dart';
+import './core/Providers/NumberOfStepProvider.dart';
+import 'core/Servies_api/nodeServers/auth.dart';
+
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
@@ -30,6 +34,7 @@ class InitProviderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+
         ChangeNotifierProvider.value(value: LoginProvider()),
         ChangeNotifierProvider.value(value: DailyReadingProvider()),
         ChangeNotifierProvider.value(value: NotificationsProvider()),
@@ -39,6 +44,8 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: MessagesProvider()),
         ChangeNotifierProvider.value(value: ChatProvider()),
         ChangeNotifierProvider.value(value: MessageStruct()),
+        ChangeNotifierProvider.value(value: NumberOfStepProvider()),
+        ChangeNotifierProvider.value(value: Auth())
 
       ],
       child: MyApp(),
@@ -57,6 +64,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.purpleAccent,
       ),
       routes: {
+
         LoginScreen.routeName: (context) => LoginScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         DailyReadingScreen.routeName: (context) => DailyReadingScreen(),
@@ -64,7 +72,6 @@ class MyApp extends StatelessWidget {
         MyDoseScreen.routeName: (context) => MyDoseScreen(),
         MessagesScreen.routeName: (context) => MessagesScreen(),
         NumberOfStep.routeName:(context)=>NumberOfStep(),
-
         TestCard.routName:(context)=>TestCard(),
 
       },

@@ -50,8 +50,6 @@ exports.notificationTrigarMsg2=functions.database.ref("pushNotification/{notific
         }
         const  res= await admin.messaging().sendToDevice(tokent,payload);
 
-      //  const  res= await admin.messaging().sendToTopic('pushNotifications',payload);
-
     }
 )
 

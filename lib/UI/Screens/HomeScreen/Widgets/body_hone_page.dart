@@ -1,13 +1,12 @@
 import 'package:ali_muntaser_final_project/UI/Screens/MyDoseScreen/MyDoseScreen.dart';
-import 'package:ali_muntaser_final_project/UI/Screens/ProfilePersonly/ProfilePersonly.dart';
-import 'package:ali_muntaser_final_project/UI/Screens/StepCount/StepScren.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/StepCount/StepScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/TestCard.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/chat/MsgChat/MessagesScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 import 'package:ali_muntaser_final_project/core/Constant/HomePageConstant.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-import '../../TestScreen.dart';
 
 class HeaderContainer extends StatelessWidget {
   final bool showname;
@@ -42,9 +41,9 @@ class HeaderContainer extends StatelessWidget {
           ],
         ):Column(),
         width: double.infinity,
-        height: 100,
+        height:showname? 100:40,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: showname?Colors.white: Colors.purple,
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(4000),
             bottomRight: Radius.circular(4000),
@@ -78,7 +77,7 @@ class MyGridTitle extends StatelessWidget {
       child: ClipRRect(
         child: GridTile(
           child: GestureDetector(
-            onTap: () {
+            onTap: () async{
               if (data['title'] == MainFeture[0]['title']) {
                 print("الفرأت اليومية ");
 
@@ -89,7 +88,9 @@ class MyGridTitle extends StatelessWidget {
 
                 print("دليل جرعاتي ");
               } else if (data['title'] == MainFeture[2]['title']) {
-                 Navigator.pushReplacementNamed(context, MessagesScreen.routeName);
+                 // var res= await http.get("http://192.168.0.111:3000");
+                 // int x=55;
+                 // print(res);
                 print("هل هذا صحي لي ؟");
               } else if (data['title'] == MainFeture[3]['title']) {
                 print("وجبتي هذا اليوم");

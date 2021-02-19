@@ -4,6 +4,7 @@ import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../core/Providers/ProfileProvider.dart';
 
@@ -78,6 +79,47 @@ class CurvePainter extends CustomPainter {
   }
 }
 
+class ContainerData extends StatelessWidget {
+  final IconData icon;
+  final Container conteant;
+
+  const ContainerData({this.icon, this.conteant});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+            color: Colors.white,
+            height: 50,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+              child: Row(
+                children: <Widget>[
+                  conteant,
+                  Container(
+                    color: Colors.purple,
+                    width: 40,
+                    height: 50,
+                    child: Icon(icon, color: Colors.white),
+                  ),
+                ],
+              ),
+            )),
+      ),
+    );
+  }
+}
+
 class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -116,7 +158,7 @@ class _HomePageState extends State<MyPersonScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pushReplacementNamed(context, HomeScreen.routeName);
               },
@@ -130,51 +172,94 @@ class _HomePageState extends State<MyPersonScreen> {
           ],
         ),
       ),
-      body: Stack(
+      body: ListView(
         children: [
-          ListView(
+          Stack(
             children: [
               HeaderContainer(
                 showname: false,
               ),
-              SizedBox(
-                height: 100,
-              ),
               Container(
-                child: ListTile(
-                  trailing: Icon(
-                    Icons.person,
-                    size: 35,
-                    color: Colors.purple,
+                margin: EdgeInsets.only(top: 0, left: 140),
+                width: 150,
+                height: 150,
+                child: CircularProfileAvatar(
+                  context.watch<ProfileProvider>().getImgUrl(),
+                  errorWidget: (context, url, error) => Container(
+                    child: Icon(Icons.error),
                   ),
+                  placeHolder: (context, url) => Container(
+                    width: 100,
+                    height: 100,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 10,
+                    ),
+                  ),
+                  radius: 90,
+                  backgroundColor: Colors.transparent,
+                  borderWidth: 3,
+
+//                  initialsText: Text(
+//                    "AD",
+//                    style: TextStyle(fontSize: 40, color: Colors.white),
+//                  ),
+                  borderColor: Colors.purple.withOpacity(.3),
+                  elevation: 5.0,
+                  onTap: () {
+                    print('adil');
+                  },
+                  cacheImage: true,
+                  showInitialTextAbovePicture: true,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ContainerData(
+            icon: Icons.person,
+            conteant: Container(
+              child: Expanded(
+                child: Container(
+                  child: ListTile(
+                    title: Text(
+                      "${context.watch<ProfileProvider>().getUserName()}",
+                      style: TextStyle(fontSize: 25),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          ContainerData(
+            icon: Icons.date_range,
+            conteant: Container(
+              child: Expanded(
+                child: ListTile(
                   title: Text(
-                    "${context.watch<ProfileProvider>().getUserName()}",
+                    DateFormat.yMMMd()
+                        .format(context.watch<ProfileProvider>().getDateBirth())
+                        .toString(),
                     style: TextStyle(fontSize: 25),
                     textAlign: TextAlign.end,
                   ),
                 ),
               ),
-              Container(
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          ContainerData(
+            icon: Icons.info_outline,
+            conteant: Container(
+              child: Expanded(
                 child: ListTile(
-                  trailing: Icon(
-                    Icons.date_range,
-                    size: 35,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    context.watch<ProfileProvider>().getDateBirth(),
-                    style: TextStyle(fontSize: 25),
-                    textAlign: TextAlign.end,
-                  ),
-                ),
-              ),
-              Container(
-                child: ListTile(
-                  trailing: Icon(
-                    Icons.info,
-                    size: 35,
-                    color: Colors.purple,
-                  ),
                   title: Text(
                     "${context.watch<ProfileProvider>().getId()}", //context.watch<ProfileProvider>().getId()
                     style: TextStyle(fontSize: 25),
@@ -182,16 +267,81 @@ class _HomePageState extends State<MyPersonScreen> {
                   ),
                 ),
               ),
-              Container(
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          ContainerData(
+            icon: Icons.crop_7_5_sharp,
+            conteant: Container(
+              child: Expanded(
+                child: ListTile(
+                  title: Text(
+                    "${context.watch<ProfileProvider>().getCapsuleType()}", //context.watch<ProfileProvider>().getId()
+                    style: TextStyle(fontSize: 25),
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          ContainerData(
+            icon: Icons.dock,
+            conteant: Container(
+              child: Expanded(
+                child: ListTile(
+                  title: Text(
+                    "${context.watch<ProfileProvider>().getInjectionType()}", //context.watch<ProfileProvider>().getId()
+                    style: TextStyle(fontSize: 25),
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          ContainerData(
+            icon: Icons.date_range,
+            conteant: Container(
+              child: Expanded(
+                child: ListTile(
+                  title: Text(
+                    "${context.watch<ProfileProvider>().getDiagnosisYear()}",
+                    style: TextStyle(fontSize: 25),
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          ContainerData(
+            icon: Icons.phone,
+            conteant: Container(
+              child: Expanded(
                 child: ListTile(
                   leading: !context.watch<ProfileProvider>().getUpdatePhone()
-                      ? FlatButton.icon(
+                      ? IconButton(
+                          splashColor: Colors.purple,
                           onPressed: () {
                             context.read<ProfileProvider>().toggleUpdatePhone();
                           },
-                          icon: Icon(Icons.edit),
-                          label: Text(""))
-                      : FlatButton.icon(
+                          icon: Icon(
+                            Icons.edit,
+                            size: 28,
+                            color: Colors.purple,
+                          ),
+                        )
+                      : IconButton(
+                          splashColor: Colors.purple,
                           onPressed: () {
                             context.read<ProfileProvider>().toggleUpdatePhone();
                             if (!_formKey2.currentState.validate()) return;
@@ -200,8 +350,12 @@ class _HomePageState extends State<MyPersonScreen> {
                                 .read<ProfileProvider>()
                                 .setPhoneNumber(updatePhone);
                           },
-                          icon: Icon(Icons.save),
-                          label: Text("حفظ")),
+                          icon: Icon(
+                            Icons.save,
+                            size: 28,
+                            color: Colors.purple,
+                          ),
+                        ),
                   title: !context.watch<ProfileProvider>().getUpdatePhone()
                       ? Text(
                           context.watch<ProfileProvider>().getPhoneNumber(),
@@ -212,6 +366,7 @@ class _HomePageState extends State<MyPersonScreen> {
                           key: _formKey2,
                           child: TextFormField(
                             autofocus: true,
+                            style: TextStyle(fontSize: 24),
                             cursorHeight: 40,
                             maxLength: 40,
                             initialValue: context
@@ -235,245 +390,241 @@ class _HomePageState extends State<MyPersonScreen> {
                             },
                           ),
                         ),
-                  trailing: Icon(
-                    Icons.phone,
-                    size: 35,
-                    color: Colors.purple,
-                  ),
                 ),
               ),
-              Container(
-                child: ListTile(
-                  leading: !context.watch<ProfileProvider>().getUpdateLocation()
-                      ? FlatButton.icon(
-                          onPressed: () {
-                            context
-                                .read<ProfileProvider>()
-                                .toggleUpdateLocation();
-                          },
-                          icon: Icon(Icons.edit),
-                          label: Text(""))
-                      : FlatButton.icon(
-                          onPressed: () {
-                            context
-                                .read<ProfileProvider>()
-                                .toggleUpdateLocation();
-                            if (!_formKey3.currentState.validate()) return;
-                            _formKey3.currentState.save();
-                            context
-                                .read<ProfileProvider>()
-                                .setLocation(updateLocation);
-                            context
-                                .read<ProfileProvider>()
-                                .setLocation(updateLocation);
-                          },
-                          icon: Icon(Icons.save),
-                          label: Text("حفظ")),
-                  title: !context.watch<ProfileProvider>().getUpdateLocation()
-                      ? Text(
-                          context.watch<ProfileProvider>().getLocation(),
-                          style: TextStyle(fontSize: 25),
-                          textAlign: TextAlign.end,
-                        )
-                      : Form(
-                          key: _formKey3,
-                          child: TextFormField(
-                            autofocus: true,
-                            cursorHeight: 40,
-                            maxLength: 40,
-                            initialValue:
-                                "${context.watch<ProfileProvider>().getLocation()}",
-                            textAlign: TextAlign.end,
-                            decoration: InputDecoration(
-                              fillColor: Colors.white70,
-                              //prefix: Icon(Icons.person),
-                              enabled: true,
-                              hintText: '',
-                              helperText: '',
-                              counterText: '',
-                            ),
-                            keyboardType: TextInputType.name,
-                            validator: (val) {
-                              if (val.isEmpty) return "يرجى ادخال القيمة";
-                            },
-                            onSaved: (val) {
-                              updateLocation = val;
-                            },
-                          ),
-                        ),
-                  trailing: Icon(
-                    Icons.add_location_alt,
-                    size: 35,
-                    color: Colors.purple,
-                  ),
-                ),
-              ),
-              Container(
-                child: ListTile(
-                  leading: !context.watch<ProfileProvider>().getUpdateWeight()
-                      ? FlatButton.icon(
-                          onPressed: () {
-                            context
-                                .read<ProfileProvider>()
-                                .toggleUpdateWeight();
-                          },
-                          icon: Icon(Icons.edit),
-                          label: Text(""))
-                      : FlatButton.icon(
-                          onPressed: () {
-                            context
-                                .read<ProfileProvider>()
-                                .toggleUpdateWeight();
-                            if (!_formKey1.currentState.validate()) return;
-                            _formKey1.currentState.save();
-                            context
-                                .read<ProfileProvider>()
-                                .setWeight(updateWeight);
-                            context
-                                .read<ProfileProvider>()
-                                .setWeight(updateWeight);
-                          },
-                          icon: Icon(Icons.save),
-                          label: Text("حفظ")),
-                  title: !context.watch<ProfileProvider>().getUpdateWeight()
-                      ? Text(
-                          "${context.watch<ProfileProvider>().getWeight()}",
-                          style: TextStyle(fontSize: 25),
-                          textAlign: TextAlign.end,
-                        )
-                      : Form(
-                          key: _formKey1,
-                          child: TextFormField(
-                            autofocus: true,
-                            cursorHeight: 40,
-                            maxLength: 40,
-                            initialValue:
-                                "${context.watch<ProfileProvider>().getWeight()}",
-                            textAlign: TextAlign.end,
-                            decoration: InputDecoration(
-                              fillColor: Colors.white70,
-                              //prefix: Icon(Icons.person),
-                              enabled: true,
-                              hintText: '',
-                              helperText: '',
-                              counterText: '',
-                            ),
-                            keyboardType: TextInputType.datetime,
-                            validator: (val) {
-                              if (val.isEmpty) return "يرجى ادخال القيمة";
-                            },
-                            onSaved: (val) {
-                              updateWeight = double.parse(val);
-                            },
-                          ),
-                        ),
-                  trailing: Icon(
-                    Icons.vertical_align_center_rounded,
-                    size: 35,
-                    color: Colors.purple,
-                  ),
-                ),
-              ),
-              Container(
-                child: ListTile(
-                  leading: !context.watch<ProfileProvider>().getUpdateLength()
-                      ? FlatButton.icon(
-                          onPressed: () {
-                            context
-                                .read<ProfileProvider>()
-                                .toggleUpdateLength();
-                          },
-                          icon: Icon(Icons.edit),
-                          label: Text(""))
-                      : FlatButton.icon(
-                          onPressed: () {
-                            context
-                                .read<ProfileProvider>()
-                                .toggleUpdateLength();
-                            if (!_formKey.currentState.validate()) return;
-                            _formKey.currentState.save();
-                            context
-                                .read<ProfileProvider>()
-                                .setLength(updateLength);
-                            context
-                                .read<ProfileProvider>()
-                                .setLength(updateLength);
-                          },
-                          icon: Icon(Icons.save),
-                          label: Text("حفظ")),
-                  title: !context.watch<ProfileProvider>().getUpdateLength()
-                      ? Text(
-                          "${context.watch<ProfileProvider>().getLength()}",
-                          style: TextStyle(fontSize: 25),
-                          textAlign: TextAlign.end,
-                        )
-                      : Form(
-                          key: _formKey,
-                          child: TextFormField(
-                            autofocus: true,
-                            cursorHeight: 40,
-                            maxLength: 40,
-                            initialValue:
-                                "${context.watch<ProfileProvider>().getLength()}",
-                            textAlign: TextAlign.end,
-                            decoration: InputDecoration(
-                              fillColor: Colors.white70,
-                              //prefix: Icon(Icons.person),
-                              enabled: true,
-                              hintText: '',
-                              helperText: '',
-                              counterText: '',
-                            ),
-                            keyboardType: TextInputType.datetime,
-                            validator: (val) {
-                              if (val.isEmpty) return "يرجى ادخال القيمة";
-                            },
-                            onSaved: (val) {
-                              updateLength = double.parse(val);
-                            },
-                          ),
-                        ),
-                  trailing: Icon(
-                    Icons.history_edu,
-                    size: 35,
-                    color: Colors.purple,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 50, left: 140),
-            width: 150,
-            height: 150,
-            child: CircularProfileAvatar(
-              context.watch<ProfileProvider>().getImgUrl(),
-              errorWidget: (context, url, error) => Container(
-                child: Icon(Icons.error),
-              ),
-              placeHolder: (context, url) => Container(
-                width: 100,
-                height: 100,
-                child: CircularProgressIndicator(
-                  strokeWidth: 10,
-                ),
-              ),
-              radius: 90,
-              backgroundColor: Colors.transparent,
-              borderWidth: 3,
-
-//                  initialsText: Text(
-//                    "AD",
-//                    style: TextStyle(fontSize: 40, color: Colors.white),
-//                  ),
-              borderColor: Colors.purple.withOpacity(.3),
-              elevation: 5.0,
-              onTap: () {
-                print('adil');
-              },
-              cacheImage: true,
-              showInitialTextAbovePicture: true,
             ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          ContainerData(
+            icon: Icons.location_on,
+            conteant: Container(
+                child: Expanded(
+              child: ListTile(
+                leading: !context.watch<ProfileProvider>().getUpdateLocation()
+                    ? IconButton(
+                        splashColor: Colors.purple,
+                        onPressed: () {
+                          context
+                              .read<ProfileProvider>()
+                              .toggleUpdateLocation();
+                        },
+                        icon: Icon(
+                          Icons.edit,
+                          size: 28,
+                          color: Colors.purple,
+                        ),
+                      )
+                    : IconButton(
+                        onPressed: () {
+                          context
+                              .read<ProfileProvider>()
+                              .toggleUpdateLocation();
+                          if (!_formKey3.currentState.validate()) return;
+                          _formKey3.currentState.save();
+                          context
+                              .read<ProfileProvider>()
+                              .setLocation(updateLocation);
+                          context
+                              .read<ProfileProvider>()
+                              .setLocation(updateLocation);
+                        },
+                        icon: Icon(
+                          Icons.save,
+                          size: 28,
+                          color: Colors.purple,
+                        ),
+                      ),
+                title: !context.watch<ProfileProvider>().getUpdateLocation()
+                    ? Text(
+                        context.watch<ProfileProvider>().getLocation(),
+                        style: TextStyle(fontSize: 25),
+                        textAlign: TextAlign.end,
+                      )
+                    : Form(
+                        key: _formKey3,
+                        child: TextFormField(
+                          autofocus: true,
+                          style: TextStyle(fontSize: 24),
+                          cursorHeight: 40,
+                          maxLength: 40,
+                          initialValue:
+                              "${context.watch<ProfileProvider>().getLocation()}",
+                          textAlign: TextAlign.end,
+                          decoration: InputDecoration(
+                            fillColor: Colors.white70,
+                            //prefix: Icon(Icons.person),
+                            enabled: true,
+                            hintText: '',
+                            helperText: '',
+                            counterText: '',
+                          ),
+                          keyboardType: TextInputType.name,
+                          validator: (val) {
+                            if (val.isEmpty) return "يرجى ادخال القيمة";
+                          },
+                          onSaved: (val) {
+                            updateLocation = val;
+                          },
+                        ),
+                      ),
+              ),
+            )),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          ContainerData(
+              icon: Icons.vertical_align_center_rounded,
+              conteant: Container(
+                child: Expanded(
+                  child: Container(
+                    child: ListTile(
+                      leading: !context
+                              .watch<ProfileProvider>()
+                              .getUpdateWeight()
+                          ? IconButton(
+                              onPressed: () {
+                                context
+                                    .read<ProfileProvider>()
+                                    .toggleUpdateWeight();
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                size: 28,
+                                color: Colors.purple,
+                              ),
+                            )
+                          : IconButton(
+                              onPressed: () {
+                                context
+                                    .read<ProfileProvider>()
+                                    .toggleUpdateWeight();
+                                if (!_formKey1.currentState.validate()) return;
+                                _formKey1.currentState.save();
+                                context
+                                    .read<ProfileProvider>()
+                                    .setWeight(updateWeight);
+                                context
+                                    .read<ProfileProvider>()
+                                    .setWeight(updateWeight);
+                              },
+                              icon: Icon(
+                                Icons.save,
+                                size: 28,
+                                color: Colors.purple,
+                              ),
+                            ),
+                      title: !context.watch<ProfileProvider>().getUpdateWeight()
+                          ? Text(
+                              "${context.watch<ProfileProvider>().getWeight()}",
+                              style: TextStyle(fontSize: 25),
+                              textAlign: TextAlign.end,
+                            )
+                          : Form(
+                              key: _formKey1,
+                              child: TextFormField(
+                                style: TextStyle(fontSize: 24),
+                                autofocus: true,
+                                cursorHeight: 40,
+                                maxLength: 40,
+                                initialValue:
+                                    "${context.watch<ProfileProvider>().getWeight()}",
+                                textAlign: TextAlign.end,
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white70,
+                                  //prefix: Icon(Icons.person),
+                                  enabled: true,
+                                  hintText: '',
+                                  helperText: '',
+                                  counterText: '',
+                                ),
+                                keyboardType: TextInputType.datetime,
+                                validator: (val) {
+                                  if (val.isEmpty) return "يرجى ادخال القيمة";
+                                },
+                                onSaved: (val) {
+                                  updateWeight = double.parse(val);
+                                },
+                              ),
+                            ),
+                    ),
+                  ),
+                ),
+              )),
+          SizedBox(
+            height: 5,
+          ),
+          ContainerData(
+            icon: Icons.accessibility_new,
+            conteant: Container(
+                child: Expanded(
+              child: ListTile(
+                leading: !context.watch<ProfileProvider>().getUpdateLength()
+                    ? IconButton(
+                        onPressed: () {
+                          context.read<ProfileProvider>().toggleUpdateLength();
+                        },
+                        icon: Icon(
+                          Icons.edit,
+                          size: 28,
+                          color: Colors.purple,
+                        ),
+                      )
+                    : IconButton(
+                        onPressed: () {
+                          context.read<ProfileProvider>().toggleUpdateLength();
+                          if (!_formKey.currentState.validate()) return;
+                          _formKey.currentState.save();
+                          context
+                              .read<ProfileProvider>()
+                              .setLength(updateLength);
+                          context
+                              .read<ProfileProvider>()
+                              .setLength(updateLength);
+                        },
+                        icon: Icon(
+                          Icons.save,
+                          size: 28,
+                          color: Colors.purple,
+                        ),
+                      ),
+                title: !context.watch<ProfileProvider>().getUpdateLength()
+                    ? Text(
+                        "${context.watch<ProfileProvider>().getLength()}",
+                        style: TextStyle(fontSize: 25),
+                        textAlign: TextAlign.end,
+                      )
+                    : Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 24),
+                          autofocus: true,
+                          cursorHeight: 40,
+                          maxLength: 40,
+                          initialValue:
+                              "${context.watch<ProfileProvider>().getLength()}",
+                          textAlign: TextAlign.end,
+                          decoration: InputDecoration(
+                            fillColor: Colors.white70,
+                            //prefix: Icon(Icons.person),
+                            enabled: true,
+                            hintText: '',
+                            helperText: '',
+                            counterText: '',
+                          ),
+                          keyboardType: TextInputType.datetime,
+                          validator: (val) {
+                            if (val.isEmpty) return "يرجى ادخال القيمة";
+                          },
+                          onSaved: (val) {
+                            updateLength = double.parse(val);
+                          },
+                        ),
+                      ),
+              ),
+            )),
           ),
         ],
       ),

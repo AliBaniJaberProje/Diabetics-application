@@ -46,16 +46,17 @@ dependencies:
   firebase_storage: "^5.0.0-dev.3"
   firebase_messaging:
   firebase_auth:
-  flutter_zoom_drawer:
+#  flutter_zoom_drawer:
   fancy_bottom_navigation:
   circular_profile_avatar:
+  pedometer:
   http:
   firebase_database:
-  pedometer: ^0.0.5
+#  pedometer: ^0.0.5
   percent_indicator: ^1.0.14
 #  flutter_launcher_icons: ^0.7.0
-
-
+  #slide_countdown_clock: ^1.0.3
+  #slide_digital_clock: ^1.0.0
   flutter_chat_bubble:
   bubble_chart:
   cupertino_icons: ^1.0.0

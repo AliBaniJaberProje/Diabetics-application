@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 
 
@@ -22,6 +23,16 @@ class ProfileProvider with ChangeNotifier {
   //------------------------------------------ methods ------------------------
   // ignore: unnecessary_getters_setters
   Patient get patient =>_patient;
+
+  String getCapsuleType(){
+    return this._patient.capsuleType;
+  }
+  String getInjectionType(){
+    return this._patient.injectionType;
+  }
+  String getDiagnosisYear(){
+    return DateFormat.yMMMd().format(this._patient.diagnosisYear.toDate()).toString();
+  }
 
   // ignore: unnecessary_getters_setters
   set person(Patient value) {
@@ -67,13 +78,9 @@ class ProfileProvider with ChangeNotifier {
   }
 
 
-  String getDateBirth() {
+  DateTime getDateBirth() {
     DateTime data = this._patient.dateBirth.toDate();
-    return data.year.toString() +
-        "-" +
-        data.month.toString() +
-        "-" +
-        data.day.toString();
+    return data;
   }
 
   String getPhoneNumber() {
