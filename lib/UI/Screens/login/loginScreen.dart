@@ -68,6 +68,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         context.read<LoginProvider>().reastLodingLoginStatus();
         var _profileProvider = context.read<ProfileProvider>();
         _profileProvider.person=userPatient;
+///--------------------put token in profile ------------------------------------
 
 ///--------------------Prepare Data in Profile Patient--------------------------
          context.read<DoctorChatProvider>().setCurrentDoctorId(userPatient.idCurantDoctur);

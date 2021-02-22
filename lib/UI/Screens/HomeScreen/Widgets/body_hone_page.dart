@@ -1,11 +1,10 @@
 import 'package:ali_muntaser_final_project/UI/Screens/MyDoseScreen/MyDoseScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/StepCount/StepScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/TestCard.dart';
-import 'package:ali_muntaser_final_project/UI/Screens/chat/MsgChat/MessagesScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 import 'package:ali_muntaser_final_project/core/Constant/HomePageConstant.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import "../../todoy's meals/Today's_MealsScreen.dart";
 
 
 class HeaderContainer extends StatelessWidget {
@@ -94,9 +93,11 @@ class MyGridTitle extends StatelessWidget {
                 print("هل هذا صحي لي ؟");
               } else if (data['title'] == MainFeture[3]['title']) {
                 print("وجبتي هذا اليوم");
+                Navigator.pushReplacementNamed(context,TodayMeals.routeName);
+
               } else if (data['title'] == MainFeture[4]['title']) {
-                
-              //  Navigator.pushReplacementNamed(context, TestScreen.routName);
+
+                //  Navigator.pushReplacementNamed(context, TestScreen.routName);
 
                 print('حجز موعد');
               } else if (data['title'] == MainFeture[5]['title']) {

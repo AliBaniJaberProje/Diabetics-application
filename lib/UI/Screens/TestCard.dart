@@ -1,5 +1,8 @@
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:sliding_card/sliding_card.dart';
+
+
+
 
 class CurvePainter extends CustomPainter {
   @override
@@ -27,176 +30,221 @@ class CurvePainter extends CustomPainter {
   }
 }
 
-class TestCard extends StatelessWidget {
-  static String routName = "TestCard";
 
+
+//
+// class TestCard extends StatelessWidget {
+//
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//
+//       appBar: AppBar(
+//         title: Text("Stack Two Containers"),
+//         backgroundColor: Colors.purpleAccent,
+//       ),
+//
+//       body: Center(
+//         child: Stack(
+//           children: [
+//             Card(
+//               elevation: 6,
+//               child: Container(
+//                 color: Colors.deepPurple[100],
+//                 width: double.infinity,
+//                 height: 110,
+//                 child: CustomPaint(
+//                   painter: CurvePainter(),
+//                 ),
+//               ),
+//             ),
+//             Row(
+//               children: [
+//                 Card(child: Icon(Icons.close),elevation: 9,)
+//
+//               ],
+//             ),
+//
+//           ],
+//         )
+//       ),
+//
+//       // body: ListView(
+//       //   children: [
+//       //     Container(
+//       //       height: 100,
+//       //       margin: EdgeInsets.symmetric(vertical: 10,horizontal: 5),
+//       //       decoration: BoxDecoration( //decoration for the outer wrapper
+//       //         color: Colors.deepOrange,
+//       //         borderRadius: BorderRadius.circular(30), //border radius exactly to ClipRRect
+//       //         boxShadow:[
+//       //           BoxShadow(
+//       //             color: Colors.grey.withOpacity(0.5), //color of shadow
+//       //             spreadRadius: 5, //spread radius
+//       //             blurRadius: 7, // blur radius
+//       //             offset: Offset(0, 2), // changes position of shadow
+//       //             //first paramerter of offset is left-right
+//       //             //second parameter is top to down
+//       //           ),
+//       //           //you can set more BoxShadow() here
+//       //         ],
+//       //       ) ,
+//       //       child: ClipRRect( //to clip overflown positioned containers.
+//       //         borderRadius: BorderRadius.circular(30),
+//       //         //if we set border radius on container, the overflown content get displayed at corner.
+//       //         child:Container(
+//       //
+//       //             child: Stack(children: <Widget>[ //Stack helps to overlap widgets
+//       //               Positioned( //positioned helps to position widget wherever we want.
+//       //                   top:-20, left:-50, //position of the widget
+//       //                   child:Container(
+//       //                       height:250,
+//       //                       width:250,
+//       //                       decoration:BoxDecoration(
+//       //                           shape:BoxShape.circle,
+//       //                           color:Colors.purpleAccent.withOpacity(1) //background color with opacity
+//       //                       )
+//       //                   )
+//       //               ),
+//       //
+//       //               Positioned(
+//       //                   left:-80,top:-50,
+//       //                   child:Container(
+//       //                       height:180,
+//       //                       width:180,
+//       //                       decoration:BoxDecoration(
+//       //                           shape:BoxShape.circle,
+//       //                           color:Colors.purpleAccent.withOpacity(1)
+//       //                       )
+//       //                   )
+//       //               ),
+//       //
+//       //               Positioned(  //main content container postition.
+//       //                 child: Container(
+//       //                     height:250,
+//       //                     alignment: Alignment.center,
+//       //                     child:Text("المستخدم الاول", style: TextStyle(
+//       //                       color:Colors.white, fontSize:20,
+//       //                     ),
+//       //                       textAlign: TextAlign.center,
+//       //                     )
+//       //                 ),
+//       //               )
+//       //             ],)
+//       //         ),
+//       //       ),
+//       //     ),
+//       //     Container(
+//       //       height: 100,
+//       //       margin: EdgeInsets.symmetric(vertical: 10,horizontal: 5),
+//       //       decoration: BoxDecoration( //decoration for the outer wrapper
+//       //         color: Colors.deepPurple,
+//       //         borderRadius: BorderRadius.circular(30), //border radius exactly to ClipRRect
+//       //         boxShadow:[
+//       //           BoxShadow(
+//       //             color: Colors.grey.withOpacity(0.5), //color of shadow
+//       //             spreadRadius: 5, //spread radius
+//       //             blurRadius: 7, // blur radius
+//       //             offset: Offset(0, 2), // changes position of shadow
+//       //             //first paramerter of offset is left-right
+//       //             //second parameter is top to down
+//       //           ),
+//       //           //you can set more BoxShadow() here
+//       //         ],
+//       //       ) ,
+//       //       child: ClipRRect( //to clip overflown positioned containers.
+//       //         borderRadius: BorderRadius.circular(30),
+//       //         //if we set border radius on container, the overflown content get displayed at corner.
+//       //         child:Container(
+//       //
+//       //             child: Stack(children: <Widget>[ //Stack helps to overlap widgets
+//       //               Positioned( //positioned helps to position widget wherever we want.
+//       //                   top:-20, left:-50, //position of the widget
+//       //                   child:Container(
+//       //                       height:250,
+//       //                       width:250,
+//       //                       decoration:BoxDecoration(
+//       //                           shape:BoxShape.circle,
+//       //                           color:Colors.purpleAccent.withOpacity(1) //background color with opacity
+//       //                       )
+//       //                   )
+//       //               ),
+//       //
+//       //               Positioned(
+//       //                   left:-80,top:-50,
+//       //                   child:Container(
+//       //                       height:180,
+//       //                       width:180,
+//       //                       decoration:BoxDecoration(
+//       //                           shape:BoxShape.circle,
+//       //                           color:Colors.purpleAccent.withOpacity(1)
+//       //                       )
+//       //                   )
+//       //               ),
+//       //
+//       //               Positioned(  //main content container postition.
+//       //                 child: Container(
+//       //                     height:250,
+//       //                     alignment: Alignment.center,
+//       //                     child:Text("المستخدم الاول", style: TextStyle(
+//       //                       color:Colors.white, fontSize:20,
+//       //                     ),
+//       //                       textAlign: TextAlign.center,
+//       //                     )
+//       //                 ),
+//       //               )
+//       //             ],)
+//       //         ),
+//       //       ),
+//       //     ),
+//       //   ],
+//       // )
+//     );
+//   }
+// }
+
+class TestCard extends StatefulWidget {
+  static String routName = "TestCard";
+  @override
+  _TestCardState createState() => _TestCardState();
+}
+
+class _TestCardState extends State<TestCard> {
+  SlidingCardController controller ;
+  @override
+  void initState() {
+
+    super.initState();
+    controller = SlidingCardController();
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-
       appBar: AppBar(
-        title: Text("Stack Two Containers"),
-        backgroundColor: Colors.purpleAccent,
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text("widget.title"),
       ),
-
       body: Center(
-        child: Stack(
-          children: [
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
             Card(
-              elevation: 6,
-              child: Container(
-                color: Colors.deepPurple[100],
-                width: double.infinity,
-                height: 110,
-                child: CustomPaint(
-                  painter: CurvePainter(),
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                Card(child: Icon(Icons.close),elevation: 9,)
 
-              ],
-            ),
 
+
+            )
           ],
-        )
-      ),
-
-      // body: ListView(
-      //   children: [
-      //     Container(
-      //       height: 100,
-      //       margin: EdgeInsets.symmetric(vertical: 10,horizontal: 5),
-      //       decoration: BoxDecoration( //decoration for the outer wrapper
-      //         color: Colors.deepOrange,
-      //         borderRadius: BorderRadius.circular(30), //border radius exactly to ClipRRect
-      //         boxShadow:[
-      //           BoxShadow(
-      //             color: Colors.grey.withOpacity(0.5), //color of shadow
-      //             spreadRadius: 5, //spread radius
-      //             blurRadius: 7, // blur radius
-      //             offset: Offset(0, 2), // changes position of shadow
-      //             //first paramerter of offset is left-right
-      //             //second parameter is top to down
-      //           ),
-      //           //you can set more BoxShadow() here
-      //         ],
-      //       ) ,
-      //       child: ClipRRect( //to clip overflown positioned containers.
-      //         borderRadius: BorderRadius.circular(30),
-      //         //if we set border radius on container, the overflown content get displayed at corner.
-      //         child:Container(
-      //
-      //             child: Stack(children: <Widget>[ //Stack helps to overlap widgets
-      //               Positioned( //positioned helps to position widget wherever we want.
-      //                   top:-20, left:-50, //position of the widget
-      //                   child:Container(
-      //                       height:250,
-      //                       width:250,
-      //                       decoration:BoxDecoration(
-      //                           shape:BoxShape.circle,
-      //                           color:Colors.purpleAccent.withOpacity(1) //background color with opacity
-      //                       )
-      //                   )
-      //               ),
-      //
-      //               Positioned(
-      //                   left:-80,top:-50,
-      //                   child:Container(
-      //                       height:180,
-      //                       width:180,
-      //                       decoration:BoxDecoration(
-      //                           shape:BoxShape.circle,
-      //                           color:Colors.purpleAccent.withOpacity(1)
-      //                       )
-      //                   )
-      //               ),
-      //
-      //               Positioned(  //main content container postition.
-      //                 child: Container(
-      //                     height:250,
-      //                     alignment: Alignment.center,
-      //                     child:Text("المستخدم الاول", style: TextStyle(
-      //                       color:Colors.white, fontSize:20,
-      //                     ),
-      //                       textAlign: TextAlign.center,
-      //                     )
-      //                 ),
-      //               )
-      //             ],)
-      //         ),
-      //       ),
-      //     ),
-      //     Container(
-      //       height: 100,
-      //       margin: EdgeInsets.symmetric(vertical: 10,horizontal: 5),
-      //       decoration: BoxDecoration( //decoration for the outer wrapper
-      //         color: Colors.deepPurple,
-      //         borderRadius: BorderRadius.circular(30), //border radius exactly to ClipRRect
-      //         boxShadow:[
-      //           BoxShadow(
-      //             color: Colors.grey.withOpacity(0.5), //color of shadow
-      //             spreadRadius: 5, //spread radius
-      //             blurRadius: 7, // blur radius
-      //             offset: Offset(0, 2), // changes position of shadow
-      //             //first paramerter of offset is left-right
-      //             //second parameter is top to down
-      //           ),
-      //           //you can set more BoxShadow() here
-      //         ],
-      //       ) ,
-      //       child: ClipRRect( //to clip overflown positioned containers.
-      //         borderRadius: BorderRadius.circular(30),
-      //         //if we set border radius on container, the overflown content get displayed at corner.
-      //         child:Container(
-      //
-      //             child: Stack(children: <Widget>[ //Stack helps to overlap widgets
-      //               Positioned( //positioned helps to position widget wherever we want.
-      //                   top:-20, left:-50, //position of the widget
-      //                   child:Container(
-      //                       height:250,
-      //                       width:250,
-      //                       decoration:BoxDecoration(
-      //                           shape:BoxShape.circle,
-      //                           color:Colors.purpleAccent.withOpacity(1) //background color with opacity
-      //                       )
-      //                   )
-      //               ),
-      //
-      //               Positioned(
-      //                   left:-80,top:-50,
-      //                   child:Container(
-      //                       height:180,
-      //                       width:180,
-      //                       decoration:BoxDecoration(
-      //                           shape:BoxShape.circle,
-      //                           color:Colors.purpleAccent.withOpacity(1)
-      //                       )
-      //                   )
-      //               ),
-      //
-      //               Positioned(  //main content container postition.
-      //                 child: Container(
-      //                     height:250,
-      //                     alignment: Alignment.center,
-      //                     child:Text("المستخدم الاول", style: TextStyle(
-      //                       color:Colors.white, fontSize:20,
-      //                     ),
-      //                       textAlign: TextAlign.center,
-      //                     )
-      //                 ),
-      //               )
-      //             ],)
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // )
+        ),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+
+
+
 
 // class DolDurmaClipper extends CustomClipper<Path> {
 //   DolDurmaClipper({@required this.right, @required this.holeRadius});

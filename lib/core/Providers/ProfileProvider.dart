@@ -1,12 +1,13 @@
 import 'dart:io';
 
 import 'package:ali_muntaser_final_project/core/Model/patient.dart';
+import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/updateProfileInfo_Servers.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-
+import 'package:http/http.dart' as http;
 
 
 class ProfileProvider with ChangeNotifier {
@@ -19,8 +20,39 @@ class ProfileProvider with ChangeNotifier {
   File _imagePerson;
   final imagePicker = ImagePicker();
 
+  ///----------------------------- private method-------------------------------
+  bool _isValidPhoneNumber(String phoneNumber)  {
+    if(phoneNumber.isEmpty)return false;
+    if(phoneNumber==this._patient.phoneNumber)return false ;
+    if(phoneNumber.length<10) return false;
+    final numericRegex =
+    RegExp(r'^-?(([0-9]*)|(([0-9]*)\.([0-9]*)))$');
 
-  //------------------------------------------ methods ------------------------
+    return numericRegex.hasMatch(phoneNumber);
+
+
+  }
+  bool _isValidWeight(double value){
+    if(value==this._patient.weight)return false;
+    if(value<10)return false;
+    return true;
+
+  }
+  bool _isValidLength(double value){
+    if(value==this._patient.length)return false;
+    if(value<10)return false;
+    return true;
+  }
+  bool _isValidLocation(String loation){
+    if(loation==this._patient.location)return false;
+    if(loation.isEmpty) return false;
+    if(loation.length<3) return false ;
+    return true;
+
+  }
+
+
+  ///------------------------------------------ methods ------------------------
   // ignore: unnecessary_getters_setters
   Patient get patient =>_patient;
 
@@ -39,18 +71,37 @@ class ProfileProvider with ChangeNotifier {
     _patient = value;
   }
 
-  void setPhoneNumber(String newName) {
-    this._patient.phoneNumber = newName;
+  void setPhoneNumber(String phoneNumber) {
+    if(_isValidPhoneNumber(phoneNumber)){
+      //
+      sendUpdateProfilePatientRequest(key:"phoneNumber",value: phoneNumber).then((value) {
+        print("done operation ");
+      });
+      this._patient.phoneNumber = phoneNumber;
+    }
+    
   }
 
+
   void setWeight(double weight) {
-    _patient.weight = weight;
-    notifyListeners();
+    if(_isValidWeight(weight)){
+      sendUpdateProfilePatientRequest(key:"weight",value:weight.toString()).then((value) {
+        print("done operation ");
+      });
+      _patient.weight = weight;
+      notifyListeners();
+    }
   }
 
   void setLength(double length) {
-    _patient.length = length;
-    notifyListeners();
+    if(_isValidLength(length)){
+      sendUpdateProfilePatientRequest(key:"weight",value:length.toString()).then((value) {
+        print("done operation ");
+      });
+      _patient.length = length;
+      notifyListeners();
+    }
+
   }
 
   String getUserName() {
@@ -68,6 +119,7 @@ class ProfileProvider with ChangeNotifier {
   String getImgUrl() {
     return this._patient.imgurl;
   }
+
   void setImgUrl(String imgurl){
     this._patient.imgurl=imgurl;
     notifyListeners();
@@ -76,7 +128,6 @@ class ProfileProvider with ChangeNotifier {
   String getIdCurantDoctor(){
     return this._patient.idCurantDoctur;
   }
-
 
   DateTime getDateBirth() {
     DateTime data = this._patient.dateBirth.toDate();
@@ -143,8 +194,14 @@ class ProfileProvider with ChangeNotifier {
   }
 
   void setLocation(String location) {
-    _patient.location = location;
-    notifyListeners();
+    if(_isValidLocation(location)){
+      _patient.location = location;
+      sendUpdateProfilePatientRequest(key:"location",value:location).then((value) {
+        print("done operation ");
+      });
+      notifyListeners();
+    }
+
   }
 
   void toggleUpdateWeight() {
@@ -166,4 +223,5 @@ class ProfileProvider with ChangeNotifier {
     this._updateLocation = !this._updateLocation;
     notifyListeners();
   }
+
 }

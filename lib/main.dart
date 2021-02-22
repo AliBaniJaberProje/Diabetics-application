@@ -10,7 +10,10 @@ import 'UI/Screens/StepCount/StepScreen.dart';
 import 'UI/Screens/TestCard.dart';
 import 'UI/Screens/chat/MsgChat/MessagesScreen.dart';
 import 'UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
+
+
 import 'core/Providers/MessagesProvider.dart';
+import 'core/Providers/FoodProvider.dart';
 import 'core/Providers/MyDoseProvider.dart';
 import 'core/Providers/NotificationProvider.dart';
 import 'core/Providers/chatProvider.dart';
@@ -20,7 +23,7 @@ import 'package:firebase_core/firebase_core.dart';
 import './core/Model/messageStruct.dart';
 import './core/Providers/NumberOfStepProvider.dart';
 import 'core/Servies_api/nodeServers/auth.dart';
-
+import "./UI/Screens/todoy's meals/Today's_MealsScreen.dart";
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,7 +48,8 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: ChatProvider()),
         ChangeNotifierProvider.value(value: MessageStruct()),
         ChangeNotifierProvider.value(value: NumberOfStepProvider()),
-        ChangeNotifierProvider.value(value: Auth())
+        ChangeNotifierProvider.value(value: Auth()),
+        ChangeNotifierProvider.value(value: FoodProvider()),
 
       ],
       child: MyApp(),
@@ -73,7 +77,7 @@ class MyApp extends StatelessWidget {
         MessagesScreen.routeName: (context) => MessagesScreen(),
         NumberOfStep.routeName:(context)=>NumberOfStep(),
         TestCard.routName:(context)=>TestCard(),
-
+        TodayMeals.routeName:(context)=>TodayMeals()
       },
     );
   }
