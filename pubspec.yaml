@@ -52,20 +52,20 @@ dependencies:
   pedometer:
   http:
   firebase_database:
-#  pedometer: ^0.0.5
   percent_indicator: ^1.0.14
-#  flutter_launcher_icons: ^0.7.0
-  #slide_countdown_clock: ^1.0.3
-  #slide_digital_clock: ^1.0.0
   flutter_chat_bubble:
   flipping_card: ^0.0.3
   fancy_on_boarding:
   bubble_chart:
   sliding_card: ^0.1.2
   tab_indicator_styler: ^1.0.0
-
+  modal_bottom_sheet:
   flutter_custom_clippers: ^1.1.2
   cupertino_icons: ^1.0.0
+  rotated_corner_decoration: ^1.0.2
+  custom_switch:
+  getwidget: ^1.2.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -75,16 +75,9 @@ flutter_icons:
   android: true
   image_path: "dev_assets/logo.jpg"
 
-
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter.
 flutter:
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
+
   uses-material-design: true
 
 
@@ -109,3 +102,5 @@ flutter:
     - assets/images/login1.png
     - assets/images/food.png
     - assets/images/food2.png
+    - assets/images/icon_dose.png
+    - assets/images/icon_dalyreading.png

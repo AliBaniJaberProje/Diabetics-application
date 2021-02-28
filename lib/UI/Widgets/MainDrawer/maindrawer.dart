@@ -1,38 +1,21 @@
+import 'dart:ui';
+
 import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawerController.dart';
-import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:getwidget/components/toggle/gf_toggle.dart';
+import 'package:getwidget/types/gf_toggle_type.dart';
 
-class ItemDrawer extends StatelessWidget {
-  final String title;
-  final IconData iconData;
-
-  const ItemDrawer({@required this.title, @required this.iconData});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      //color: Colors.purple.withOpacity(.2),
-      child: ListTile(
-        title: Text(
-          this.title,
-          textAlign: TextAlign.end,
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
-        ),
-        trailing: Icon(
-          iconData,
-          size: 20,
-          color: Colors.purple,
-        ),
-        onTap: () {},
-      ),
-    );
-  }
+class MainDrawer extends StatefulWidget {
+  _MainDrawer createState() => _MainDrawer();
 }
 
-class MainDrawer extends StatelessWidget {
+class _MainDrawer extends State<MainDrawer> {
+  bool status = false;
+
   @override
   Widget build(BuildContext context) {
     final MainDrawerController _drawerController =
@@ -40,68 +23,401 @@ class MainDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: [
-          InkWell(
+
+
+
+          ClipPath(
+            clipper: WaveClipperTwo(),
             child: Container(
-              color: Colors.purple.withOpacity(.4),
-              height: 175,
-              child: DrawerHeader(
-                child: Column(
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      margin: EdgeInsets.only(top: 0, left: 75, right: 75),
-                      child: CircularProfileAvatar(
-                        context.watch<ProfileProvider>().getImgUrl(),
-                        errorWidget: (context, url, error) => Container(
-                          child: Icon(Icons.error),
-                        ),
-                        placeHolder: (context, url) => Container(
-                          width: 50,
-                          height: 50,
-                          child: CircularProgressIndicator(),
-                        ),
-                        radius: 150,
-                        backgroundColor: Colors.transparent,
-                        borderWidth: 2,
-                        initialsText: Text(
+              height: 140,
+              color: Colors.purple,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: _drawerController.goToMyPersonScreen,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
                           "علي بني جابر",
-                          style: TextStyle(fontSize: 40, color: Colors.white),
+                          //context.watch<ProfileProvider>().getUserName(),
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                         ),
-                        borderColor: Colors.purple,
-                        elevation: 5.0,
-                        onTap: _drawerController.goToMyPersonScreen,
-                        cacheImage: true,
-                        showInitialTextAbovePicture: false,
-                      ),
+                        Container(
+                          width: 60,
+                          height: 60,
+                          // margin: EdgeInsets.only(top: 0, left: 75, right: 75),
+                          child: CircularProfileAvatar(
+                            "https://play-images-prod-cms.tech.tvnz.co.nz/api/v1/web/image/content/dam/images/entertainment/shows/p/person-of-interest/personofinterest_coverimg.png.2017-03-08T11:21:33+13:00.jpg?width=960&height=540" //context.watch<ProfileProvider>().getImgUrl(),
+                            ,
+                            errorWidget: (context, url, error) => Container(
+                              child: Icon(Icons.error),
+                            ),
+                            placeHolder: (context, url) => Container(
+                              width: 50,
+                              height: 50,
+                              child: CircularProgressIndicator(),
+                            ),
+                            radius: 150,
+                            backgroundColor: Colors.transparent,
+                            borderWidth: 1,
+                            // initialsText: Text(
+                            //   "",
+                            //   style: TextStyle(fontSize: 40, color: Colors.black),
+                            // ),
+                            borderColor: Colors.black87,
+                            elevation: 2,
+
+                            //showInitialTextAbovePicture: false,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      context.watch<ProfileProvider>().getUserName(),
-                      style: TextStyle(fontSize: 25),
-                    ),
-                  ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          ListTile(
+            selectedTileColor: Colors.purple,
+            focusColor: Colors.purple,
+            trailing: Container(
+              margin: EdgeInsets.all(0),
+              child: Image.asset(
+                "assets/images/icon_dose.png",
+                color: Colors.white,
+              ),
+              width: 30,
+              height: 70,
+              decoration: BoxDecoration(
+                color: Colors.lightBlueAccent,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
                 ),
               ),
             ),
-            onTap: _drawerController.goToMyPersonScreen,
+            title: Text(
+              "جرعاتي الطبية",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.end,
+            ),
+            leading: Icon(
+              Icons.arrow_back_ios_outlined,
+              size: 20,
+              color: Colors.lightBlueAccent,
+            ),
+            onTap: () {},
           ),
+
           SizedBox(
-            height: 20,
+            height: 10,
           ),
-          ItemDrawer(
-              title: "مراجعة جرعاتي", iconData: Icons.donut_small_outlined),
-          ItemDrawer(
-              title: "الفحوصات", iconData: Icons.text_rotation_angleup_rounded),
-          ItemDrawer(title: "وجباتي", iconData: Icons.fastfood_outlined),
-          ItemDrawer(
-              title: "هل هذا صحي لي ؟", iconData: Icons.camera_alt_outlined),
-          ItemDrawer(title: "مواعيدي", iconData: Icons.date_range_outlined),
-          ItemDrawer(title: "تماريني", iconData: Icons.do_not_step_sharp),
-          ItemDrawer(
-              title: "تعديل بيانات الدخول", iconData: Icons.lock_outline_sharp),
-          ItemDrawer(
-              title: "اقتراحات لتطوير التطبيق", iconData: Icons.mail_outline),
-          ItemDrawer(title: "تسجيل الخروج", iconData: Icons.logout),
+          ListTile(
+            selectedTileColor: Colors.purple,
+            focusColor: Colors.purple,
+            trailing: Container(
+              margin: EdgeInsets.all(0),
+              child: Icon(
+                Icons.wallet_membership,
+                color: Colors.white,
+              ),
+              width: 30,
+              height: 70,
+              decoration: BoxDecoration(
+                color: Colors.lightGreen,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+            ),
+            title: Text(
+              "فحوصات السكري",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.end,
+            ),
+            leading: Icon(
+              Icons.arrow_back_ios_outlined,
+              size: 20,
+              color: Colors.lightGreen,
+            ),
+            onTap: () {},
+          ),
+
+          SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            selectedTileColor: Colors.purple,
+            focusColor: Colors.purple,
+            trailing: Container(
+              margin: EdgeInsets.all(0),
+              child: Icon(
+                Icons.directions_run_rounded,
+                color: Colors.white,
+              ),
+              width: 30,
+              height: 70,
+              decoration: BoxDecoration(
+                color: Colors.purpleAccent,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+            ),
+            title: Text(
+              "النشاط الرياضي",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.end,
+            ),
+            leading: Icon(
+              Icons.arrow_back_ios_outlined,
+              size: 20,
+              color: Colors.purpleAccent,
+            ),
+            onTap: () {},
+          ),
+
+          SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            trailing: Container(
+              margin: EdgeInsets.all(0),
+              child: Icon(
+                Icons.fastfood_outlined,
+                color: Colors.white,
+              ),
+              width: 30,
+              height: 70,
+              decoration: BoxDecoration(
+                color: Colors.tealAccent,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+            ),
+            title: Text(
+              "وجباتي الغذائية",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.end,
+            ),
+            leading: Icon(
+              Icons.arrow_back_ios_outlined,
+              size: 20,
+              color: Colors.tealAccent,
+            ),
+            onTap: () {},
+          ),
+
+          SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            trailing: Container(
+              margin: EdgeInsets.all(0),
+              child: Icon(
+                Icons.access_time_rounded,
+                color: Colors.white,
+              ),
+              width: 30,
+              height: 70,
+              decoration: BoxDecoration(
+                color: Colors.deepPurple,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+            ),
+            title: Text(
+              "مواعيدي الطبية",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.end,
+            ),
+            leading: Icon(
+              Icons.arrow_back_ios_outlined,
+              size: 20,
+              color: Colors.deepPurple,
+            ),
+            onTap: () {},
+          ),
+
+          SizedBox(
+            height: 10,
+          ),
+          ExpansionTile(
+            backgroundColor: Colors.black12,
+            title: Text(
+              "الاعدادات",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.end,
+            ),
+            trailing: Container(
+              margin: EdgeInsets.all(0),
+              child: Icon(
+                Icons.settings,
+                color: Colors.white,
+              ),
+              width: 30,
+              height: 70,
+              decoration: BoxDecoration(
+                color: Colors.black87,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+            ),
+            leading: Icon(
+              Icons.arrow_drop_down_outlined,
+              size: 20,
+              color: Colors.black87,
+            ),
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              ListTile(
+                selectedTileColor: Colors.purple,
+                focusColor: Colors.purple,
+                trailing: Container(
+                  margin: EdgeInsets.all(0),
+                  child: Icon(
+                    Icons.lock,
+                    color: Colors.white,
+                  ),
+                  width: 30,
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlueAccent,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                  ),
+                ),
+                title: Text(
+                  "تعديل بيانات تسجيل الدخول",
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                  textAlign: TextAlign.end,
+                ),
+                leading: Icon(
+                  Icons.arrow_back_ios_outlined,
+                  size: 15,
+                  color: Colors.lightBlueAccent,
+                ),
+                onTap: () {},
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ListTile(
+                selectedTileColor: Colors.purple,
+                focusColor: Colors.purple,
+                trailing: Container(
+                  margin: EdgeInsets.all(0),
+                  child: Icon(
+                    Icons.online_prediction,
+                    color: Colors.white,
+                  ),
+                  width: 30,
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: Colors.purple,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                  ),
+                ),
+                title: Text(
+                  "تفعيل الاتصال",
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                  textAlign: TextAlign.end,
+                ),
+                leading: GFToggle(
+                  disabledThumbColor: Colors.grey,
+                  disabledTrackColor: Colors.grey,
+                  enabledTrackColor: Colors.purple,
+                  enabledThumbColor: Colors.grey,
+                  onChanged: (value) {
+                    print("VALUE : $value");
+                    setState(() {
+                      status = value;
+                    });
+                  },
+                  value: status,
+                  type: GFToggleType.android,
+                ),
+                onTap: () {},
+              ),
+            ],
+          ),
+
+          SizedBox(
+            height: 10,
+          ),
+          ListTile(
+            trailing: Container(
+              margin: EdgeInsets.all(0),
+              child: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+              width: 30,
+              height: 70,
+              decoration: BoxDecoration(
+                color: Colors.redAccent,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+            ),
+            title: Text(
+              "تسجيل الخروج",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.end,
+            ),
+            leading: Icon(
+              Icons.arrow_back_ios_outlined,
+              size: 20,
+              color: Colors.redAccent,
+            ),
+            onTap: () {},
+          ),
+
+
+
+
         ],
       ),
     );

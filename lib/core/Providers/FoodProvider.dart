@@ -20,29 +20,24 @@ class FoodProvider with ChangeNotifier{
 
     _foodList.add(new FoodItem(
       id: "1",
-      content: "نصف حبة بدورة",
-      food_type: FOOD_TYPE.BREAKFAST,
-      selected: false,
-      color: Colors.orangeAccent
-    ),);
-    _foodList.add(new FoodItem(
-      id: "2",
       content: "100 غرام سكر",
-      food_type: FOOD_TYPE.BREAKFAST,
+      food_type: FOOD_TYPE.LUNCH,
       selected: false,
       color: Colors.purpleAccent,
     ),);
 
+
     _foodList.add(new FoodItem(
-      id: "3",
+      id: "2",
       content: "نص حبة بطاطا",
-      food_type: FOOD_TYPE.BREAKFAST,
+      food_type: FOOD_TYPE.DINNER,
       selected: true,
       color: Colors.tealAccent
     ),);
 
+
     _foodList.add(new FoodItem(
-        id: "4",
+        id: "3",
         content: "خبز توست",
         food_type: FOOD_TYPE.BREAKFAST,
         selected: true,
@@ -51,13 +46,20 @@ class FoodProvider with ChangeNotifier{
 
 
     _foodList.add(new FoodItem(
-        id: "5",
+        id: "4",
         content: "100 غرام لحم خروف",
         food_type: FOOD_TYPE.LUNCH,
         selected: true,
         color: Colors.amber
     ),);
 
+    _foodList.add(new FoodItem(
+        id: "5",
+        content: "100 غرام لحم خروف",
+        food_type: FOOD_TYPE.BREAKFAST,
+        selected: true,
+        color: Colors.brown
+    ),);
 
   }
 

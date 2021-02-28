@@ -387,7 +387,7 @@ class _MessagesScreen extends State<MessagesScreen> {
                     ),
                     onPressed: () {
                       Navigator.pushReplacementNamed(
-                          context, HomeScreen.routeName);
+                          context, HomeScreen.routeName,arguments: {"index":2});
                       context.read<ChatProvider>().clearChatWhenClose();
                     },
                   ),

@@ -12,6 +12,7 @@ import 'UI/Screens/chat/MsgChat/MessagesScreen.dart';
 import 'UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 
 
+import 'UI/Screens/doctor_appointments/Doctor_appointmentScreen.dart';
 import 'core/Providers/MessagesProvider.dart';
 import 'core/Providers/FoodProvider.dart';
 import 'core/Providers/MyDoseProvider.dart';
@@ -77,7 +78,8 @@ class MyApp extends StatelessWidget {
         MessagesScreen.routeName: (context) => MessagesScreen(),
         NumberOfStep.routeName:(context)=>NumberOfStep(),
         TestCard.routName:(context)=>TestCard(),
-        TodayMeals.routeName:(context)=>TodayMeals()
+        TodayMeals.routeName:(context)=>TodayMeals(),
+        DoctorAppointmentsScreen.routeName:(context)=>DoctorAppointmentsScreen(),
       },
     );
   }

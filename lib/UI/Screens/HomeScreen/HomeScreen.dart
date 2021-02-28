@@ -14,6 +14,7 @@ import 'Widgets/body_hone_page.dart';
 
 class HomeScreen extends StatefulWidget {
   static final String routeName = "/HomeScreen";
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -46,7 +47,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    var  indexpage = ModalRoute.of(context).settings.arguments as Map<String,int>;
+    int curantpage=0;
+    if(indexpage !=null && indexpage["index"]==2)
+       curantpage=2;
+
     return DefaultTabController(
+      initialIndex: curantpage,
       length: 3,
       child: Scaffold(
         endDrawer:MainDrawer(),

@@ -1,13 +1,13 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
-import "package:ali_muntaser_final_project/UI/Screens/todoy's%20meals/Widgets/FoodItemTemplate.dart";
+import 'package:ali_muntaser_final_project/core/Model/FoodItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
-import 'BreakfastScreen.dart';
-import 'DinnerScreen.dart';
-import 'LunchScreen.dart';
+import 'FoodScreen.dart';
+
 
 class TabTemplate extends StatelessWidget {
   final String tabTitle;
@@ -78,12 +78,42 @@ class _TodayMealsState extends State<TodayMeals> {
         ),
         body: TabBarView(
           children: [
-            BreakfastScreen(),
-            LunchScreen(),
-            DinnerScreen(),
+            FoodScreen(food_typeScreen: FOOD_TYPE.BREAKFAST,),
+            FoodScreen(food_typeScreen: FOOD_TYPE.LUNCH,),
+            FoodScreen(food_typeScreen: FOOD_TYPE.DINNER,),
           ],
         ),
+        // bottomSheet: BottomSheet(
+        //   onClosing: (){},
+        //   builder: (context) {
+        //     return Container(
+        //       width: MediaQuery.of(context).size.width,
+        //       margin: EdgeInsets.all(0),
+        //       height: 150,
+        //
+        //       child: Card(
+        //         color: Colors.purpleAccent.shade100,
+        //         shape: BeveledRectangleBorder(
+        //           borderRadius: BorderRadius.only(
+        //             topLeft: Radius.circular(10),
+        //             topRight: Radius.circular(10),
+        //           ),
+        //           // side:  BorderSide(
+        //           //   color: Colors.yellowAccent,
+        //           //   width: 1,
+        //           // ),
+        //         ),
+        //
+        //       ),
+        //     );
+        //   },
+        // )
+
+
+
+
       ),
+
     );
 
     ///-------------------

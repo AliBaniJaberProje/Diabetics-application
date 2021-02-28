@@ -11,7 +11,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
-  String _urlSignIn ="https://enigmatic-anchorage-82439.herokuapp.com/auth/patient/signIn";
+  String _urlSignIn ="https://jaber-server.herokuapp.com/auth/patient/signIn";
   // String _urlUpdatePhoneToken =
   //     "https://enigmatic-anchorage-82439.herokuapp.com/patient/update";
   String _jwt;
@@ -30,6 +30,7 @@ class Auth with ChangeNotifier {
 
     /// token phone
     Map<String, dynamic> return_data = new Map<String, dynamic>();
+    print(response.body);
     if (response.statusCode == 200) {
       final patientData = jsonDecode(response.body);
 
@@ -41,7 +42,7 @@ class Auth with ChangeNotifier {
       }
 
       Patient patient = Patient(
-        id: patientData["patient"]["_id"],
+        id: patientData["patient"]["id"],
         username: patientData["patient"]["username"],
         idCurantDoctur: patientData["patient"]["currentDoctor"],
         imgurl: patientData["patient"]["imgURL"],
@@ -63,20 +64,12 @@ class Auth with ChangeNotifier {
 
       return_data["status"] = "yes";
       return_data["patient"] = patient;
+      print(patient);
       this._jwt = patientData["token"];
       SharedPreferences prefs = await SharedPreferences.getInstance();
-
       await prefs.setString('jwt', this._jwt);
-
       sendUpdateProfilePatientRequest(key:"phoneToken",value: phoneToken).then((value) => print("operation done "));
 
-      // http.patch(this._urlUpdatePhoneToken, headers: {
-      //   "x-auth-token": this._jwt,
-      // }, body: {
-      //   "phoneToken": phoneToken
-      // }).then((value) {
-      //   print(value.body);
-      // });
     } else {
       return_data["status"] = "no";
     }

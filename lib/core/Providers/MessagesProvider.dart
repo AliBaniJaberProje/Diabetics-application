@@ -8,16 +8,20 @@ import 'package:image_picker/image_picker.dart';
 
 class MessagesProvider with ChangeNotifier {
   //---------------------------------------data--------------------------
+
   String _imgURLSender;
   String _imgURLRecever;
   String _usernameDoctor;
   String _senderIdPatient;
   String _receiverIdDoctor;
   bool _online;
+
   var _firebaseRef = FirebaseDatabase().reference();
 
   //----------------------------------------privet data-----------------
+
   final imagepicker = ImagePicker();
+
   //-------------------------------------methods------------------------
 
   void setUserNameDoctor(String username) {
@@ -70,6 +74,7 @@ class MessagesProvider with ChangeNotifier {
     return this._online;
   }
 
+  // ignore: missing_return
   Stream<Event> fetchStreamMessages(String idSender, String idReceiver) {
     try {
       return _firebaseRef
@@ -85,7 +90,7 @@ class MessagesProvider with ChangeNotifier {
   }
 
   Future<String> getImageUrlToSend(ImageSource src) async {
-    File imageToSend = null;
+    File imageToSend ;
     final pickedfile = await imagepicker.getImage(source: src);
     if (pickedfile != null) {
       imageToSend = File(pickedfile.path);

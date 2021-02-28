@@ -8,8 +8,10 @@ class FoodItem with ChangeNotifier {
   String content;
   bool selected;
   String _idInDataSet;
+  // ignore: non_constant_identifier_names
   FOOD_TYPE food_type;
   Color color;
+  // ignore: non_constant_identifier_names
   FoodItem({this.id,this.content,this.selected=false,this.food_type,this.color});
 
   void setSelected(){

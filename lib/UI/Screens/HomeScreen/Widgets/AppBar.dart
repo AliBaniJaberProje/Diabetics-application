@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
  AppBar AppBarHomePage (BuildContext context){
 
       return  AppBar(
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.purple.shade500,
 
         bottom: TabBar(
           tabs: [
