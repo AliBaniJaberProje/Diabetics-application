@@ -187,7 +187,7 @@ class MainFituerContainer extends StatelessWidget {
         children: MainFeture.map((e) => MyGridTitle(e)).toList(),
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           
-          maxCrossAxisExtent: 400,
+          maxCrossAxisExtent: 200,
           childAspectRatio: 3 / 2,
           crossAxisSpacing: 0,
           mainAxisSpacing: 0,

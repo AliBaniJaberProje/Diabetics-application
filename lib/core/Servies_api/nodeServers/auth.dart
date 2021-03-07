@@ -60,8 +60,6 @@ class Auth with ChangeNotifier {
         capsuleType: patientData["patient"]["capsuleType"],
       );
 
-
-
       return_data["status"] = "yes";
       return_data["patient"] = patient;
       print(patient);
