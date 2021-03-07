@@ -13,6 +13,10 @@ import 'UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 
 
 import 'UI/Screens/doctor_appointments/Doctor_appointmentScreen.dart';
+import 'UI/Screens/doctor_appointments/EventTimeScreen.dart';
+import "UI/Screens/todoy's meals/FoodScreen.dart";
+import 'core/Providers/EventDateTimeProvier.dart';
+import 'core/Providers/EventProvider.dart';
 import 'core/Providers/MessagesProvider.dart';
 import 'core/Providers/FoodProvider.dart';
 import 'core/Providers/MyDoseProvider.dart';
@@ -51,6 +55,9 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: NumberOfStepProvider()),
         ChangeNotifierProvider.value(value: Auth()),
         ChangeNotifierProvider.value(value: FoodProvider()),
+        ChangeNotifierProvider.value(value: EventProvider()),
+        ChangeNotifierProvider.value(value: SlotDateTimeProvider()),
+
 
       ],
       child: MyApp(),
@@ -80,6 +87,8 @@ class MyApp extends StatelessWidget {
         TestCard.routName:(context)=>TestCard(),
         TodayMeals.routeName:(context)=>TodayMeals(),
         DoctorAppointmentsScreen.routeName:(context)=>DoctorAppointmentsScreen(),
+        FoodScreen.routerName:(context)=>FoodScreen(),
+        EventTimeScreen.routeName:(context)=>EventTimeScreen(),
       },
     );
   }

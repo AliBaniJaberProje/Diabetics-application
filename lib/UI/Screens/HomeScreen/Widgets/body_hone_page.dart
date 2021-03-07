@@ -4,6 +4,7 @@ import 'package:ali_muntaser_final_project/UI/Screens/TestCard.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/doctor_appointments/Doctor_appointmentScreen.dart';
 import 'package:ali_muntaser_final_project/core/Constant/HomePageConstant.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "../../todoy's meals/Today's_MealsScreen.dart";
 
@@ -127,6 +128,7 @@ class TipOfDayContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (ctx, c) => Card(
+        margin: EdgeInsets.symmetric(horizontal: 10),
         shape: BeveledRectangleBorder(
           borderRadius: BorderRadius.circular(15),
           side: BorderSide(
@@ -136,10 +138,10 @@ class TipOfDayContainer extends StatelessWidget {
 
 
         ),
-        color:Colors.purple.shade500,
+        color:Colors.purple.shade200,
         elevation: 5,
         child: Container(
-          margin: EdgeInsets.only(left: 10, right: 10),
+          margin: EdgeInsets.only(left: 25, right: 25),
           padding: EdgeInsets.only(right: 7),
           width: MediaQuery.of(ctx).size.width,
           height: 100,
@@ -153,7 +155,7 @@ class TipOfDayContainer extends StatelessWidget {
                 " نصيحة اليوم",
                 style: TextStyle(
                   fontSize: 25,
-                  color: Colors.white
+                  color: Colors.black87
                 ),
               ),
               Text(
@@ -163,7 +165,7 @@ class TipOfDayContainer extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                    color: Colors.white
+                    color: Colors.black87
                   //fontStyle: FontStyle.italic
                 ),
                 maxLines: 2,
@@ -181,12 +183,14 @@ class MainFituerContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: GridView(
+        padding: EdgeInsets.all(10),
         children: MainFeture.map((e) => MyGridTitle(e)).toList(),
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200,
+          
+          maxCrossAxisExtent: 400,
           childAspectRatio: 3 / 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+          crossAxisSpacing: 0,
+          mainAxisSpacing: 0,
         ),
       ),
     );

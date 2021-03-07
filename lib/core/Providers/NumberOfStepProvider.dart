@@ -18,7 +18,9 @@ class NumberOfStepProvider with ChangeNotifier{
 
 
   Stream<StepCount> _stepCountStream;
+
   Stream<PedestrianStatus> _pedestrianStatusStream;
+
   String _status = 'stopped', _steps = '0';
 
 

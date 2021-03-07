@@ -18,9 +18,6 @@ String formatDate(DateTime d) {
 class _StepsNumberState extends State<NumberOfStep> {
 
 
-
-
-
   @override
   Widget build(BuildContext context) {
     NumberOfStepProvider _numberOfStepProviderRead =

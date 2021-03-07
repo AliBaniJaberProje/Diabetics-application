@@ -8,6 +8,9 @@ import 'Widgets/FoodItemTemplate.dart';
 import 'package:provider/provider.dart';
 
 class FoodScreen extends StatelessWidget {
+
+  static String routerName="/FoodScreen";
+
   void displayBottomSheet(BuildContext context) {
     showModalBottomSheet(
       useRootNavigator: true,
@@ -81,13 +84,14 @@ class FoodScreen extends StatelessWidget {
       },
     );
   }
-  final FOOD_TYPE food_typeScreen;
-  const FoodScreen({this.food_typeScreen});
+
   @override
   Widget build(BuildContext context) {
-    var _foodProvider = context.read<FoodProvider>();
-    List<FoodItem> foodItem = _foodProvider.filterBy(food_typeScreen).toList();
     return Scaffold(
+      appBar: AppBar(
+
+      ),
+
       body: ListView.builder(
         itemBuilder: (ctx, index) {
           if (index == 0) {
@@ -124,10 +128,16 @@ class FoodScreen extends StatelessWidget {
           }
           return FoodItemTemplate(
             idView: (index).toString(),
-            foodItem: foodItem[index - 1],
+            foodItem:new FoodItem(
+                id: "2",
+                content: "نص حبة بطاطا",
+                food_type: FOOD_TYPE.DINNER,
+                selected: true,
+                color: Colors.tealAccent
+            ),
           );
         },
-        itemCount: foodItem.length + 1,
+        itemCount: 3,
       ),
       bottomSheet: Container(
         child: InkWell(

@@ -4,7 +4,6 @@ import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/chatProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/doctorChatProvider.dart';
-import 'package:ali_muntaser_final_project/core/Servies_api/firebase/login.dart';
 import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
@@ -14,7 +13,6 @@ import 'package:flutter/widgets.dart';
 import 'dart:ui';
 import 'package:provider/provider.dart';
 import 'Widgets/HeaderLogin.dart';
-import 'package:http/http.dart' as http;
 
 class LoginFormWidget extends StatefulWidget {
   @override
@@ -27,7 +25,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   var passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String _userId = "123456789";
-  String _password = "ali1234";
+  String _password = "123456789";
   Auth usersNodeServer = new Auth();
 
 

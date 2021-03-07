@@ -65,6 +65,7 @@ dependencies:
   rotated_corner_decoration: ^1.0.2
   custom_switch:
   getwidget: ^1.2.4
+  sticky_headers: ^0.1.8+1
 
 dev_dependencies:
   flutter_test:
@@ -104,3 +105,16 @@ flutter:
     - assets/images/food2.png
     - assets/images/icon_dose.png
     - assets/images/icon_dalyreading.png
+    - assets/images/p1.png
+    - assets/images/p2.png
+    - assets/images/p3.png
+    - assets/images/p4.png
+    - assets/images/p5.png
+    - assets/images/p6.png
+    - assets/images/p7.png
+    - assets/images/p8.png
+    - assets/images/p9.png
+    - assets/images/p10.png
+    - assets/images/p11.png
+    - assets/images/p12.png
+    - assets/images/p13.png

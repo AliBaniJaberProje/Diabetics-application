@@ -1,23 +1,54 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/core/Providers/EventDateTimeProvier.dart';
+import 'package:ali_muntaser_final_project/core/Providers/EventProvider.dart';
+import '../../../core/Providers/EventProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import 'EventTimeScreen.dart';
 
 class DoctorAppointmentsScreen extends StatefulWidget {
   static final String routeName = "/DoctorAppointmentsScreen";
+
   @override
-  _DoctorAppointmentsScreenState createState() =>
-      _DoctorAppointmentsScreenState();
+  State<StatefulWidget> createState() => _DoctorAppointmentsState();
 }
 
-class _DoctorAppointmentsScreenState extends State<DoctorAppointmentsScreen> {
+class _DoctorAppointmentsState extends State<DoctorAppointmentsScreen> {
+  bool loadingMySelectedTime = true;
+  @override
+  void initState() {
+    context.read<EventProvider>().getAllWeekDay();
+    super.initState();
+  }
+
+  List<Widget> screensEvent = [];
+
+  List<Color> color = [
+    Colors.greenAccent,
+    Colors.amber,
+    Colors.blueAccent,
+    Colors.purpleAccent,
+    Colors.orangeAccent,
+  ];
+  List<Color> colorShadow = [
+    Colors.greenAccent.shade100,
+    Colors.amber.shade100,
+    Colors.blueAccent.shade100,
+    Colors.purpleAccent.shade100,
+    Colors.orangeAccent.shade100,
+  ];
   @override
   Widget build(BuildContext context) {
+    var eventProviderWatch = context.watch<EventProvider>();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: Text(
-          "حجز مواعيد لمراجعة الطبيب ",
+          "الايام المسموحة لزيارة الطبيب ",
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
         centerTitle: true,
@@ -29,6 +60,7 @@ class _DoctorAppointmentsScreenState extends State<DoctorAppointmentsScreen> {
           ),
           onPressed: () {
             Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+            eventProviderWatch.clearDaysNamedAndDateTime();
           },
         ),
       ),
@@ -41,176 +73,39 @@ class _DoctorAppointmentsScreenState extends State<DoctorAppointmentsScreen> {
               color: Colors.purple,
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              MyIconWidget(
-                icon: Icons.arrow_back_ios,
-                colorIcon: Colors.purple,
-                colorContainer: Colors.purple.shade100,
-                onPressed: () {
-                  print("222222222");
-                },
-              ),
-              Card(
-                 color: Colors.amber.shade100,
-                shape: BeveledRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(
-                    color: Colors.purple,
-                    width: .1,
-                  ),
-                ),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 50,
-                  width: 150,
-                  child: Text(
-                    "22-10-2021",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.purple,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              MyIconWidget(
-                icon: Icons.arrow_forward_ios,
-                colorIcon: Colors.purple,
-                colorContainer: Colors.purple.shade100,
-                onPressed: () {
-                  print("11111111111");
-                },
-              ),
-
-
-            ],
-          ),
-          // ListTile(
-          //   title: Card(
-          //     // color: Colors.purple.shade100,
-          //     shape: BeveledRectangleBorder(
-          //       borderRadius: BorderRadius.circular(30),
-          //       side: BorderSide(
-          //         color: Colors.purple,
-          //         width: .1,
-          //       ),
-          //     ),
-          //     child: Container(
-          //       alignment: Alignment.center,
-          //       height: 50,
-          //       width: 150,
-          //       child: Text(
-          //         "22-10-2021",
-          //         style: TextStyle(
-          //             fontSize: 20,
-          //             color: Colors.purple,
-          //             fontWeight: FontWeight.bold),
-          //       ),
-          //     ),
-          //   ),
-          //   trailing: MyIconWidget(
-          //     icon: Icons.arrow_forward_ios,
-          //     colorIcon: Colors.purple,
-          //     colorContainer: Colors.purple.shade100,
-          //     onPressed: () {
-          //       print("11111111111");
-          //     },
-          //   ),
-          //   leading: MyIconWidget(
-          //     icon: Icons.arrow_back_ios,
-          //     colorIcon: Colors.purple,
-          //     colorContainer: Colors.purple.shade100,
-          //     onPressed: () {
-          //       print("222222222");
-          //     },
-          //   ),
-          // ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           Expanded(
-            child: GridView(
-              children: [
-                MyCardItem(onPressed: (){
-                  print("tttttttttt");
-                },
-                colorContainer: Colors.amber.shade100,
-                colorButton: Colors.amber,
-                textInfo: '8:30 - 9:00',
-                ),
+            child: ListView.builder(
+              itemCount: eventProviderWatch.daysNamedAndDateTime.length,
+              itemBuilder: (ctx, index) {
+                return MyCardItem(
+                  onPressed: () {
 
+                    context.read<SlotDateTimeProvider>().dateTime = DateTime.parse(
+                        eventProviderWatch.daysNamedAndDateTime[index]["id"]);
+                    context.read<SlotDateTimeProvider>().dateName=eventProviderWatch.daysNamedAndDateTime[index]["date"];
+                    Navigator.pushReplacementNamed(
+                        context, EventTimeScreen.routeName);
+                    eventProviderWatch.clearDaysNamedAndDateTime();
 
-                MyCardItem(onPressed: (){
-                  print("tttttttttt");
-                },
-                  colorContainer: Colors.red.shade100,
-                  colorButton: Colors.red,
-                  textInfo: '8:30 - 9:00',
-                ),
-
-
-
-                MyCardItem(onPressed: (){
-                  print("tttttttttt");
-                },
-                  colorContainer: Colors.blueAccent.shade100,
-                  colorButton: Colors.blueAccent,
-                  textInfo: '8:30 - 9:00',
-                ),
-
-
-                MyCardItem(onPressed: (){
-                  print("tttttttttt");
-                },
-                  colorContainer: Colors.greenAccent.shade100,
-                  colorButton: Colors.greenAccent,
-                  textInfo: '8:30 - 9:00',
-                ),
-
-
-                MyCardItem(onPressed: (){
-                  print("tttttttttt");
-                },
-                  colorContainer: Colors.purpleAccent.shade100,
-                  colorButton: Colors.purpleAccent,
-                  textInfo: '8:30 - 9:00',
-                ),
-
-                MyCardItem(onPressed: (){
-                  print("tttttttttt");
-                },
-                  colorContainer: Colors.tealAccent.shade100,
-                  colorButton: Colors.tealAccent,
-                  textInfo: '8:30 - 9:00',
-                ),
-
-
-                MyCardItem(onPressed: (){
-                  print("tttttttttt");
-                },
-                  colorContainer: Colors.orangeAccent.shade100,
-                  colorButton: Colors.orangeAccent,
-                  textInfo: '8:30 - 9:00',
-                ),
-
-                MyCardItem(onPressed: (){
-                  print("tttttttttt");
-                },
-                  colorContainer: Colors.lime.shade100,
-                  colorButton: Colors.lime,
-                  textInfo: '8:30 - 9:00',
-                ),
-
-
-              ],
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                childAspectRatio: 3 / 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-              ),
-              padding: EdgeInsets.all(8),
+                  },
+                  colorContainer: colorShadow[index % this.colorShadow.length],
+                  colorBorder: color[index % this.color.length],
+                  textInfoDate: eventProviderWatch.daysNamedAndDateTime[index]
+                      ["date"],
+                  textInfoDayName: eventProviderWatch
+                      .daysNamedAndDateTime[index]["DateTime"],
+                );
+              },
+              // gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              //   maxCrossAxisExtent: 200,
+              //   childAspectRatio: 2 / 1,
+              //   crossAxisSpacing: 15,
+              //   mainAxisSpacing: 15,
+              // ),
+             // padding: EdgeInsets.all(30),
             ),
           )
         ],
@@ -219,85 +114,65 @@ class _DoctorAppointmentsScreenState extends State<DoctorAppointmentsScreen> {
   }
 }
 
+
 class MyCardItem extends StatelessWidget {
+  final String textInfoDate;
+  final String textInfoDayName;
 
-  final Function  onPressed;
-  final String  textInfo ;
   final Color colorContainer;
-  final Color colorButton;
-
-  const MyCardItem({this.onPressed, this.textInfo, this.colorContainer, this.colorButton}) ;
-
-
-
+  final Color colorBorder;
+  final Function onPressed;
+  const MyCardItem(
+      {this.textInfoDate,
+      this.colorContainer,
+      this.colorBorder,
+      this.textInfoDayName,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
+    return InkWell(
+      child: Card(
+        margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+
+        elevation: 10,
         color: this.colorContainer,
         shape: BeveledRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
+          side: BorderSide(
+            color: this.colorBorder,
+            width: 2,
+          ),
         ),
         child: Container(
-            padding: EdgeInsets.all(10),
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  this.textInfo,
-                  textScaleFactor: 1.2,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+          margin: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+
+          padding: EdgeInsets.all(10),
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+
+              Text(
+                this.textInfoDayName,
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 20,
                 ),
-                Container(
-                  child: FlatButton.icon(
-                    splashColor: Colors.white.withOpacity(0),
-                    shape: CircleBorder(),
-                    icon: Icon(
-                      Icons.check,
-                      size: 20,
-                      color: Colors.white,
-                    ),
-                    onPressed: this.onPressed,
-                    label: Text(
-                      "حجز",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      color: this.colorButton,
-                      borderRadius: BorderRadius.circular(20)),
+              ),
+              Text(
+                this.textInfoDate,
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 20,
                 ),
-              ],
-            ),),);
-  }
-}
+              ),
 
-class MyIconWidget extends StatelessWidget {
-  final IconData icon;
-  final Color colorIcon;
-  final Color colorContainer;
-  final Function onPressed;
-
-  MyIconWidget(
-      {this.icon, this.onPressed, this.colorIcon, this.colorContainer});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: IconButton(
-        icon: Icon(
-          this.icon,
-          size: 20,
-          color: this.colorIcon,
+            ],
+          ),
         ),
-        onPressed: this.onPressed,
       ),
-      decoration: BoxDecoration(
-          color: this.colorContainer, borderRadius: BorderRadius.circular(20)),
+      onTap: this.onPressed,
     );
   }
 }

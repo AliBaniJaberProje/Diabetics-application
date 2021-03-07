@@ -31,10 +31,10 @@ class _FoodItemTemplateState extends State<FoodItemTemplate> {
             elevation: 5,
             shape: BeveledRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
-              side: BorderSide(
-                color: widget.foodItem.color,
-                width: 1,
-              ),
+              // side: BorderSide(
+              //   color: widget.foodItem.color,
+              //   width: 1,
+              // ),
             ),
           ),
         ),

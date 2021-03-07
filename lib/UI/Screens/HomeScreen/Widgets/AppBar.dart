@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
       return  AppBar(
         backgroundColor: Colors.purple.shade500,
 
+
         bottom: TabBar(
           tabs: [
             Tab(
