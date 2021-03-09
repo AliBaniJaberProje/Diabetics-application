@@ -1,8 +1,11 @@
+
+
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
 import 'package:ali_muntaser_final_project/core/Model/EventStruct.dart';
 import 'package:ali_muntaser_final_project/core/Providers/EventDateTimeProvier.dart';
 import 'package:ali_muntaser_final_project/core/Providers/EventProvider.dart';
 import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/eventServesAPI.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import '../../../core/Providers/EventProvider.dart';
@@ -11,6 +14,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'EventTimeScreen.dart';
+
+List<Color> color = [
+  Colors.greenAccent,
+  Colors.amber,
+  Colors.blueAccent,
+  Colors.purpleAccent,
+  Colors.orangeAccent,
+];
+List<Color> colorShadow = [
+  Colors.greenAccent.shade100,
+  Colors.amber.shade100,
+  Colors.blueAccent.shade100,
+  Colors.purpleAccent.shade100,
+  Colors.orangeAccent.shade100,
+];
 
 class DoctorAppointmentsScreen extends StatefulWidget {
   static final String routeName = "/DoctorAppointmentsScreen";
@@ -22,8 +40,37 @@ class DoctorAppointmentsScreen extends StatefulWidget {
 class _DoctorAppointmentsState extends State<DoctorAppointmentsScreen> {
   bool _loadingMySelectedTime = true;
   bool _notSelectedTimeEvent = true;
-
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
   EventStruct eventSelected;
+  Future<Null> refreshList() async {
+    refreshKey.currentState?.show(atTop: false);
+    await Future.delayed(Duration(seconds: 2));
+
+    setState(() {
+
+      context.read<EventProvider>().clearDaysNamedAndDateTime();
+      context.read<EventProvider>().getAllWeekDay();
+      getEventSelectedInProfile().then((value) {
+        setState(() {
+          if (value.id == "-1") {
+            this._notSelectedTimeEvent = true;
+            this._loadingMySelectedTime = false;
+          } else {
+            eventSelected = value;
+            this._notSelectedTimeEvent = false;
+            this._loadingMySelectedTime = false;
+          }
+        });
+
+        print(value.id + "ppppppppppppppppppppppppppppppppppppppppppppppppp");
+      });
+
+    });
+
+    return null;
+  }
+
+
 
   @override
   void initState() {
@@ -32,12 +79,14 @@ class _DoctorAppointmentsState extends State<DoctorAppointmentsScreen> {
       setState(() {
         if (value.id == "-1") {
           this._notSelectedTimeEvent = true;
-          this._loadingMySelectedTime = false;
+
+
         } else {
           eventSelected = value;
           this._notSelectedTimeEvent = false;
-          this._loadingMySelectedTime = false;
+
         }
+        this._loadingMySelectedTime = false;
       });
 
       print(value.id + "ppppppppppppppppppppppppppppppppppppppppppppppppp");
@@ -46,21 +95,8 @@ class _DoctorAppointmentsState extends State<DoctorAppointmentsScreen> {
   }
 
   List<Widget> screensEvent = [];
+  String value = "";
 
-  List<Color> color = [
-    Colors.greenAccent,
-    Colors.amber,
-    Colors.blueAccent,
-    Colors.purpleAccent,
-    Colors.orangeAccent,
-  ];
-  List<Color> colorShadow = [
-    Colors.greenAccent.shade100,
-    Colors.amber.shade100,
-    Colors.blueAccent.shade100,
-    Colors.purpleAccent.shade100,
-    Colors.orangeAccent.shade100,
-  ];
   @override
   Widget build(BuildContext context) {
     var eventProviderWatch = context.watch<EventProvider>();
@@ -84,145 +120,181 @@ class _DoctorAppointmentsState extends State<DoctorAppointmentsScreen> {
           },
         ),
       ),
-      body: Column(
-        children: [
-          // ClipPath(
-          //   clipper: WaveClipperTwo(),
-          //   child: Container(
-          //     height: 50,
-          //     color: Colors.purple,
-          //   ),
-          // ),
-          SizedBox(
-            height: 10,
-          ),
+      body: RefreshIndicator(
+        key: refreshKey,
+        child: Column(
+          children: [
+            // ClipPath(
+            //   clipper: WaveClipperTwo(),
+            //   child: Container(
+            //     height: 50,
+            //     color: Colors.purple,
+            //   ),
+            // ),
+            SizedBox(
+              height: 10,
+            ),
 
-          this._loadingMySelectedTime
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Container(
-                  padding: EdgeInsets.all(2),
-                  height: 170,
-                  width: double.infinity,
-                  margin: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.purple, width: 2)),
-                  child: this._notSelectedTimeEvent
-                      ? Center(
-                          child: Text(
-                            "قم باختيار موعد مناسب من الايام المرفقة",
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.purple),
-                          ),
-                        )
-                      : Column(
-                          children: [
-                            SizedBox(
-                              height: 1,
-                            ),
-                            Text(
-                              this._notSelectedTimeEvent
-                                  ? "لم تقم باختيار موعد لمراجعة الطبيب"
-                                  : "قمت باختيار موعد لمراجعة الطبيب بتاريخ",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.purple,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 1,
-                            ),
-                            Text(
-                              this._notSelectedTimeEvent
-                                  ? "لم تقم باختيار موعد لمراجعة الطبيب"
-                                  : eventSelected.getDateTimeString() +
-                                      " من " +
-                                      "\t\t ${eventSelected.getDateYMD()} \t\t",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.purple,
-                              ),
-                            ),
-                            Text(
-                              this._notSelectedTimeEvent
-                                  ? "لم تقم باختيار موعد لمراجعة الطبيب"
-                                  : eventSelected.getDateStarToEnd(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.purple,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                FlatButton.icon(
-                                  icon: Icon(
-                                    Icons.delete,
-                                    size: 20,
-                                    color: Colors.red,
-                                  ),
-                                  label: Text(
-                                    "الغاء الموعد",
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.red),
-                                  ),
-                                  onPressed: () {},
-                                )
-                              ],
-                            )
-                          ],
-                        ),
+            this._loadingMySelectedTime
+                ? Center(
+              child: CircularProgressIndicator(),
+            )
+                : Container(
+              padding: EdgeInsets.all(2),
+              height: 170,
+              width: double.infinity,
+              margin: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.purple, width: 2)),
+              child: this._notSelectedTimeEvent
+                  ? Center(
+                child: Text(
+                  "قم باختيار موعد مناسب من الايام المرفقة",
+                  style:
+                  TextStyle(fontSize: 20, color: Colors.purple),
                 ),
-
-          Expanded(
-            child: AnimationLimiter(
-              child: ListView.builder(
-                itemCount: eventProviderWatch.daysNamedAndDateTime.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    duration: const Duration(milliseconds: 900),
-                    child: SlideAnimation(
-                      verticalOffset: 50.0,
-                      child: FadeInAnimation(
-                        child: MyCardItem(
-                          onPressed: () {
-                            context.read<SlotDateTimeProvider>().dateTime =
-                                DateTime.parse(eventProviderWatch
-                                    .daysNamedAndDateTime[index]["id"]);
-                            context.read<SlotDateTimeProvider>().dateName =
-                                eventProviderWatch.daysNamedAndDateTime[index]
-                                    ["date"];
-                            Navigator.pushReplacementNamed(
-                                context, EventTimeScreen.routeName);
-                            eventProviderWatch.clearDaysNamedAndDateTime();
-                          },
-                          colorContainer:
-                              colorShadow[index % this.colorShadow.length],
-                          colorBorder: color[index % this.color.length],
-                          textInfoDate: eventProviderWatch
-                              .daysNamedAndDateTime[index]["date"],
-                          textInfoDayName: eventProviderWatch
-                              .daysNamedAndDateTime[index]["DateTime"],
-                        ),
-                      ),
+              )
+                  : Column(
+                children: [
+                  SizedBox(
+                    height: 1,
+                  ),
+                  Text(
+                    this._notSelectedTimeEvent
+                        ? "لم تقم باختيار موعد لمراجعة الطبيب"
+                        : "قمت باختيار موعد لمراجعة الطبيب بتاريخ",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.purple,
                     ),
-                  );
-                },
+                  ),
+                  SizedBox(
+                    height: 1,
+                  ),
+                  Text(
+                    this._notSelectedTimeEvent
+                        ? "لم تقم باختيار موعد لمراجعة الطبيب"
+                        : eventSelected.getDateTimeString() +
+                        " من " +
+                        "\t\t ${eventSelected.getDateYMD()} \t\t",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.purple,
+                    ),
+                  ),
+                  Text(
+                    this._notSelectedTimeEvent
+                        ? "لم تقم باختيار موعد لمراجعة الطبيب"
+                        : eventSelected.getDateStarToEnd(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.purple,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      FlatButton.icon(
+                        icon: Icon(
+                          Icons.delete,
+                          size: 20,
+                          color: Colors.red,
+                        ),
+                        label: Text(
+                          "الغاء الموعد",
+                          style: TextStyle(
+                              fontSize: 20, color: Colors.red),
+                        ),
+                        onPressed: () {
+
+
+                          CoolAlert.show(
+                            context: context,
+                            type: CoolAlertType.warning,
+                            backgroundColor: Colors.red,
+                            title: "تأكيد الغاء الموعد ",
+                            confirmBtnText: "نعم",
+                            cancelBtnText: "  الغاء ",
+                            confirmBtnTextStyle: TextStyle(
+                                color: Colors.black54, fontSize: 15),
+                            cancelBtnTextStyle: TextStyle(
+                                color: Colors.black54, fontSize: 15),
+                            confirmBtnColor: Colors.red,
+                            onConfirmBtnTap: () async {
+
+
+                              value=  await deleteEventById(
+                                  eventSelected.id);
+                              setState(() {
+                                _notSelectedTimeEvent=true;
+                              },);
+
+
+                              Navigator.pop(context);
+
+
+
+                            },
+                          );
+
+                        },
+                      )
+                    ],
+                  )
+                ],
               ),
             ),
-          ),
-        ],
-      ),
+
+            Expanded(
+              child: AnimationLimiter(
+                child: ListView.builder(
+                  itemCount: eventProviderWatch.daysNamedAndDateTime.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return AnimationConfiguration.staggeredList(
+                      position: index,
+                      duration: const Duration(milliseconds: 900),
+                      child: SlideAnimation(
+                        verticalOffset: 50.0,
+                        child: FadeInAnimation(
+                          child: MyCardItem(
+                            onPressed: () {
+                              context.read<SlotDateTimeProvider>().dateTime =
+                                  DateTime.parse(eventProviderWatch
+                                      .daysNamedAndDateTime[index]["id"]);
+                              context.read<SlotDateTimeProvider>().dateName =
+                              eventProviderWatch.daysNamedAndDateTime[index]
+                              ["date"];
+                              Navigator.pushReplacementNamed(
+                                  context, EventTimeScreen.routeName);
+                              eventProviderWatch.clearDaysNamedAndDateTime();
+                            },
+                            colorContainer:
+                            colorShadow[index % colorShadow.length],
+                            colorBorder: color[index % color.length],
+                            textInfoDate: eventProviderWatch
+                                .daysNamedAndDateTime[index]["date"],
+                            textInfoDayName: eventProviderWatch
+                                .daysNamedAndDateTime[index]["DateTime"],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+        onRefresh: refreshList,
+      )
     );
   }
 }

@@ -1,7 +1,8 @@
-
-
-
 import 'dart:convert';
+
+
+
+
 
 import 'package:ali_muntaser_final_project/core/Model/EventStruct.dart';
 import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/eventServesAPI.dart';
@@ -57,5 +58,19 @@ class SlotDateTimeProvider with ChangeNotifier{
 
   }
 
+  void deleteEventById(String id){
+
+    try{
+      for(int i =0 ; i<listEventSloat.length;i++){
+        if(listEventSloat[i].id==id){
+          this.listEventSloat.removeAt(i);
+          notifyListeners();
+          return;
+        }
+      }
+    }catch(e){
+      print("//////////////////////////////////////////////////////////////////////////");
+    }
+  }
 
 }

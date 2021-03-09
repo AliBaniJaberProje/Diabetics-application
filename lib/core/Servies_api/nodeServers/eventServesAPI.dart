@@ -5,38 +5,54 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-String url="https://jaber-server.herokuapp.com/event/myEvent";
+// String url="https://jaber-server.herokuapp.com/event/myEvent";
 
-Future<http.Response> getMyEventSelected()async{
-
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String jwt=await prefs.getString("jwt");
-  http.Response response= await http.get(url,headers: {"x-auth-token":jwt},);
-  return response;
-
-}
+// Future<http.Response> getMyEventSelected()async{
+//
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   String jwt=await prefs.getString("jwt");
+//   http.Response response= await http.get(url,headers: {"x-auth-token":jwt},);
+//   return response;
+//
+// }
 
 Future<http.Response> getAllEventInDay(DateTime dateTime)async{
-  DateTime endDate=DateTime(dateTime.year,dateTime.month,dateTime.day,23,59,59,59,59);
-  http.Response response=await http.post("http://192.168.0.112:3000/patient/test",body: {
-    "start":dateTime.toString(),
-    "end":endDate.toString(),
-  });
- return response;
-
-}
-
-Future<http.Response> setSelectedOfEventIForId(String idEvent) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  return await http.post(
-      "http://192.168.0.112:3000/event/selectEvent",
+  http.Response response=await http.post("http://192.168.0.112:3000/event/AvailableEvent",
       headers: {
         "x-auth-token": prefs.getString("jwt")
       },
       body: {
-        "id": idEvent,
-      });
+    "start":dateTime.toString(),
+  });
+  print(response.body);
+ return response;
+
+}
+
+Future<int> setSelectedOfEventIForId(String idEvent) async {
+ try{
+   SharedPreferences prefs = await SharedPreferences.getInstance();
+
+   http.Response response= await http.post(
+       "http://192.168.0.112:3000/event/selectEvent",
+       headers: {
+         "x-auth-token": prefs.getString("jwt")
+       },
+       body: {
+         "id": idEvent,
+       });
+
+   print(response.body);
+   if(response.statusCode==401) return -1; /// error operation
+   if(response.statusCode==200) return 1 ; /// selected operation done
+   if(response.statusCode==400) return 0; /// this event was seleted
+
+   return 0;
+ }catch(e){
+
+ }
 }
 
 
@@ -65,7 +81,17 @@ Future<EventStruct> getEventSelectedInProfile()async{
 
 }
 
+Future<String> deleteEventById(String idEvent) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
 
+ http.Response response=await  http.delete("http://192.168.0.112:3000/event/${idEvent}",headers: {
+    "x-auth-token": prefs.getString("jwt"),
+  },);
+
+ var result= jsonDecode(response.body);
+ return result["msg"];
+
+}
 
 
 
