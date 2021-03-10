@@ -139,6 +139,9 @@ class MyPersonScreen extends StatefulWidget {
 }
 
 class _HomePageState extends State<MyPersonScreen> {
+
+
+
   double updateWeight;
   double updateLength;
   String updatePhone;
@@ -147,6 +150,19 @@ class _HomePageState extends State<MyPersonScreen> {
   final GlobalKey<FormState> _formKey1 = GlobalKey();
   final GlobalKey<FormState> _formKey2 = GlobalKey();
   final GlobalKey<FormState> _formKey3 = GlobalKey();
+
+  bool _loading=true;
+
+  @override
+  void initState() {
+
+    context.read<ProfileProvider>().fetchData().then((val){
+      setState(() {
+        _loading=false;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +188,9 @@ class _HomePageState extends State<MyPersonScreen> {
           ],
         ),
       ),
-      body: ListView(
+      body: _loading?Center(
+        child: CircularProgressIndicator(),
+      ) : ListView(
         children: [
           Stack(
             children: [
@@ -261,7 +279,7 @@ class _HomePageState extends State<MyPersonScreen> {
               child: Expanded(
                 child: ListTile(
                   title: Text(
-                    "${context.watch<ProfileProvider>().getId()}", //context.watch<ProfileProvider>().getId()
+                    "${context.watch<ProfileProvider>().patient.id}", //context.watch<ProfileProvider>().getId()
                     style: TextStyle(fontSize: 25),
                     textAlign: TextAlign.end,
                   ),

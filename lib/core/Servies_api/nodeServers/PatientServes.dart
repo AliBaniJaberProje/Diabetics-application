@@ -1,5 +1,7 @@
 
 
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 const urlToUpdate="https://jaber-server.herokuapp.com/patient/updateInfo";
@@ -23,3 +25,18 @@ Future<bool> sendUpdateProfilePatientRequest ({String key,String value})async{
     return false;
   }
 }
+
+
+Future<Map<String,dynamic>> getIdAndIdCurrentDoctor()async{
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  http.Response response=await http.get("https://jaber-server.herokuapp.com/patient/getIdCurrentDoctorAndMyId",headers: {"x-auth-token":prefs.getString('jwt')});
+
+  if(response.statusCode==200){
+    return jsonDecode(response.body)["patient"];
+  }else{
+    return {"msg":"error"};
+  }
+
+}
+

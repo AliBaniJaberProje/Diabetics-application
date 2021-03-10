@@ -1,8 +1,11 @@
+
 import 'package:ali_muntaser_final_project/UI/Screens/chat/MsgChat/MessagesScreen.dart';
 import 'package:ali_muntaser_final_project/core/Model/doctorChatStruct.dart';
+import 'package:ali_muntaser_final_project/core/Providers/MessagesProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/chatProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/doctorChatProvider.dart';
+import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/PatientServes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,10 +19,9 @@ class PersonCardChat extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    var _profileProvider = context.read<ProfileProvider>();
-
+    var _doctorChatProvider=context.read<DoctorChatProvider>();
     bool isValidDoctor =
-        _doctorChat.id == _profileProvider.patient.idCurantDoctur;
+        _doctorChat.id == _doctorChatProvider.currentDoctorId;
     return Column(
       children: [
         InkWell(
@@ -118,7 +120,13 @@ class PersonCardChat extends StatelessWidget {
           splashColor: Colors.purple.withOpacity(.3),
           highlightColor: Colors.purple.withOpacity(.1),
           onTap: () {
-            context.read<ChatProvider>().doctor=_doctorChat;
+
+            context.read<MessagesProvider>().setSenderId(context.read<DoctorChatProvider>().idPatient);
+            context.read<MessagesProvider>().setImgUrlSender(context.read<DoctorChatProvider>().imgurlPatient);
+            context.read<MessagesProvider>().setUserNameDoctor(_doctorChat.name);
+            context.read<MessagesProvider>().setReceverId(_doctorChat.id);
+            context.read<MessagesProvider>().setImgRecever(_doctorChat.imgUrl);
+            context.read<MessagesProvider>().online=_doctorChat.online;
             Navigator.pushReplacementNamed(context, MessagesScreen.routeName);
           },
         ),
@@ -148,7 +156,15 @@ class _PersonChatScreenState extends State<PersonChatScreen> {
       setState(() {
         _isloaded = false;
       });
+
+
     });
+
+    // _doctorChatProvider.fetchDoctors().then((value) {
+    //   setState(() {
+    //     _isloaded = false;
+    //   });
+    // });
   }
 
   @override

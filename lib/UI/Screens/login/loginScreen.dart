@@ -60,21 +60,21 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
 
 
       var resultLogin = await usersNodeServer.isAuthorizedPatient(_userId, _password);
-      if (resultLogin["status"] == "yes") {
+      if (resultLogin) {
         print("yes");
-        Patient userPatient = resultLogin["patient"];
+       // Patient userPatient = resultLogin["patient"];
         context.read<LoginProvider>().reastLodingLoginStatus();
         var _profileProvider = context.read<ProfileProvider>();
-        _profileProvider.person=userPatient;
+        //_profileProvider.person=userPatient;
 ///--------------------put token in profile ------------------------------------
 
 ///--------------------Prepare Data in Profile Patient--------------------------
-         context.read<DoctorChatProvider>().setCurrentDoctorId(userPatient.idCurantDoctur);
-         context.read<DoctorChatProvider>().setPreviousDoctors(userPatient.lastdoctor);
+        // context.read<DoctorChatProvider>().setCurrentDoctorId(userPatient.idCurantDoctur);
+       //  context.read<DoctorChatProvider>().setPreviousDoctors(userPatient.lastdoctor);
 
 ///--------------------Prepare Data in Chat Patient-----------------------------
-         context.read<ChatProvider>().idPatient=userPatient.id;
-         context.read<ChatProvider>().imgUrlPatient=userPatient.imgurl;
+      //   context.read<ChatProvider>().idPatient=userPatient.id;
+      //   context.read<ChatProvider>().imgUrlPatient=userPatient.imgurl;
 ///-----------------------------------------------------------------------------
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
 

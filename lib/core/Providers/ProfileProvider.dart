@@ -1,13 +1,27 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:ali_muntaser_final_project/core/Model/patient.dart';
-import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/updateProfileInfo_Servers.dart';
+import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/PatientServes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+
+import 'dart:async';
+import 'package:async/async.dart';
+
+import 'package:flutter/material.dart';
+
+
+
+import 'package:path/path.dart';
 
 
 class ProfileProvider with ChangeNotifier {
@@ -66,10 +80,7 @@ class ProfileProvider with ChangeNotifier {
     return DateFormat.yMMMd().format(this._patient.diagnosisYear.toDate()).toString();
   }
 
-  // ignore: unnecessary_getters_setters
-  set person(Patient value) {
-    _patient = value;
-  }
+
 
   void setPhoneNumber(String phoneNumber) {
     if(_isValidPhoneNumber(phoneNumber)){
@@ -125,9 +136,7 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  String getIdCurantDoctor(){
-    return this._patient.idCurantDoctur;
-  }
+
 
   DateTime getDateBirth() {
     DateTime data = this._patient.dateBirth.toDate();
@@ -138,9 +147,9 @@ class ProfileProvider with ChangeNotifier {
     return this._patient.phoneNumber;
   }
 
-  String getId() {
-    return this._patient.id;
-  }
+  // String getId() {
+  //   return this._patient.id;
+  // }
 
   String getLocation() {
     return this._patient.location;
@@ -169,24 +178,45 @@ class ProfileProvider with ChangeNotifier {
   String getDiabetesType() {
     return this._patient.diabtesType;
   }
-
+  File _image;
   Future getImage(ImageSource src) async {
+
     this._imagePerson = null;
     final pickedFile = await imagePicker.getImage(source: src);
     if (pickedFile != null) {
-      this._imagePerson = File(pickedFile.path);
-      final ref = FirebaseStorage.instance
-          .ref()
-          .child('user_image')
-          .child(this._patient.id + ".jpg");
-      await ref.putFile(this._imagePerson);
-      final url = await ref.getDownloadURL();
 
-      await FirebaseDatabase().reference()
-          .child("users")
-          .child(this.getId())
-          .update({'imgurl': url});
-      this.setImgUrl(url);
+
+      this._imagePerson = File(pickedFile.path);
+
+      var stream =
+      new http.ByteStream(DelegatingStream.typed(_imagePerson.openRead()));
+      var length = await _imagePerson.length();
+
+
+
+      var uri = Uri.parse("https://jaber-server.herokuapp.com/imagesUpload/patient");
+
+      var request = new http.MultipartRequest("POST", uri);
+
+      // multipart that takes file
+      var multipartFile = new http.MultipartFile('img', stream, length,
+          filename: basename(_imagePerson.path));
+
+      // add file to multipart
+      request.files.add(multipartFile);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      request.headers.addAll({"x-auth-token":prefs.getString('jwt')});
+      // send
+      var response = await request.send();
+      print(response.statusCode);
+      response.stream.transform(utf8.decoder).listen((value) {
+        this.setImgUrl(jsonDecode(value)["imgUrl"]);
+        print(value);
+      });
+
+
+
+
 
       notifyListeners();
     }
@@ -223,5 +253,36 @@ class ProfileProvider with ChangeNotifier {
     this._updateLocation = !this._updateLocation;
     notifyListeners();
   }
+
+  fetchData() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+  http.Response response=await  http.get("https://jaber-server.herokuapp.com/patient",headers: {"x-auth-token":prefs.getString("jwt")});
+  if(response.statusCode==200){
+    var patientData=  jsonDecode(response.body)["msg"];
+
+    this._patient=new Patient(
+        id: patientData["id"],
+        username: patientData["username"],
+
+        imgurl: patientData["imgURL"],
+        phoneNumber: patientData["phoneNumber"],
+        location: patientData["location"],
+        length: double.parse(patientData["length"].toString()),
+        weight: double.parse(patientData["weight"].toString()),
+        dateBirth: Timestamp.fromMicrosecondsSinceEpoch(
+            int.parse(patientData["birthDate"].toString()),),
+        diabtesType: patientData["diabetesType"],
+
+        diagnosisYear: Timestamp.fromMicrosecondsSinceEpoch(
+            int.parse(patientData["diagnosisYear"]),),
+        injectionType: patientData["injectionType"],
+        capsuleType: patientData["capsuleType"],
+    );
+
+  }
+  }
+
+
+
 
 }

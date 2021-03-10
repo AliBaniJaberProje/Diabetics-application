@@ -13,8 +13,7 @@ class Patient {
   String _capsuleType;
   double length;
   double weight;
-  String _idCurantDoctur;
-  List<dynamic> _lastdoctor = [];
+
   String imgurl;
 
   Patient(
@@ -34,7 +33,7 @@ class Patient {
       List<dynamic> lastDoctor}) {
     this._id = id;
     this._username = username;
-    this._idCurantDoctur = idCurantDoctur;
+
     this.imgurl = imgurl;
     this.phoneNumber = phoneNumber;
     this.location = location;
@@ -42,17 +41,17 @@ class Patient {
     this.weight = weight;
     this._dateBirth = dateBirth;
     this._diabtesType = diabtesType;
-    this._lastdoctor = lastDoctor;
+
     this._diagnosisYear = diagnosisYear;
     this._injectionType = injectionType;
     this._capsuleType = capsuleType;
   }
 
   Timestamp get diagnosisYear => _diagnosisYear;
-  List<dynamic> get lastdoctor => _lastdoctor;
+
   Timestamp get dateBirth => _dateBirth;
   String get diabtesType => _diabtesType;
-  String get idCurantDoctur => _idCurantDoctur;
+
   String get username => _username;
   String get id => _id;
   String get injectionType => _injectionType;

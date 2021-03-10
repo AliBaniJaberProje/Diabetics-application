@@ -2,14 +2,14 @@ class DoctorChatStruct {
   String _id;
   String _name;
   String _imgUrl;
-  String _online;
+  bool _online;
   int _numberMessages;
 
   DoctorChatStruct(
       {String id,
       String name,
       String imgUrl,
-      String online,
+      bool online,
       int numberMessages}) {
     this._id = id;
     this._name = name;
@@ -19,17 +19,17 @@ class DoctorChatStruct {
   }
 
   DoctorChatStruct.fromJson(dynamic json) {
-    _id = json["userid"];
+    _id = json["id"];
     _name = json["username"];
-    _imgUrl = json["imgurl"];
-    _online = json["status"];
+    _imgUrl = json["imgURL"];
+    _online = json["isOnline"];
     _numberMessages = json["numberMessage"];
   }
 
 
 
   // ignore: unnecessary_getters_setters
-  String get online => _online;
+  bool get online => _online;
 
   int get numberMessages => _numberMessages;
 
@@ -40,7 +40,7 @@ class DoctorChatStruct {
   String get id => _id;
 
   bool isOnline() {
-   return this._online=="online";
+   return this._online;
   }
 
 }

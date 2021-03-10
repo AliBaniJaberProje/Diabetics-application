@@ -1,4 +1,5 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/Widgets/normal_icon.dart';
+import 'package:ali_muntaser_final_project/core/Providers/MessagesProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/NotificationProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/chatProvider.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ import 'package:provider/provider.dart';
             ),
             Tab(
               //child: NormalIcon(icon: Icons.home,sizeIcon: 30,),
-              child: IconWithNumber(icon: Icons.chat,number:context.watch<ChatProvider>().numberMessagesNotRead,),
+              child: IconWithNumber(icon: Icons.chat,number:context.watch<MessagesProvider>().numberMessagesNotRead,),
             ),
             // Tab(
             //   child: NormalIcon(icon: Icons.person,sizeIcon: 30,),

@@ -1,5 +1,6 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
 import 'package:ali_muntaser_final_project/core/Model/messageStruct.dart';
+import 'package:ali_muntaser_final_project/core/Providers/MessagesProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/chatProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/doctorChatProvider.dart';
@@ -93,7 +94,7 @@ class BubbleMessage extends StatelessWidget {
                   bottom: 4,
                 ),
                 child: CircularProfileAvatar(
-                  context.read<ProfileProvider>().getImgUrl(),
+                  context.read<MessagesProvider>().getImgUrlSender(),
                   borderWidth: 2,
                   borderColor: Colors.yellow,
                   backgroundColor: Colors.purple.withOpacity(.4),
@@ -109,7 +110,7 @@ class BubbleMessage extends StatelessWidget {
                   top: 15,
                 ),
                 child: CircularProfileAvatar(
-                  context.read<ChatProvider>().imgUrlDoctor,
+                  context.read<MessagesProvider>().getImgUrlRecever(),
                   borderWidth: 2,
                   borderColor: Colors.yellow,
                   backgroundColor: Colors.purple.withOpacity(.4),
@@ -179,7 +180,7 @@ class _NewMessageState extends State<NewMessage> {
   String msgToSendText = "";
   @override
   Widget build(BuildContext context) {
-    var chatProvider = context.read<ChatProvider>();
+    var chatProvider = context.read<MessagesProvider>();
 
     return Container(
       width: double.infinity,
@@ -196,7 +197,7 @@ class _NewMessageState extends State<NewMessage> {
                 maxLines: null,
                 controller: meesageController,
                 onTap: () =>
-                    context.read<ChatProvider>().updateAccessTimePatient(),
+                    context.read<MessagesProvider>().updateAccessTimePatient(),
                 onChanged: (val) {
                   setState(() {
                     msgToSendText = val.trim();
@@ -364,12 +365,12 @@ class _MessagesScreen extends State<MessagesScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ChatProvider>().startListenLastAccessTimeDoctor();
-    context.read<ChatProvider>().startStreamChat();
+    context.read<MessagesProvider>().startListenLastAccessTimeDoctor();
+    context.read<MessagesProvider>().startStreamChat();
   }
 
   Widget build(BuildContext context) {
-    var _chatProvider = context.read<ChatProvider>();
+    var _chatProvider = context.read<MessagesProvider>();
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -388,13 +389,13 @@ class _MessagesScreen extends State<MessagesScreen> {
                     onPressed: () {
                       Navigator.pushReplacementNamed(
                           context, HomeScreen.routeName,arguments: {"index":2});
-                      context.read<ChatProvider>().clearChatWhenClose();
+                      context.read<MessagesProvider>().clearChatWhenClose();
                     },
                   ),
                 ),
-                _chatProvider.doctor.id ==
-                        context.read<ProfileProvider>().getIdCurantDoctor()
-                    ? _chatProvider.doctor.isOnline()
+                _chatProvider.getReceverId() ==
+                        context.read<DoctorChatProvider>().currentDoctorId
+                    ? _chatProvider.isOnline()
                         ? Container(
                             padding: EdgeInsets.only(right: 40),
                             child: Icon(
@@ -415,7 +416,7 @@ class _MessagesScreen extends State<MessagesScreen> {
                 Container(
                   padding: EdgeInsets.only(right: 40),
                   child: Text(
-                    context.read<ChatProvider>().usernameDoctor,
+                    context.read<MessagesProvider>().getUserNameDoctor(),
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w300,
@@ -425,7 +426,7 @@ class _MessagesScreen extends State<MessagesScreen> {
                 Container(
                   margin: EdgeInsets.only(right: 4),
                   child: CircularProfileAvatar(
-                    context.watch<ChatProvider>().imgUrlDoctor,
+                    context.watch<MessagesProvider>().getImgUrlRecever(),
                     borderWidth: 2,
                     borderColor: Colors.yellow,
                     backgroundColor: Colors.purple.withOpacity(.4),
@@ -444,19 +445,19 @@ class _MessagesScreen extends State<MessagesScreen> {
             Expanded(
               child: ListView.builder(
                   reverse: true,
-                  itemCount: context.watch<ChatProvider>().getNumberMessages(),
+                  itemCount: context.watch<MessagesProvider>().getNumberMessages(),
                   itemBuilder: (ctx, index) {
                     return BubbleMessage(
                       msg: context
-                          .read<ChatProvider>()
+                          .read<MessagesProvider>()
                           .getMessageAt(index: index),
                     );
                   }),
             ),
-            if (context.read<ChatProvider>().idDoctor ==
+            if (context.read<MessagesProvider>().getReceverId() ==
                 context.read<DoctorChatProvider>().currentDoctorId)
               NewMessage(),
-            if (context.read<ChatProvider>().idDoctor !=
+            if (context.read<MessagesProvider>().getReceverId() !=
                 context.read<DoctorChatProvider>().currentDoctorId)
               CantAccessChatWidget(),
           ],

@@ -5,21 +5,11 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-// String url="https://jaber-server.herokuapp.com/event/myEvent";
-
-// Future<http.Response> getMyEventSelected()async{
-//
-//   SharedPreferences prefs = await SharedPreferences.getInstance();
-//   String jwt=await prefs.getString("jwt");
-//   http.Response response= await http.get(url,headers: {"x-auth-token":jwt},);
-//   return response;
-//
-// }
 
 Future<http.Response> getAllEventInDay(DateTime dateTime)async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  http.Response response=await http.post("http://192.168.0.112:3000/event/AvailableEvent",
+  http.Response response=await http.post("https://jaber-server.herokuapp.com/event/AvailableEvent",
       headers: {
         "x-auth-token": prefs.getString("jwt")
       },
@@ -36,7 +26,7 @@ Future<int> setSelectedOfEventIForId(String idEvent) async {
    SharedPreferences prefs = await SharedPreferences.getInstance();
 
    http.Response response= await http.post(
-       "http://192.168.0.112:3000/event/selectEvent",
+       "https://jaber-server.herokuapp.com/event/selectEvent",
        headers: {
          "x-auth-token": prefs.getString("jwt")
        },
@@ -59,7 +49,7 @@ Future<int> setSelectedOfEventIForId(String idEvent) async {
 Future<EventStruct> getEventSelectedInProfile()async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
   http.Response response= await http.get(
-      "http://192.168.0.112:3000/event/getMyEvent",
+      "https://jaber-server.herokuapp.com/event/getMyEvent",
       headers: {
         "x-auth-token": prefs.getString("jwt")
       },);
@@ -84,7 +74,7 @@ Future<EventStruct> getEventSelectedInProfile()async{
 Future<String> deleteEventById(String idEvent) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
- http.Response response=await  http.delete("http://192.168.0.112:3000/event/${idEvent}",headers: {
+ http.Response response=await  http.delete("https://jaber-server.herokuapp.com/event/${idEvent}",headers: {
     "x-auth-token": prefs.getString("jwt"),
   },);
 

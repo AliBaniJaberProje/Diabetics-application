@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ali_muntaser_final_project/core/Model/messageStruct.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -15,6 +16,16 @@ class MessagesProvider with ChangeNotifier {
   String _senderIdPatient;
   String _receiverIdDoctor;
   bool _online;
+
+  set online(bool value) {
+    _online = value;
+  }
+
+  final _imagePicker = ImagePicker();
+  Timestamp _lastAccessTimeDoctor;
+  List<MessageStruct> _chat = [];
+  int numberMessagesNotRead = 0;
+
 
   var _firebaseRef = FirebaseDatabase().reference();
 
@@ -104,21 +115,119 @@ class MessagesProvider with ChangeNotifier {
     }
   }
 
-  void sendMessage(
-      String idSender, String idReceiver, String data, String typeMessage) {
-    this
-        ._firebaseRef
-        .child('chat')
-        .child(idSender)
-        .child(idReceiver)
+
+
+
+  MessageStruct getMessageAt({int index}) => _chat[index];
+  // ignore: unnecessary_getters_setters
+
+  int getNumberMessages() {
+    return _chat.length;
+  }
+
+
+  ///----------------------------public functions-------------------------------
+
+  void getNumberOfMessagesFromDoctor(String patientId,String doctorId){
+    _firebaseRef
+        .child("allChat")
+        .child(patientId)
+        .child(doctorId)
         .child("messages")
-        .child("chat")
-        .push()
-        .set({
-         'type':typeMessage,
-        'isPatient': true,
-        'message': data,
-        'timestamp': Timestamp.now().microsecondsSinceEpoch,
+        .child('countMessages').child("numberFromDoctors").onValue.listen((event) {
+      this.numberMessagesNotRead=event.snapshot.value;
+      notifyListeners();
     });
   }
+
+
+  void sendMessage({String data, String type}) {
+    _firebaseRef
+        .child("allChat")
+        .child(_senderIdPatient)
+        .child(_receiverIdDoctor)
+        .child("messages")
+        .child('chat')
+        .push()
+        .set({
+      "data": data,
+      "isPatient": true,
+      "timestamp": Timestamp.now().microsecondsSinceEpoch,
+      "type": type
+    });
+    updateAccessTimePatient();
+  }
+
+  void updateAccessTimePatient() {
+    var rif = _firebaseRef
+        .child("allChat")
+        .child(_senderIdPatient)
+        .child(_receiverIdDoctor)
+        .child("messages");
+
+    rif.child('time').update(
+        {"lastAccessTimePatient": Timestamp.now().microsecondsSinceEpoch});
+    rif.child("countMessages").update({"numberFromDoctors": 0});
+  }
+
+  void clearChatWhenClose() {
+    this._chat.clear();
+  }
+
+  void startStreamChat() {
+    _firebaseRef
+        .child("allChat")
+        .child(_senderIdPatient)
+        .child(_receiverIdDoctor)
+        .child("messages")
+        .child('chat')
+        .orderByChild("timestamp")
+        .onChildAdded
+        .listen(
+          (event) {
+        var obj = event.snapshot.value;
+        print(obj);
+        _chat.insert(
+          0,
+          MessageStruct(
+            id: "event.snapshot.value[]",
+            typeMessage: obj["type"],
+            isMe: obj["isPatient"],
+            timeSend: Timestamp.fromMicrosecondsSinceEpoch(obj["timestamp"]),
+            data: obj["data"],
+            isSeen: _lastAccessTimeDoctor.microsecondsSinceEpoch >=
+                obj["timestamp"],
+          ),
+        );
+        notifyListeners();
+      },
+    );
+  }
+
+  void startListenLastAccessTimeDoctor() {
+    _firebaseRef
+        .child("allChat")
+        .child(_senderIdPatient)
+        .child(_receiverIdDoctor)
+        .child("messages")
+        .child('time')
+        .child("lastAccessTimeDoctor")
+        .onValue
+        .listen((event) {
+      _lastAccessTimeDoctor =
+          Timestamp.fromMicrosecondsSinceEpoch(event.snapshot.value);
+
+      for (int i = 0; i < _chat.length; i++) {
+        if (_lastAccessTimeDoctor.microsecondsSinceEpoch >=
+            _chat[i].timeSend.microsecondsSinceEpoch) {
+          _chat[i].setSeen();
+        } else {
+          this.numberMessagesNotRead++;
+          notifyListeners();
+        }
+      }
+      notifyListeners();
+    });
+  }
+
 }

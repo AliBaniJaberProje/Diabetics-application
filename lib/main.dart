@@ -50,7 +50,7 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: MyDoseProvider()),
         ChangeNotifierProvider.value(value: DoctorChatProvider()),
         ChangeNotifierProvider.value(value: MessagesProvider()),
-        ChangeNotifierProvider.value(value: ChatProvider()),
+      //  ChangeNotifierProvider.value(value: ChatProvider()),
         ChangeNotifierProvider.value(value: MessageStruct()),
         ChangeNotifierProvider.value(value: NumberOfStepProvider()),
         ChangeNotifierProvider.value(value: Auth()),
