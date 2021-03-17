@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:ali_muntaser_final_project/core/Model/messageStruct.dart';
@@ -29,6 +30,7 @@ class MessagesProvider with ChangeNotifier {
 
   var _firebaseRef = FirebaseDatabase().reference();
 
+  StreamSubscription<Event> _messagesSubscription;
   //----------------------------------------privet data-----------------
 
   final imagepicker = ImagePicker();
@@ -85,21 +87,6 @@ class MessagesProvider with ChangeNotifier {
     return this._online;
   }
 
-  // ignore: missing_return
-  Stream<Event> fetchStreamMessages(String idSender, String idReceiver) {
-    try {
-      return _firebaseRef
-          .child('chat')
-          .child(idSender)
-          .child(idReceiver)
-          .child("messages")
-          .child("chat")
-          .onValue;
-    } catch (e) {
-      print("error in  conection  stream");
-    }
-  }
-
   Future<String> getImageUrlToSend(ImageSource src) async {
     File imageToSend ;
     final pickedfile = await imagepicker.getImage(source: src);
@@ -116,20 +103,16 @@ class MessagesProvider with ChangeNotifier {
   }
 
 
-
-
   MessageStruct getMessageAt({int index}) => _chat[index];
-  // ignore: unnecessary_getters_setters
 
   int getNumberMessages() {
     return _chat.length;
   }
 
-
   ///----------------------------public functions-------------------------------
 
   void getNumberOfMessagesFromDoctor(String patientId,String doctorId){
-    _firebaseRef
+    FirebaseDatabase().reference()
         .child("allChat")
         .child(patientId)
         .child(doctorId)
@@ -140,9 +123,8 @@ class MessagesProvider with ChangeNotifier {
     });
   }
 
-
   void sendMessage({String data, String type}) {
-    _firebaseRef
+     FirebaseDatabase().reference()
         .child("allChat")
         .child(_senderIdPatient)
         .child(_receiverIdDoctor)
@@ -155,11 +137,11 @@ class MessagesProvider with ChangeNotifier {
       "timestamp": Timestamp.now().microsecondsSinceEpoch,
       "type": type
     });
-    updateAccessTimePatient();
+  updateAccessTimePatient();
   }
 
   void updateAccessTimePatient() {
-    var rif = _firebaseRef
+    var rif = FirebaseDatabase().reference()
         .child("allChat")
         .child(_senderIdPatient)
         .child(_receiverIdDoctor)
@@ -172,10 +154,12 @@ class MessagesProvider with ChangeNotifier {
 
   void clearChatWhenClose() {
     this._chat.clear();
+    this._messagesSubscription.cancel();
   }
 
   void startStreamChat() {
-    _firebaseRef
+
+    _messagesSubscription= _firebaseRef
         .child("allChat")
         .child(_senderIdPatient)
         .child(_receiverIdDoctor)
@@ -187,9 +171,8 @@ class MessagesProvider with ChangeNotifier {
           (event) {
         var obj = event.snapshot.value;
         print(obj);
-        _chat.insert(
-          0,
-          MessageStruct(
+
+        _chat.insert(0,MessageStruct(
             id: "event.snapshot.value[]",
             typeMessage: obj["type"],
             isMe: obj["isPatient"],
@@ -197,15 +180,14 @@ class MessagesProvider with ChangeNotifier {
             data: obj["data"],
             isSeen: _lastAccessTimeDoctor.microsecondsSinceEpoch >=
                 obj["timestamp"],
-          ),
-        );
+          ),);
         notifyListeners();
       },
     );
   }
 
   void startListenLastAccessTimeDoctor() {
-    _firebaseRef
+    FirebaseDatabase().reference()
         .child("allChat")
         .child(_senderIdPatient)
         .child(_receiverIdDoctor)

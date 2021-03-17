@@ -141,9 +141,9 @@ class TipOfDayContainer extends StatelessWidget {
         elevation: 5,
         child: Container(
           margin: EdgeInsets.only(left: 25, right: 25),
-          padding: EdgeInsets.only(right: 7),
+          padding: EdgeInsets.all( 3),
           width: MediaQuery.of(ctx).size.width,
-          height: 100,
+          height: 120,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -186,7 +186,7 @@ class MainFituerContainer extends StatelessWidget {
         children: MainFeture.map((e) => MyGridTitle(e)).toList(),
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           
-          maxCrossAxisExtent: 400,
+          maxCrossAxisExtent: MediaQuery.of(context).size.width * .6,
           childAspectRatio: 3 / 2,
           crossAxisSpacing: 0,
           mainAxisSpacing: 0,

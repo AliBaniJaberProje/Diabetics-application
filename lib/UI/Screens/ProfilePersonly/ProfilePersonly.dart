@@ -287,40 +287,40 @@ class _HomePageState extends State<MyPersonScreen> {
               ),
             ),
           ),
-          SizedBox(
-            height: 5,
-          ),
-          ContainerData(
-            icon: Icons.crop_7_5_sharp,
-            conteant: Container(
-              child: Expanded(
-                child: ListTile(
-                  title: Text(
-                    "${context.watch<ProfileProvider>().getCapsuleType()}", //context.watch<ProfileProvider>().getId()
-                    style: TextStyle(fontSize: 25),
-                    textAlign: TextAlign.end,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          ContainerData(
-            icon: Icons.dock,
-            conteant: Container(
-              child: Expanded(
-                child: ListTile(
-                  title: Text(
-                    "${context.watch<ProfileProvider>().getInjectionType()}", //context.watch<ProfileProvider>().getId()
-                    style: TextStyle(fontSize: 25),
-                    textAlign: TextAlign.end,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // SizedBox(
+          //   height: 5,
+          // ),
+          // ContainerData(
+          //   icon: Icons.crop_7_5_sharp,
+          //   conteant: Container(
+          //     child: Expanded(
+          //       child: ListTile(
+          //         title: Text(
+          //           "${context.watch<ProfileProvider>().getCapsuleType()}", //context.watch<ProfileProvider>().getId()
+          //           style: TextStyle(fontSize: 25),
+          //           textAlign: TextAlign.end,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 5,
+          // ),
+          // ContainerData(
+          //   icon: Icons.dock,
+          //   conteant: Container(
+          //     child: Expanded(
+          //       child: ListTile(
+          //         title: Text(
+          //           "${context.watch<ProfileProvider>().getInjectionType()}", //context.watch<ProfileProvider>().getId()
+          //           style: TextStyle(fontSize: 25),
+          //           textAlign: TextAlign.end,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           SizedBox(
             height: 5,
           ),

@@ -267,7 +267,7 @@ class ProfileProvider with ChangeNotifier {
         imgurl: patientData["imgURL"],
         phoneNumber: patientData["phoneNumber"],
         location: patientData["location"],
-        length: double.parse(patientData["length"].toString()),
+        length: double.parse(patientData["height"].toString()),
         weight: double.parse(patientData["weight"].toString()),
         dateBirth: Timestamp.fromMicrosecondsSinceEpoch(
             int.parse(patientData["birthDate"].toString()),),
@@ -275,8 +275,8 @@ class ProfileProvider with ChangeNotifier {
 
         diagnosisYear: Timestamp.fromMicrosecondsSinceEpoch(
             int.parse(patientData["diagnosisYear"]),),
-        injectionType: patientData["injectionType"],
-        capsuleType: patientData["capsuleType"],
+        // injectionType: patientData["injectionType"],
+        // capsuleType: patientData["capsuleType"],
     );
 
   }

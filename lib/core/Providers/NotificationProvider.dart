@@ -1,4 +1,5 @@
 import 'package:ali_muntaser_final_project/core/Model/NotificationStruct.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -44,8 +45,10 @@ class NotificationsProvider with ChangeNotifier {
   ///----------------------------public functions-------------------------------
 
   getFireRif() => _firebaseRef;
+  String idUser;
 
   void startStreamNotification(String idUser) {
+    this.idUser=idUser;
     try {
       _firebaseRef
           .child('notifications')
@@ -53,7 +56,6 @@ class NotificationsProvider with ChangeNotifier {
           .onValue
           .listen((event) {
         this._notificationsList.clear();
-        //this.notificationNumber = event.snapshot.value["numbernutification"];
         Map data = event.snapshot.value["notification"];
         _processResult(data);
         notifyListeners();
@@ -62,6 +64,7 @@ class NotificationsProvider with ChangeNotifier {
       print("error in  conection  stream");
     }
   }
+
 
   NotificationStruct getNotificationOf(int index){
     return _notificationsList[index];

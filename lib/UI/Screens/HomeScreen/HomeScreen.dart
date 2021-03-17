@@ -1,14 +1,15 @@
 import 'package:ali_muntaser_final_project/UI/Screens/chat/PersonChat/PersonChatScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/notifications/NotificationScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
+import 'package:ali_muntaser_final_project/core/Providers/DailyReadingProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/MessagesProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/NotificationProvider.dart';
-import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
-import 'package:ali_muntaser_final_project/core/Providers/chatProvider.dart';
+
 import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/PatientServes.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Widgets/AppBar.dart';
@@ -23,22 +24,35 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  FlutterLocalNotificationsPlugin fltrNotification;
+
+  String task="545";
+  int val=0;
+
+
+
 
   @override
   void initState() {
     super.initState();
 
+    var androidInitilize = new AndroidInitializationSettings('ic_launcher');
+    var iOSinitilize = new IOSInitializationSettings();
+    var initilizationsSettings =
+    new InitializationSettings(android: androidInitilize, iOS: iOSinitilize);
+    fltrNotification = new FlutterLocalNotificationsPlugin();
+    fltrNotification.initialize(initilizationsSettings,
+        onSelectNotification: notificationSelected);
+
     getIdAndIdCurrentDoctor().then((value) {
-      context.read<NotificationsProvider>().startStreamNotification(value["id"]);
-      context.read<MessagesProvider>().getNumberOfMessagesFromDoctor(value["id"],value["currentDoctor"]);
+      print(value);
+      context.read<NotificationsProvider>().startStreamNotification(value['patientUser']["id"]);
+      context.read<MessagesProvider>().getNumberOfMessagesFromDoctor(value['patientUser']["id"],value['patientUser']["currentDoctor"]);
+      context.read<DailyReadingProvider>().idUser=value['patientUser']["id"];
+      context.read<DailyReadingProvider>().imgUrlDoctor=value['imgURLDoctor'];
+
       print(value["currentDoctor"]);
     });
-
-
-
- //   context.read<NotificationsProvider>().startStreamNotification(context.read<ProfileProvider>().getId());
- //  context.read<ChatProvider>().getNumberOfMessagesFromDoctor(context.read<ProfileProvider>().getId(),context.read<ProfileProvider>().getIdCurantDoctor());
-
 
 
 
@@ -62,17 +76,23 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     fbm.subscribeToTopic("notification_msg");
   }
+  Future _showNotification() async {
+    var androidDetails = new AndroidNotificationDetails(
+        "Channel ID", "Desi programmer", "This is my channel",
+        importance: Importance.max);
+    var iSODetails = new IOSNotificationDetails();
+    var generalNotificationDetails =
+    new NotificationDetails(android: androidDetails, iOS: iSODetails);
+
+    // await fltrNotification.show(
+    //     0, "Task", "You created a Task", generalNotificationDetails, payload: "Task");
+    var scheduledTime=DateTime.now();
 
 
-  @override
-  void dispose() {
-
-    SharedPreferences.getInstance().then((pref) {
-      pref.setBool("isSetIdPatientCurantDoctor", false);
-    }) ;
-
-    super.dispose();
+    fltrNotification.schedule(
+        1, "علي بني جابر", task, scheduledTime, generalNotificationDetails);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +106,14 @@ class _HomeScreenState extends State<HomeScreen> {
       length: 3,
       child: Scaffold(
         endDrawer:MainDrawer(),
-        appBar: AppBarHomePage(context),
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: _showNotification,
+            ),
+          ],
+        ),
         body: TabBarView(
           children: [
             BodyHonePage(),
@@ -95,6 +122,15 @@ class _HomeScreenState extends State<HomeScreen> {
             //  PersonalScreen(),
           ],
         ),
+      ),
+    );
+  }
+
+  Future notificationSelected(String payload) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Text("Notification Clicked $payload",style: TextStyle(color: Colors.deepOrange),),
       ),
     );
   }

@@ -6,6 +6,10 @@ import 'package:ali_muntaser_final_project/UI/Screens/daily_reading_screen/widge
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
+
+
+
 class DailyReadingScreen extends StatelessWidget {
   static final String routeName = "/DailyReadingScreen";
 
@@ -15,7 +19,7 @@ class DailyReadingScreen extends StatelessWidget {
       endDrawer: Drawer(),
       appBar: MyAppBar(context),
       body: MyDailyReadingBody(),
-      
+
     );
   }
 }

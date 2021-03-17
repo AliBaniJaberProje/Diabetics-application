@@ -31,7 +31,7 @@ Future<Map<String,dynamic>> getIdAndIdCurrentDoctor()async{
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   http.Response response=await http.get("https://jaber-server.herokuapp.com/patient/getIdCurrentDoctorAndMyId",headers: {"x-auth-token":prefs.getString('jwt')});
-
+  print("\n\n\n"+prefs.getString('jwt')+"\n\n\n");
   if(response.statusCode==200){
     return jsonDecode(response.body)["patient"];
   }else{

@@ -448,7 +448,7 @@ class _MessagesScreen extends State<MessagesScreen> {
                   itemCount: context.watch<MessagesProvider>().getNumberMessages(),
                   itemBuilder: (ctx, index) {
                     return BubbleMessage(
-                      msg: context
+                      msg: ctx
                           .read<MessagesProvider>()
                           .getMessageAt(index: index),
                     );

@@ -1,15 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class DailyReadingItem {
   final String id;
   double value;
-  final DateTime dateTimeForThis;
-  final DateTime timeRegistration;
+  Timestamp timestamp;
+
   bool take;
 
   DailyReadingItem(
       {this.id,
       this.value,
-      this.dateTimeForThis,
-      this.timeRegistration = null,
+        this.timestamp,
       this.take = true});
 
   void setVale(double val) {
