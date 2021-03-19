@@ -1,3 +1,4 @@
+import 'package:ali_muntaser_final_project/UI/Screens/FoodScreen/food_screen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/MyDoseScreen/MyDoseScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/StepCount/StepScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
@@ -93,6 +94,8 @@ class MyGridTitle extends StatelessWidget {
                 // int x=55;
                 // print(res);
                 print("هل هذا صحي لي ؟");
+
+                Navigator.pushReplacementNamed(context, FoodScreen2.routeName);
               } else if (data['title'] == MainFeture[3]['title']) {
                 print("وجبتي هذا اليوم");
                 Navigator.pushReplacementNamed(context, TodayMeals.routeName);

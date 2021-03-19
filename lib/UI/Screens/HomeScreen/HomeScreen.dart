@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'Widgets/AppBar.dart';
 import 'Widgets/body_hone_page.dart';
 
@@ -106,13 +106,14 @@ class _HomeScreenState extends State<HomeScreen> {
       length: 3,
       child: Scaffold(
         endDrawer:MainDrawer(),
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: Icon(Icons.clear),
-              onPressed: _showNotification,
-            ),
-          ],
+        appBar: AppBarHomePage(
+          context
+          // actions: [
+          //   IconButton(
+          //     icon: Icon(Icons.clear),
+          //     onPressed: _showNotification,
+          //   ),
+          // ],
         ),
         body: TabBarView(
           children: [

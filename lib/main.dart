@@ -3,6 +3,7 @@ import 'package:ali_muntaser_final_project/core/Providers/DailyReadingProvider.d
 import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'UI/Screens/FoodScreen/food_screen.dart';
 import 'UI/Screens/HomeScreen/HomeScreen.dart';
 import 'UI/Screens/MyDoseScreen/MyDoseScreen.dart';
 import 'UI/Screens/ProfilePersonly/ProfilePersonly.dart';
@@ -27,6 +28,7 @@ import 'core/Providers/ProfileProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './core/Model/messageStruct.dart';
 import './core/Providers/NumberOfStepProvider.dart';
+import 'core/Providers/food_provider.dart';
 import 'core/Servies_api/nodeServers/auth.dart';
 import "./UI/Screens/todoy's meals/Today's_MealsScreen.dart";
 
@@ -56,6 +58,7 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: FoodProvider()),
         ChangeNotifierProvider.value(value: EventProvider()),
         ChangeNotifierProvider.value(value: SlotDateTimeProvider()),
+        ChangeNotifierProvider.value(value: FoodProvider2()),
 
 
       ],
@@ -75,7 +78,6 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.purpleAccent,
       ),
       routes: {
-
         LoginScreen.routeName: (context) => LoginScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         DailyReadingScreen.routeName: (context) => DailyReadingScreen(),
@@ -88,6 +90,8 @@ class MyApp extends StatelessWidget {
         DoctorAppointmentsScreen.routeName:(context)=>DoctorAppointmentsScreen(),
         FoodScreen.routerName:(context)=>FoodScreen(),
         EventTimeScreen.routeName:(context)=>EventTimeScreen(),
+        FoodScreen2.routeName:(context)=>FoodScreen2(),
+
       },
     );
   }
