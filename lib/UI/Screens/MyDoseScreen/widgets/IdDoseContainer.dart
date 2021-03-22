@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 class IdDoseContainer extends StatelessWidget {
   final String _id;
   final Color _color;
-
-  IdDoseContainer(this._id, this._color);
+  final double fontSize;
+  IdDoseContainer(this._id, this._color, this.fontSize);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class IdDoseContainer extends StatelessWidget {
         width: 40,
         child: Text(
           "${this._id}",
-          style: TextStyle(fontSize: 30),
+          style: TextStyle(fontSize: fontSize),
         ),
         decoration: BoxDecoration(
           color: this._color.withOpacity(.3),

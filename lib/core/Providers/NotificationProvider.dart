@@ -56,7 +56,9 @@ class NotificationsProvider with ChangeNotifier {
           .onValue
           .listen((event) {
         this._notificationsList.clear();
-        Map data = event.snapshot.value["notification"];
+        Map data;
+        if(event.snapshot.value!=null)
+          data= event.snapshot.value["notification"];
         _processResult(data);
         notifyListeners();
       });
@@ -71,7 +73,7 @@ class NotificationsProvider with ChangeNotifier {
   }
 
   void updateStatusToSeen(String userId,String notificationId){
-    _firebaseRef.child("notifications").child(userId).child("notification").child(notificationId).update({
+    _firebaseRef.child("notifications").child(this.idUser).child("notification").child(notificationId).update({
        "status":"seen"
     });
   }

@@ -136,9 +136,9 @@ class _MyDoseBodyState extends State<MyDoseBody> {
                               color: _color,
                             ),
                           ),
-                          width: double.infinity,
-                          height: 80,
-                          margin: EdgeInsets.all(10),
+                    width: double.infinity,
+                    height: 80,
+                    margin: EdgeInsets.all(10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -158,7 +158,7 @@ class _MyDoseBodyState extends State<MyDoseBody> {
                                           listen: true)
                                       .listDose[i]
                                       .id,
-                                  _color.withOpacity(.5)),
+                                  _color.withOpacity(.5),30),
                             ],
                           ),
                         )

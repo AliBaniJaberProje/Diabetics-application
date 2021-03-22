@@ -260,7 +260,7 @@ class _DoctorAppointmentsState extends State<DoctorAppointmentsScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     return AnimationConfiguration.staggeredList(
                       position: index,
-                      duration: const Duration(milliseconds: 900),
+                      duration: const Duration(milliseconds: 1200),
                       child: SlideAnimation(
                         verticalOffset: 50.0,
                         child: FadeInAnimation(

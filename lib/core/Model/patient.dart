@@ -5,7 +5,7 @@ class Patient {
   String _username;
   String gender;
   String location;
-  Timestamp _dateBirth;
+  DateTime _dateBirth;
   Timestamp _diagnosisYear;
   String phoneNumber;
   String _diabtesType;
@@ -25,7 +25,7 @@ class Patient {
       String location,
       double length,
       double weight,
-      Timestamp dateBirth,
+      DateTime dateBirth,
       String diabtesType,
       Timestamp diagnosisYear,
       String injectionType,
@@ -49,7 +49,7 @@ class Patient {
 
   Timestamp get diagnosisYear => _diagnosisYear;
 
-  Timestamp get dateBirth => _dateBirth;
+  DateTime get dateBirth => _dateBirth;
   String get diabtesType => _diabtesType;
 
   String get username => _username;

@@ -3,6 +3,7 @@ import 'package:ali_muntaser_final_project/core/Providers/DailyReadingProvider.d
 import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'UI/Screens/FoodScreen/food_detalis.dart';
 import 'UI/Screens/FoodScreen/food_screen.dart';
 import 'UI/Screens/HomeScreen/HomeScreen.dart';
 import 'UI/Screens/MyDoseScreen/MyDoseScreen.dart';
@@ -22,12 +23,12 @@ import 'core/Providers/MessagesProvider.dart';
 import 'core/Providers/FoodProvider.dart';
 import 'core/Providers/MyDoseProvider.dart';
 import 'core/Providers/NotificationProvider.dart';
-import 'core/Providers/chatProvider.dart';
 import 'core/Providers/doctorChatProvider.dart';
 import 'core/Providers/ProfileProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './core/Model/messageStruct.dart';
 import './core/Providers/NumberOfStepProvider.dart';
+import 'core/Providers/food_details.dart';
 import 'core/Providers/food_provider.dart';
 import 'core/Servies_api/nodeServers/auth.dart';
 import "./UI/Screens/todoy's meals/Today's_MealsScreen.dart";
@@ -59,7 +60,7 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: EventProvider()),
         ChangeNotifierProvider.value(value: SlotDateTimeProvider()),
         ChangeNotifierProvider.value(value: FoodProvider2()),
-
+        ChangeNotifierProvider.value(value: FoodDetailsProvider()),
 
       ],
       child: MyApp(),

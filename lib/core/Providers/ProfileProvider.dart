@@ -106,7 +106,7 @@ class ProfileProvider with ChangeNotifier {
 
   void setLength(double length) {
     if(_isValidLength(length)){
-      sendUpdateProfilePatientRequest(key:"weight",value:length.toString()).then((value) {
+      sendUpdateProfilePatientRequest(key:"height",value:length.toString()).then((value) {
         print("done operation ");
       });
       _patient.length = length;
@@ -139,7 +139,7 @@ class ProfileProvider with ChangeNotifier {
 
 
   DateTime getDateBirth() {
-    DateTime data = this._patient.dateBirth.toDate();
+    DateTime data = this._patient.dateBirth;
     return data;
   }
 
@@ -269,8 +269,7 @@ class ProfileProvider with ChangeNotifier {
         location: patientData["location"],
         length: double.parse(patientData["height"].toString()),
         weight: double.parse(patientData["weight"].toString()),
-        dateBirth: Timestamp.fromMicrosecondsSinceEpoch(
-            int.parse(patientData["birthDate"].toString()),),
+        dateBirth: DateTime.parse(patientData["birthDate"].toString()),
         diabtesType: patientData["diabetesType"],
 
         diagnosisYear: Timestamp.fromMicrosecondsSinceEpoch(

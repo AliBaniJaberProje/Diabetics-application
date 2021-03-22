@@ -43,6 +43,7 @@ class _EventTimeScreenState extends State<EventTimeScreen> {
     await Future.delayed(Duration(seconds: 2));
 
     setState(() {
+      _statusScreen=-2;
       context.read<SlotDateTimeProvider>().clearAllEvents();
       context
           .read<SlotDateTimeProvider>()

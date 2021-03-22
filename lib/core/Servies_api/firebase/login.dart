@@ -41,7 +41,7 @@ class UsersFirebase {
                 location: snapshot.value["location"],
                 length: double.parse(snapshot.value["height"]),
                 weight: double.parse(snapshot.value["weight"]),
-                dateBirth: Timestamp.fromMicrosecondsSinceEpoch(
+                dateBirth: DateTime(
                   snapshot.value["dateBirth"],
                 ),
                 diabtesType: snapshot.value["diabtesType"],
