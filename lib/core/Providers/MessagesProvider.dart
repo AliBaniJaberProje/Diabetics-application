@@ -17,6 +17,7 @@ class MessagesProvider with ChangeNotifier {
   String _senderIdPatient;
   String _receiverIdDoctor;
   bool _online;
+  //bool loading=false;
 
   set online(bool value) {
     _online = value;
@@ -123,8 +124,18 @@ class MessagesProvider with ChangeNotifier {
     });
   }
 
-  void sendMessage({String data, String type}) {
-     FirebaseDatabase().reference()
+  void sendMessage({String data, String type}) async{
+
+    print("\n\n\n\n\n\n\n");
+
+    print(new DateTime.now().millisecondsSinceEpoch);
+
+    print(DateTime.now().millisecondsSinceEpoch);
+
+    print("\n\n\n\n\n\n\n");
+
+
+    FirebaseDatabase().reference()
         .child("allChat")
         .child(_senderIdPatient)
         .child(_receiverIdDoctor)
@@ -134,9 +145,44 @@ class MessagesProvider with ChangeNotifier {
         .set({
       "data": data,
       "isPatient": true,
-      "timestamp": Timestamp.now().microsecondsSinceEpoch,
+      "timestamp":new  DateTime.now().millisecondsSinceEpoch,
       "type": type
     });
+
+
+    //
+    // FirebaseDatabase().reference()
+    //     .child("allChat")
+    //     .child(_senderIdPatient)
+    //     .child(_receiverIdDoctor)
+    //     .child("messages")
+    //     .child('chat')
+    //     .push()
+    //     .set({
+    //   "data": data,
+    //   "isPatient": true,
+    //   "timestamp":new  DateTime.now().millisecondsSinceEpoch,
+    //   "type": type
+    // });
+
+    var map=await FirebaseDatabase().reference()
+        .child("allChat")
+        .child(_senderIdPatient)
+        .child(_receiverIdDoctor)
+        .child("messages").child("countMessages").once();
+
+    int numberFromPatient=map.value['numberFromPatient'];
+
+    FirebaseDatabase().reference()
+        .child("allChat")
+        .child(_senderIdPatient)
+        .child(_receiverIdDoctor)
+        .child("messages").child("countMessages").update({
+      "numberFromPatient":numberFromPatient+1
+
+    });
+
+
   updateAccessTimePatient();
   }
 
@@ -148,7 +194,7 @@ class MessagesProvider with ChangeNotifier {
         .child("messages");
 
     rif.child('time').update(
-        {"lastAccessTimePatient": Timestamp.now().microsecondsSinceEpoch});
+        {"lastAccessTimePatient": (new DateTime.now().millisecondsSinceEpoch)   }  );
     rif.child("countMessages").update({"numberFromDoctors": 0});
   }
 
@@ -158,7 +204,7 @@ class MessagesProvider with ChangeNotifier {
   }
 
   void startStreamChat() {
-
+   // loading=true;
     _messagesSubscription= _firebaseRef
         .child("allChat")
         .child(_senderIdPatient)
@@ -176,14 +222,18 @@ class MessagesProvider with ChangeNotifier {
             id: "event.snapshot.value[]",
             typeMessage: obj["type"],
             isMe: obj["isPatient"],
-            timeSend: Timestamp.fromMicrosecondsSinceEpoch(obj["timestamp"]),
+            timeSend: Timestamp.fromMillisecondsSinceEpoch(obj["timestamp"]),
             data: obj["data"],
-            isSeen: _lastAccessTimeDoctor.microsecondsSinceEpoch >=
+            isSeen: _lastAccessTimeDoctor.millisecondsSinceEpoch >=
                 obj["timestamp"],
           ),);
+
         notifyListeners();
       },
     );
+   // loading=false;
+    //notifyListeners();
+
   }
 
   void startListenLastAccessTimeDoctor() {
@@ -197,11 +247,11 @@ class MessagesProvider with ChangeNotifier {
         .onValue
         .listen((event) {
       _lastAccessTimeDoctor =
-          Timestamp.fromMicrosecondsSinceEpoch(event.snapshot.value);
+          Timestamp.fromMillisecondsSinceEpoch(event.snapshot.value);
 
       for (int i = 0; i < _chat.length; i++) {
-        if (_lastAccessTimeDoctor.microsecondsSinceEpoch >=
-            _chat[i].timeSend.microsecondsSinceEpoch) {
+        if (_lastAccessTimeDoctor.millisecondsSinceEpoch >
+            _chat[i].timeSend.millisecondsSinceEpoch) {
           _chat[i].setSeen();
         } else {
           this.numberMessagesNotRead++;

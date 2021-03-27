@@ -1,9 +1,6 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
-import 'package:ali_muntaser_final_project/core/Model/patient.dart';
 import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
-import 'package:ali_muntaser_final_project/core/Providers/chatProvider.dart';
-import 'package:ali_muntaser_final_project/core/Providers/doctorChatProvider.dart';
 import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar.dart';
@@ -24,8 +21,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   var idController = TextEditingController();
   var passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  String _userId = "123456789";
-  String _password = "123456789";
+  String _userId = "789789789";
+  String _password = "0123456789";
   Auth usersNodeServer = new Auth();
 
 
@@ -173,7 +170,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                     onSaved: (val) => _userId = val,
                                     keyboardType: TextInputType.datetime,
                                     style: TextStyle(fontSize: 25),
-                                    controller: idController..text="123123123",
+                                    controller: idController..text="404969332",
                                     textAlign: TextAlign.end,
                                     decoration: InputDecoration(
                                       filled: true,

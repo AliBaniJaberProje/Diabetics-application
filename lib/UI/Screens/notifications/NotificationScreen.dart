@@ -1,5 +1,7 @@
 import 'package:ali_muntaser_final_project/core/Model/NotificationStruct.dart';
 import 'package:ali_muntaser_final_project/core/Providers/NotificationProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
+import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,11 +28,11 @@ class NotificationsScreen extends StatelessWidget {
                 imgurl: notification.imgSender,
               ),
               onTap: () => _notificationsProvider.updateStatusToSeen(
-                  "123456789", notification.key),
+                  context.read<Auth>().userId, notification.key),
             ),
             onDismissed: (DismissDirection direction) {
               _notificationsProvider.deleteNotification(
-                  "123456789", notification.key);
+                  context.read<Auth>().userId , notification.key);
               Scaffold.of(context).showSnackBar(SnackBar(
                 backgroundColor: Colors.purple,
                 content: Container(

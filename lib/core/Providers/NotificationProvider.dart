@@ -52,15 +52,17 @@ class NotificationsProvider with ChangeNotifier {
     try {
       _firebaseRef
           .child('notifications')
-          .child(idUser)
+          .child(this.idUser)
           .onValue
           .listen((event) {
         this._notificationsList.clear();
         Map data;
-        if(event.snapshot.value!=null)
+        if(event.snapshot.value!=null){
           data= event.snapshot.value["notification"];
-        _processResult(data);
-        notifyListeners();
+          _processResult(data);
+          notifyListeners();
+        }
+
       });
     } catch (e) {
       print("error in  conection  stream");
@@ -79,7 +81,8 @@ class NotificationsProvider with ChangeNotifier {
   }
 
   void deleteNotification(String userId,String notificationId){
-    _firebaseRef.child("notifications").child(userId).child("notification").child(notificationId).remove();
+    _firebaseRef.child("notifications").child(this.idUser).child("notification").child(notificationId).remove();
+
   }
 
   int getNumberNotification(){

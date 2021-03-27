@@ -39,10 +39,18 @@ class FoodDetailsProvider with ChangeNotifier{
 
     }else if(categoryName=="الدهون والزيوت"){
       url+="oils_and_fats/";
-    }else if(categoryName=="اللحوم البيضاء"){
-      url+="white_meat/";
-    }else if(categoryName=="اللحوم الحمراء"){
-      url+="red_meat/";
+    }else if(categoryName=="اللحوم و الأسماك"){
+      url+="meat/";
+    }else if(categoryName=="خضروات"){
+      url+="vegetable/";
+    }else if(categoryName=="المشروبات"){
+      url += "drink/";
+    }else if(categoryName=="البقوليات والمكسرات"){
+      url+="legumes/";
+    }else if(categoryName=="الورقيات"){
+      url += "foliar/";
+    }else if(categoryName=="النشويات"){
+      url+="starche/";
     }
     else{
       loading=false;
@@ -87,6 +95,9 @@ class FoodDetailsProvider with ChangeNotifier{
       notifyListeners();
       loading=false;
       print(result['FoodNutrients']);
+    }
+    else{
+      loading=false;
     }
   }
 

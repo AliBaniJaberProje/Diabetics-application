@@ -14,6 +14,10 @@ class Auth with ChangeNotifier {
   String _urlSignIn ="https://jaber-server.herokuapp.com/auth/patient/signIn";
   String _jwt;
 
+  String userId;
+  String password;
+
+
   String get jwt => _jwt;
   void clearJWT() {
     this._jwt = null;
@@ -31,6 +35,7 @@ class Auth with ChangeNotifier {
     print(response.body);
     if (response.statusCode == 200) {
       final patientData = jsonDecode(response.body);
+       this.userId=id;
 
       // List<dynamic> lastdoctor = patientData["patient"]["lastDoctor"] as List;
       //

@@ -1,8 +1,6 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
 import 'package:ali_muntaser_final_project/core/Model/messageStruct.dart';
 import 'package:ali_muntaser_final_project/core/Providers/MessagesProvider.dart';
-import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
-import 'package:ali_muntaser_final_project/core/Providers/chatProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/doctorChatProvider.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/cupertino.dart';
@@ -465,4 +463,6 @@ class _MessagesScreen extends State<MessagesScreen> {
       ),
     );
   }
+
+
 }

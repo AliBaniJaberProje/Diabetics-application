@@ -41,6 +41,12 @@ admin.initializeApp(functions.config().functions);
 //     }
 // )
 
+
+
+
+
+
+
 exports.notificationTrigarMsg2=functions.database.ref("pushNotification/{notification}").onCreate(
     async (snp,context)=>{
         var tokent=[];
@@ -52,6 +58,21 @@ exports.notificationTrigarMsg2=functions.database.ref("pushNotification/{notific
 
     }
 )
+
+exports.msgTrigar=functions.database.ref("allChat/{data}").onCreate(
+    async (snp,context)=>{
+        console.log("snp.toJSON()")
+        // var tokent=[];
+        // tokent.push(snp.toJSON()["token"].toString());
+        // var payload={notification:{title:snp.toJSON()["title"].toString(),body:snp.toJSON()["body"].toString(),},
+        //     data:{click_action:"FLUTTER_NOTIFICATION_CLICK"}
+        // }
+        // const  res= await admin.messaging().sendToDevice(tokent,payload);
+
+    }
+)
+
+
 
 
 

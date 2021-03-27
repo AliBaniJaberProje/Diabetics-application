@@ -17,7 +17,7 @@ class IdDoseContainer extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         height: double.infinity,
-        width: 40,
+       width: 40,
         child: Text(
           "${this._id}",
           style: TextStyle(fontSize: fontSize),
