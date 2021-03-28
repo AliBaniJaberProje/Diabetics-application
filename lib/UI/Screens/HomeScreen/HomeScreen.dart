@@ -76,7 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     fbm.subscribeToTopic("notification_msg");
   }
-  Future _showNotification() async {
+
+
+  Future showNotification() async {
     var androidDetails = new AndroidNotificationDetails(
         "Channel ID", "Desi programmer", "This is my channel",
         importance: Importance.max);
@@ -135,4 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+
 }

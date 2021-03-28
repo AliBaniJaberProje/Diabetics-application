@@ -53,6 +53,7 @@ dependencies:
   pedometer:
   flutter_local_notifications: ^4.0.1+2
   http:
+  fl_chart:
   firebase_database:
   percent_indicator: ^1.0.14
   flutter_chat_bubble:

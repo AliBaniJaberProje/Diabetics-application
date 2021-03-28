@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DailyReadingProvider with ChangeNotifier{
 
   String idUser;
+  bool showNotification=false;
   String imgUrlDoctor;
   void clearListDailyReading(){
     this.listDailyReading.clear();
@@ -54,6 +55,9 @@ class DailyReadingProvider with ChangeNotifier{
       "timestamp": Timestamp.now().microsecondsSinceEpoch,
       "title": "type"
     });
+    showNotification=true;
+    notifyListeners();
+    showNotification=false;
   }
 
   void setTimeForThisReading(DateTime t) {
@@ -61,7 +65,7 @@ class DailyReadingProvider with ChangeNotifier{
 
   }
 
-  void setValueAndTake(int id, double val) async{
+  void setValueAndTake(int id, double val, Function shownotification) async{
     var fbm = await FirebaseMessaging();
     var phoneToken = await fbm.getToken();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -79,6 +83,7 @@ class DailyReadingProvider with ChangeNotifier{
              "title":"تنبيه",
               "body":"لم تنتظم بفحوصات السكري اليوم "
         });
+         shownotification();
       }
 
       print(result);

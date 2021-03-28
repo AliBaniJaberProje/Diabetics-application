@@ -3,6 +3,7 @@ import 'package:flipping_card/flipping_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:folding_cell/folding_cell/widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +16,47 @@ class MyDailyReadingBody extends StatefulWidget {
 }
 
 class _MyDailyReadingBodyState extends State<MyDailyReadingBody> {
+  String task="";
+  int val=0;
+  FlutterLocalNotificationsPlugin fltrNotification;
+
+  Future notificationSelected(String payload) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Text("Notification Clicked $payload",style: TextStyle(color: Colors.deepOrange),),
+      ),
+    );
+  }
+  Future showNotification() async {
+    var androidDetails = new AndroidNotificationDetails(
+        "Channel ID", "Desi programmer", "This is my channel",
+        importance: Importance.max);
+    var iSODetails = new IOSNotificationDetails();
+    var generalNotificationDetails =
+    new NotificationDetails(android: androidDetails, iOS: iSODetails);
+
+    // await fltrNotification.show(
+    //     0, "Task", "You created a Task", generalNotificationDetails, payload: "Task");
+    var scheduledTime=DateTime.now();
+
+
+    fltrNotification.schedule(
+        1, "لم تلتزم اليوم بفحص السكري بالموعيد المحددة", "نتنمى ان تلزم بالفحوصات بالمواعيد المحددة", scheduledTime, generalNotificationDetails);
+  }
+
   bool _loading=true;
   @override
   void initState() {
+    var androidInitilize = new AndroidInitializationSettings('ic_launcher');
+    var iOSinitilize = new IOSInitializationSettings();
+    var initilizationsSettings =
+    new InitializationSettings(android: androidInitilize, iOS: iOSinitilize);
+    fltrNotification = new FlutterLocalNotificationsPlugin();
+    fltrNotification.initialize(initilizationsSettings,
+        onSelectNotification: notificationSelected);
+
+
     context.read<DailyReadingProvider>().setTimeForThisReading(DateTime.now());
     context.read<DailyReadingProvider>().fetchDailyReading().then((v){
       setState(() {
@@ -38,6 +77,9 @@ class _MyDailyReadingBodyState extends State<MyDailyReadingBody> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     DailyReadingScreenController _dailyReadingScreenController =
         new DailyReadingScreenController(context);
 
@@ -155,7 +197,7 @@ class _MyDailyReadingBodyState extends State<MyDailyReadingBody> {
                               if (!_formKey.currentState.validate()) return;
 
                               _formKey.currentState.save();
-                              _dailyReadingScreenController.setValue(0, v1);
+                              _dailyReadingScreenController.setValue(0, v1,showNotification);
 
                               print(v1);
                             },
@@ -281,7 +323,7 @@ class _MyDailyReadingBodyState extends State<MyDailyReadingBody> {
                                 if (!_formKey.currentState.validate()) return;
 
                                 _formKey.currentState.save();
-                                _dailyReadingScreenController.setValue(1, v2);
+                                _dailyReadingScreenController.setValue(1, v2,showNotification);
                               },
                               icon: Icon(
                                 ctx
@@ -393,7 +435,7 @@ class _MyDailyReadingBodyState extends State<MyDailyReadingBody> {
                                 if (!_formKey.currentState.validate()) return;
 
                                 _formKey.currentState.save();
-                                _dailyReadingScreenController.setValue(2, v3);
+                                _dailyReadingScreenController.setValue(2, v3,showNotification);
                                 print(v3);
                               },
                               icon: Icon(
@@ -506,7 +548,7 @@ class _MyDailyReadingBodyState extends State<MyDailyReadingBody> {
                               if (!_formKey.currentState.validate()) return;
 
                               _formKey.currentState.save();
-                              _dailyReadingScreenController.setValue(3, v4);
+                              _dailyReadingScreenController.setValue(3, v4,showNotification);
 
                               print(v1);
                             },

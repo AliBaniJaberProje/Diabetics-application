@@ -6,11 +6,11 @@ class DailyReadingScreenController {
   BuildContext context;
   DailyReadingScreenController(this.context);
 
-  void setValue(int id, double value) {
-    context.read<DailyReadingProvider>().setValueAndTake(id, value);
+  void setValue(int id, double value,Function shownotification) {
+    context.read<DailyReadingProvider>().setValueAndTake(id, value,shownotification);
   }
 
-  void update(int id, double value) {
-    context.read<DailyReadingProvider>().setValueAndTake(id, value);
+  void update(int id, double value,Function shownotification ) {
+    context.read<DailyReadingProvider>().setValueAndTake(id, value,shownotification);
   }
 }

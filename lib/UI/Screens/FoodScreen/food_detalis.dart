@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:ali_muntaser_final_project/UI/Screens/MyDoseScreen/widgets/IdDoseContainer.dart';
-import 'package:ali_muntaser_final_project/UI/Screens/doctor_appointments/Doctor_appointmentScreen.dart';
 import 'package:ali_muntaser_final_project/core/Providers/food_details.dart';
 import 'package:ali_muntaser_final_project/core/Providers/food_provider.dart';
 import 'package:flutter/material.dart';

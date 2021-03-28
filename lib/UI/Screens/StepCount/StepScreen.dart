@@ -1,8 +1,12 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/NumberOfStepProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'bar_data.dart';
+import 'bar_titles.dart';
 
 class NumberOfStep extends StatefulWidget {
   static String routeName = "/NumberOfStep";
@@ -16,8 +20,6 @@ String formatDate(DateTime d) {
 }
 
 class _StepsNumberState extends State<NumberOfStep> {
-
-
   @override
   Widget build(BuildContext context) {
     NumberOfStepProvider _numberOfStepProviderRead =
@@ -57,212 +59,312 @@ class _StepsNumberState extends State<NumberOfStep> {
           ),
         ],
       ),
-      body: Center(
-        child:  Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FloatingActionButton(
-                    heroTag: "btn1",
-                    backgroundColor: Colors.purple,
-                    elevation: 100,
-                    splashColor: Colors.white,
-                    child: Icon(
-                      _numberOfStepProviderRead.isRunMood()
-                          ? Icons.pause
-                          : Icons.play_arrow,
-                      color: Colors.white,
-                    ),
-                    onPressed: !_numberOfStepProviderRead.isRunMood()
-                        ? _numberOfStepProviderRead.initTimerAndRun
-                        : _numberOfStepProviderRead.pauseTimer,
-                  ),
-                  Container(
-                    width: 150,
-                    height: 80,
-                    child: Card(
-                      color: Colors.purple[100],
-                      elevation: 10,
-                      child: Container(
+      body: Container(
+        color: Colors.amber.shade50,
+        child: ListView(
+          //  crossAxisAlignment: CrossAxisAlignment.center,
+          //   mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 10,
+            ),
+            Stack(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: [
+                      Icon(
+                        _numberOfStepProviderRead.status == 'walking'
+                            ? Icons.directions_walk
+                            : _numberOfStepProviderRead.status == 'stopped'
+                                ? Icons.accessibility_new
+                                : Icons.error,
+                        size: 100,
+                        color: Colors.purple,
+                      ),
+                      Text(
+                        _numberOfStepProviderRead.status,
+                        style: _numberOfStepProviderRead.status == 'walking' ||
+                                _numberOfStepProviderRead.status == 'stopped'
+                            ? TextStyle(fontSize: 30, color: Colors.purple)
+                            : TextStyle(fontSize: 20, color: Colors.red),
+                      ),
+                      Container(
                         padding: EdgeInsets.all(15),
                         child: Text(
                           _numberOfStepProviderWatch.count.toString(),
                           style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.purple),
                           textAlign: TextAlign.center,
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                  FloatingActionButton(
-                    heroTag: "btn2",
-                    backgroundColor: Colors.purple,
-                    splashColor: Colors.yellow,
-                    child: Icon(Icons.refresh),
-                    onPressed: _numberOfStepProviderRead.killTimer,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Card(
-                    elevation: 2,
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          "${_numberOfStepProviderWatch.hours.toString().padLeft(2, "0")}",
-                          style: TextStyle(
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Text(
-                    ":",
-                    style: TextStyle(
-                      fontSize: 25,
-                    ),
-                  ),
-                  Card(
-                    elevation: 2,
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          "${_numberOfStepProviderWatch.minutes.toString().padLeft(2, "0")}",
-                          style: TextStyle(
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Text(
-                    ":",
-                    style: TextStyle(
-                      fontSize: 25,
-                    ),
-                  ),
-                  Card(
-                    elevation: 2,
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          "${_numberOfStepProviderWatch.seconds.toString().padLeft(2, "0")}",
-                          style: TextStyle(
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Stack(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Column(
-                      children: [
-                        Icon(
-                          _numberOfStepProviderRead.status == 'walking'
-                              ? Icons.directions_walk
-                              : _numberOfStepProviderRead.status == 'stopped'
-                              ? Icons.accessibility_new
-                              : Icons.error,
-                          size: 100,
-                        ),
-                        Text(
-                          _numberOfStepProviderRead.status,
-                          style: _numberOfStepProviderRead.status == 'walking' || _numberOfStepProviderRead.status == 'stopped'
-                              ? TextStyle(fontSize: 30)
-                              : TextStyle(fontSize: 20, color: Colors.red),
-                        ),
+                ),
 
-                      ],
-
-                    )
-                  ),
-                  Center(
-                    child: Card(
-                      color: Colors.white70,
-                      elevation: 1,
-                      child: Container(
-                        width: 300,
-                        height: 300,
-                      ),
-                      shadowColor: Colors.purple,
+                Center(
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
                     ),
-                  )
-                  //Icon(Icons.stop)
-                ],
+                    color: Colors.white.withOpacity(.01),
+                    elevation: 3,
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                    ),
+                    shadowColor: Colors.purple,
+                  ),
+                )
+                // Icon(Icons.stop)
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Card(
+                  color: Colors.purple.shade50,
+                  elevation: 2,
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        "${_numberOfStepProviderWatch.hours.toString().padLeft(2, "0")}",
+                        style: TextStyle(
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Text(
+                  ":",
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                Card(
+                  color: Colors.purple.shade50,
+                  elevation: 2,
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        "${_numberOfStepProviderWatch.minutes.toString().padLeft(2, "0")}",
+                        style: TextStyle(
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Text(
+                  ":",
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                Card(
+                  color: Colors.purple.shade50,
+                  elevation: 2,
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        "${_numberOfStepProviderWatch.seconds.toString().padLeft(2, "0")}",
+                        style: TextStyle(
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FlatButton(
+                  color: Colors.amber,
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(26.0),
+                  ),
+                  // heroTag: "btn1",
+                  // backgroundColor: Colors.purple,
+                  // elevation: 100,
+                  splashColor: Colors.white,
+                  child: Icon(
+                    _numberOfStepProviderRead.isRunMood()
+                        ? Icons.pause
+                        : Icons.play_arrow,
+                    color: Colors.white,
+                  ),
+                  onPressed: !_numberOfStepProviderRead.isRunMood()
+                      ? _numberOfStepProviderRead.initTimerAndRun
+                      : _numberOfStepProviderRead.pauseTimer,
+                ),
+                FlatButton(
+                  color: Colors.amber,
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(26.0),
+                  ),
+                  //  backgroundColor: Colors.purple,
+                  splashColor: Colors.yellow,
+                  child: Icon(
+                    Icons.refresh,
+                    color: Colors.white,
+                  ),
+                  onPressed: _numberOfStepProviderRead.killTimer,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Divider(
+              thickness: 1,
+              color: Colors.purple,
+            ),
+
+            Card(
+
+              margin: EdgeInsets.all(25),
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(32),
+
               ),
-              // Column(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: <Widget>[
-              //     Text(
-              //       'Steps taken:',
-              //       style: TextStyle(fontSize: 30),
-              //     ),
-              //     Text(
-              //       _steps,
-              //       style: TextStyle(fontSize: 60),
-              //     ),
-              //     Divider(
-              //       height: 100,
-              //       thickness: 0,
-              //       color: Colors.white,
-              //     ),
-              //     Text(
-              //       'Pedestrian status:',
-              //       style: TextStyle(fontSize: 30),
-              //     ),
-              //     Icon(
-              //       _status == 'walking'
-              //           ? Icons.directions_walk
-              //           : _status == 'stopped'
-              //               ? Icons.accessibility_new
-              //               : Icons.error,
-              //       size: 100,
-              //     ),
-              //     Center(
-              //       child: Text(
-              //         _status,
-              //         style: _status == 'walking' || _status == 'stopped'
-              //             ? TextStyle(fontSize: 30)
-              //             : TextStyle(fontSize: 20, color: Colors.red),
-              //       ),
-              //     )
-              //   ],
-              // ),
-            ],
-          ),
+             // color: Colors.purple.shade100,
+              child: Padding(
+                padding: EdgeInsets.only(top: 13),
+                child: BardChatWidget(),
+              ),
+            ),
+
+
+
+
+
+
+
+            // LineChart(LineChartData(
+            //   minX: 0,
+            //   maxX: 11,
+            //   minY: 0,
+            //   maxY: 6,
+            //   gridData: FlGridData(
+            //     show: true,
+            //     getDrawingHorizontalLine: (value) {
+            //       return FlLine(
+            //         color: Colors.purple,
+            //       );
+            //     },
+            //     drawVerticalLine: true,
+            //   ),
+            //   backgroundColor: Colors.white,
+            //   borderData: FlBorderData(
+            //     show: true,
+            //     border: Border.all(),
+            //   ),
+            //   lineBarsData: [
+            //     LineChartBarData(spots: [
+            //       FlSpot(0, 3),
+            //       FlSpot(1, 6),
+            //       FlSpot(2, 5),
+            //       FlSpot(3, 1),
+            //     ],
+            //     isCurved: true,
+            //       belowBarData: BarAreaData(
+            //         show: true,
+            //         colors: [
+            //           Colors.yellowAccent.shade100,
+            //           Colors.red
+            //         ]
+            //       )
+            //     )
+            //   ],
+            // )),
+          ],
         ),
-
+      ),
     );
   }
+}
+
+class BardChatWidget extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return BarChart(
+      BarChartData(
+        alignment: BarChartAlignment.center,
+        maxY: 20,
+        minY: -2,
+        groupsSpace: 12,
+        barTouchData: BarTouchData(enabled: true),
+        titlesData: FlTitlesData(
+          topTitles: BarTitles.getTopBottomTitles(),
+          bottomTitles: BarTitles.getTopBottomTitles(),
+          leftTitles: BarTitles.getSideTitles(),
+          rightTitles: BarTitles.getSideTitles(),
+        ),
+        gridData: FlGridData(
+          checkToShowHorizontalLine: (value) => value % BarData.interval == 0,
+          getDrawingHorizontalLine: (value) {
+            if (value == 0) {
+              return FlLine(
+                color: const Color(0xff363753),
+                strokeWidth: 3,
+              );
+            } else {
+              return FlLine(
+                color: const Color(0xff2a2747),
+                strokeWidth: 0.8,
+              );
+            }
+          },
+        ),
+        barGroups: BarData.barData
+            .map(
+              (data) => BarChartGroupData(
+            x: data.id,
+            barRods: [
+              BarChartRodData(
+                y: data.y,
+                width: 20,
+                colors: [data.color],
+                borderRadius: data.y > 0
+                    ? BorderRadius.only(
+                  topLeft: Radius.circular(6),
+                  topRight: Radius.circular(6),
+                )
+                    : BorderRadius.only(
+                  bottomLeft: Radius.circular(6),
+                  bottomRight: Radius.circular(6),
+                ),
+              ),
+            ],
+          ),
+        )
+            .toList(),
+      ),
+    );
+  }
+
+
 }
 
 // class NumberOfStep extends StatelessWidget {

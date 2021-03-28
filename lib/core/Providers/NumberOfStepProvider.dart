@@ -1,11 +1,20 @@
 
 
 import 'dart:async';
-
+import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import '../Model/step_contant.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pedometer/pedometer.dart';
 
 class NumberOfStepProvider with ChangeNotifier{
+
+  List<StepContant> daliySteps=[];
+  int _startTime;
+  int _endTime;
+
 
   Timer _timerSeconds;
   int seconds=0;
@@ -44,9 +53,14 @@ class NumberOfStepProvider with ChangeNotifier{
 ///-----------------------------------------------------------------------------
 
 
-  void initTimerAndRun(){
+  void initTimerAndRun()async{
     initPlatformState();
 
+    
+   http.Response response=await http.get("http://192.168.0.112:3000/steps/timestamp");
+   if(response.statusCode==200){
+     _startTime=jsonDecode(response.body)['now'];
+   }
     this._startTimer=true;
     this._timerSeconds=Timer.periodic(Duration(seconds: 1), (timer) {
 
@@ -70,11 +84,29 @@ class NumberOfStepProvider with ChangeNotifier{
 
     });
 
+
+
   }
 
-  void pauseTimer(){
+  void pauseTimer()async{
      this._timerSeconds.cancel();
      this._startTimer=false;
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+     String jwt= prefs.get('jwt');
+
+     http.Response response=await http.post("http://192.168.0.112:3000/steps",headers: {"x-auth-token":jwt},body: {
+       "startTime":"$_startTime",
+        "numberOfStep":"$count"
+     });
+
+     if(response.statusCode==200){
+       print("Aliiiiiiiiiiiiiiiiiiiii");
+     }
+     this._timerSeconds.cancel();
+     this.seconds=0;
+     this.minutes=0;
+     this.hours=0;
+     this.count=0;
      notifyListeners();
   }
 
@@ -84,6 +116,7 @@ class NumberOfStepProvider with ChangeNotifier{
    this.minutes=0;
    this.hours=0;
    this.count=0;
+   // _endTime=5;
 
    _startTimer=false;
    notifyListeners();
