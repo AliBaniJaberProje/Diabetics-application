@@ -16,6 +16,7 @@ import 'UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 
 import 'UI/Screens/doctor_appointments/Doctor_appointmentScreen.dart';
 import 'UI/Screens/doctor_appointments/EventTimeScreen.dart';
+import 'UI/Screens/history/dose_history_dose.dart';
 import "UI/Screens/todoy's meals/FoodScreen.dart";
 import 'core/Providers/EventDateTimeProvier.dart';
 import 'core/Providers/EventProvider.dart';
@@ -28,6 +29,7 @@ import 'core/Providers/ProfileProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './core/Model/messageStruct.dart';
 import './core/Providers/NumberOfStepProvider.dart';
+import 'core/Providers/dose_history_provider.dart';
 import 'core/Providers/food_details.dart';
 import 'core/Providers/food_provider.dart';
 import 'core/Servies_api/nodeServers/auth.dart';
@@ -61,6 +63,7 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: SlotDateTimeProvider()),
         ChangeNotifierProvider.value(value: FoodProvider2()),
         ChangeNotifierProvider.value(value: FoodDetailsProvider()),
+        ChangeNotifierProvider.value(value: DoseHistoryProvider()),
 
       ],
       child: MyApp(),
@@ -72,6 +75,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
+      // supportedLocales: [
+      //   Locale('en'),
+      //   Locale('zh'),
+      //   Locale('fr'),
+      //   Locale('es'),
+      //   Locale('de'),
+      //   Locale('ru'),
+      //   Locale('ja'),
+      //   Locale('ar'),
+      //   Locale('fa'),
+      //   Locale("es"),
+      // ],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
@@ -92,7 +108,7 @@ class MyApp extends StatelessWidget {
         FoodScreen.routerName:(context)=>FoodScreen(),
         EventTimeScreen.routeName:(context)=>EventTimeScreen(),
         FoodScreen2.routeName:(context)=>FoodScreen2(),
-
+        DoseHistoryDose.routeName:(context)=>DoseHistoryDose(),
       },
     );
   }

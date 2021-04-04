@@ -13,7 +13,7 @@ class TitleDoseContainer extends StatelessWidget {
           child: Text(
             "${this._title}",
             style: TextStyle(
-              fontSize: 30,
+              fontSize: 20,
               fontWeight: FontWeight.w300,
             ),
             //textAlign: TextAlign.start,

@@ -18,14 +18,14 @@ class MyDoseScreen extends StatelessWidget {
         appBar: AppBarMyDoseScreen(context),
         endDrawer: Drawer(),
         body: MyDoseBody(),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            Provider.of<MyDoseProvider>(context, listen: false)
-                .addDoseToListProvider();
-          },
-        
-      ),
+      //   floatingActionButton: FloatingActionButton(
+      //     child: Icon(Icons.add),
+      //     onPressed: () {
+      //       Provider.of<MyDoseProvider>(context, listen: false)
+      //           .addDoseToListProvider();
+      //     },
+      //
+      // ),
     );
   }
 }

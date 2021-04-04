@@ -52,6 +52,10 @@ class Patient {
   DateTime get dateBirth => _dateBirth;
   String get diabtesType => _diabtesType;
 
+  set username(String value) {
+    _username = value;
+  }
+
   String get username => _username;
   String get id => _id;
   String get injectionType => _injectionType;

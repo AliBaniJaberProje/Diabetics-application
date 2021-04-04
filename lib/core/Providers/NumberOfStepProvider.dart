@@ -2,7 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ali_muntaser_final_project/core/Model/step.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Model/step_contant.dart';
@@ -11,9 +11,80 @@ import 'package:pedometer/pedometer.dart';
 
 class NumberOfStepProvider with ChangeNotifier{
 
+
+   List<Data> barData = [
+    Data(
+       name: 'Sun',
+       id: 0,
+       y: 0,
+       color: Color(0xffff4d94),
+     ),
+    Data(
+      id: 1,
+      name: 'Mon',
+      y: 0,
+      color: Color(0xff19bfff),
+    ),
+    Data(
+      name: 'Tue',
+      id: 2,
+      y: 0,
+      color: Color(0xffff4d94),
+    ),
+    Data(
+      name: 'Wed',
+      id: 3,
+      y: 0,
+      color: Color(0xff2bdb90),
+    ),
+    Data(
+      name: 'Thu',
+      id: 4,
+      y: 0,
+      color: Color(0xffffdd80),
+    ),
+    Data(
+      name: 'Fri',
+      id: 5,
+      y: 0,
+      color: Color(0xff2bdb90),
+    ),
+    Data(
+      name: 'Sat',
+      id: 6,
+      y: 0,
+      color: Color(0xffffdd80),
+    ),
+  ];
+
+   void feachThisWeek()async{
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+     String jwt= prefs.get('jwt');
+     http.Response response=await http.get("https://jaber-server.herokuapp.com/steps/lastWeak",headers: {"x-auth-token":jwt});
+     if(response.statusCode==200){
+       var result=jsonDecode(response.body) as List;
+       for(int i=0;i<result.length;i++){
+         setValue(i,result[i]*1.0/1000.0);
+
+       }
+       notifyListeners();
+       print(response.body);
+     }
+
+   }
+
+   void setValue(int index, double value){
+     this.barData[index].y=value;
+     ///notifyListeners();
+   }
+
+
   List<StepContant> daliySteps=[];
   int _startTime;
-  int _endTime;
+
+
+
+
 
 
   Timer _timerSeconds;
@@ -36,7 +107,6 @@ class NumberOfStepProvider with ChangeNotifier{
   String get status => _status;
 
   ///---------------------------------------------------------------------------
-  ///
 
   bool isRunMood(){
     return _startTimer;
@@ -50,14 +120,14 @@ class NumberOfStepProvider with ChangeNotifier{
     return this._end;
   }
 
-///-----------------------------------------------------------------------------
+ ///-----------------------------------------------------------------------------
 
 
   void initTimerAndRun()async{
     initPlatformState();
 
     
-   http.Response response=await http.get("http://192.168.0.112:3000/steps/timestamp");
+   http.Response response=await http.get("https://jaber-server.herokuapp.com/steps/timestamp");
    if(response.statusCode==200){
      _startTime=jsonDecode(response.body)['now'];
    }
@@ -94,13 +164,14 @@ class NumberOfStepProvider with ChangeNotifier{
      SharedPreferences prefs = await SharedPreferences.getInstance();
      String jwt= prefs.get('jwt');
 
-     http.Response response=await http.post("http://192.168.0.112:3000/steps",headers: {"x-auth-token":jwt},body: {
+     http.Response response=await http.post("https://jaber-server.herokuapp.com/steps",headers: {"x-auth-token":jwt},body: {
        "startTime":"$_startTime",
         "numberOfStep":"$count"
      });
 
      if(response.statusCode==200){
        print("Aliiiiiiiiiiiiiiiiiiiii");
+       feachThisWeek();
      }
      this._timerSeconds.cancel();
      this.seconds=0;

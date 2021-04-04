@@ -41,8 +41,8 @@ class SlotDateTimeProvider with ChangeNotifier{
         new EventStruct(
           id:   result["msg"][i]["_id"].toString(),
           isAvailable: result["msg"][i]["taken"]["available"],
-          startEventTime: DateTime.parse(result["msg"][i]["startEventTime"]).add(Duration(hours: 2)),
-          endEventTime:  DateTime.parse(result["msg"][i]["endEventTime"]).add(Duration(hours: 2)),
+          startEventTime: DateTime.parse(result["msg"][i]["startEventTime"]).add(Duration(hours: 3)),
+          endEventTime:  DateTime.parse(result["msg"][i]["endEventTime"]).add(Duration(hours: 3)),
         ),
       );
     }

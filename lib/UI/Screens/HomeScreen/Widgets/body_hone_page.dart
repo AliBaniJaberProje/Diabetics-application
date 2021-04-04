@@ -10,8 +10,9 @@ import "../../todoy's meals/Today's_MealsScreen.dart";
 
 class HeaderContainer extends StatelessWidget {
   final bool showname;
+  final String doctorName;
 
-  const HeaderContainer({@required this.showname});
+  const HeaderContainer({@required this.showname, this.doctorName});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,7 +34,7 @@ class HeaderContainer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "د أسامة جميل ",
+                        " د. ${doctorName}",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 25),
                       ),
@@ -200,6 +201,10 @@ class MainFituerContainer extends StatelessWidget {
 }
 
 class BodyHonePage extends StatelessWidget {
+  final String doctorName;
+
+  const BodyHonePage({ this.doctorName});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -208,6 +213,8 @@ class BodyHonePage extends StatelessWidget {
           children: [
             HeaderContainer(
               showname: true,
+              doctorName: doctorName,
+
             ),
             SizedBox(
               height: constraint.maxHeight * .03,

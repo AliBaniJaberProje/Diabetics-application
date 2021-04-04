@@ -5,16 +5,23 @@ import 'package:provider/provider.dart';
 import 'IdDoseContainer.dart';
 import 'TimeDoseContainer.dart';
 import 'TitleDoseContainer.dart';
-
+import '../../../../core/Servies_api/nodeServers/auth.dart';
 class MyDoseBody extends StatefulWidget {
   @override
   _MyDoseBodyState createState() => _MyDoseBodyState();
 }
 
 class _MyDoseBodyState extends State<MyDoseBody> {
+  bool loading=true;
   @override
   void initState() {
-    Provider.of<MyDoseProvider>(context, listen: false).filter_listDose();
+
+    context.read<MyDoseProvider>().fetchDoses().then((val){
+      setState(() {
+        loading=false;
+
+      });
+    });
     super.initState();
   }
 
@@ -22,7 +29,10 @@ class _MyDoseBodyState extends State<MyDoseBody> {
   Widget build(BuildContext context) {
     print("11");
 
-    return LayoutBuilder(
+
+    return loading?Center(
+      child:CircularProgressIndicator(),
+    ) :LayoutBuilder(
       builder: (ctx, constran) {
         var objProvider = Provider.of<MyDoseProvider>(ctx, listen: true);
         return Column(
@@ -31,27 +41,27 @@ class _MyDoseBodyState extends State<MyDoseBody> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  FlatButton(
-                    onPressed: () {
-                      Provider.of<MyDoseProvider>(ctx, listen: false)
-                          .decremant_dateDose();
-                    },
-                    splashColor: Colors.purple,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      //side: BorderSide(color: Colors.red),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.purple.withOpacity(.5),
-                      ),
-                      child: Icon(
-                        Icons.navigate_before,
-                        size: 50,
-                      ),
-                    ),
-                  ),
+                  // FlatButton(
+                  //   onPressed: () {
+                  //     Provider.of<MyDoseProvider>(ctx, listen: false)
+                  //         .decremant_dateDose();
+                  //   },
+                  //   splashColor: Colors.purple,
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(50),
+                  //     //side: BorderSide(color: Colors.red),
+                  //   ),
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(50),
+                  //       color: Colors.purple.withOpacity(.5),
+                  //     ),
+                  //     child: Icon(
+                  //       Icons.navigate_before,
+                  //       size: 50,
+                  //     ),
+                  //   ),
+                  // ),
                   Container(
                     child: Column(
                       children: [
@@ -73,27 +83,27 @@ class _MyDoseBodyState extends State<MyDoseBody> {
                       ],
                     ),
                   ),
-                  FlatButton(
-                    onPressed: () {
-                      Provider.of<MyDoseProvider>(ctx, listen: false)
-                          .incremant_dataDose();
-                    },
-                    splashColor: Colors.purple,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      //side: BorderSide(color: Colors.red),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.purple.withOpacity(.5),
-                      ),
-                      child: Icon(
-                        Icons.navigate_next,
-                        size: 50,
-                      ),
-                    ),
-                  ),
+                  // FlatButton(
+                  //   onPressed: () {
+                  //     Provider.of<MyDoseProvider>(ctx, listen: false)
+                  //         .incremant_dataDose();
+                  //   },
+                  //   splashColor: Colors.purple,
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(50),
+                  //     //side: BorderSide(color: Colors.red),
+                  //   ),
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(50),
+                  //       color: Colors.purple.withOpacity(.5),
+                  //     ),
+                  //     child: Icon(
+                  //       Icons.navigate_next,
+                  //       size: 50,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               width: double.infinity,
@@ -120,15 +130,12 @@ class _MyDoseBodyState extends State<MyDoseBody> {
             Expanded(
               child: ListView.builder(
                 itemBuilder: (ctx, i) {
-                  Color _color = (Provider.of<MyDoseProvider>(ctx, listen: true)
+                  Color _color =   (context.watch<MyDoseProvider>()
                           .listDose[i]
                           .color as Color)
                       .withOpacity(.56);
 
-                  return Provider.of<MyDoseProvider>(context, listen: true)
-                          .listDose[i]
-                          .take
-                      ? Container(
+                  return  Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
@@ -161,10 +168,10 @@ class _MyDoseBodyState extends State<MyDoseBody> {
                                   _color.withOpacity(.5),30),
                             ],
                           ),
-                        )
-                      : Container();
+                        );
+
                 },
-                itemCount: Provider.of<MyDoseProvider>(context, listen: true)
+                itemCount:context.watch<MyDoseProvider>()
                     .listDose
                     .length,
               ),

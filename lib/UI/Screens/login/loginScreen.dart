@@ -10,7 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'dart:ui';
 import 'package:provider/provider.dart';
 import 'Widgets/HeaderLogin.dart';
-
+import '../../../core/Providers/MyDoseProvider.dart';
 class LoginFormWidget extends StatefulWidget {
   @override
   _LoginFormWidgetState createState() => _LoginFormWidgetState();
@@ -21,8 +21,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   var idController = TextEditingController();
   var passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  String _userId = "789789789";
-  String _password = "0123456789";
+  String _userId;
+  String _password;
   Auth usersNodeServer = new Auth();
 
 
@@ -62,6 +62,10 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
        // Patient userPatient = resultLogin["patient"];
         context.read<LoginProvider>().reastLodingLoginStatus();
         var _profileProvider = context.read<ProfileProvider>();
+        _profileProvider.doctorName=
+        context.read<MyDoseProvider>().idUser=_userId;
+
+
         //_profileProvider.person=userPatient;
 ///--------------------put token in profile ------------------------------------
 
@@ -170,7 +174,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                     onSaved: (val) => _userId = val,
                                     keyboardType: TextInputType.datetime,
                                     style: TextStyle(fontSize: 25),
-                                    controller: idController..text="404969332",
+                                    controller: idController..text="123123123",
                                     textAlign: TextAlign.end,
                                     decoration: InputDecoration(
                                       filled: true,

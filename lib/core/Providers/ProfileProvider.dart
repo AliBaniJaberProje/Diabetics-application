@@ -33,6 +33,7 @@ class ProfileProvider with ChangeNotifier {
   bool _updateLocation = false;
   File _imagePerson;
   final imagePicker = ImagePicker();
+  String doctorName;
 
   ///----------------------------- private method-------------------------------
   bool _isValidPhoneNumber(String phoneNumber)  {

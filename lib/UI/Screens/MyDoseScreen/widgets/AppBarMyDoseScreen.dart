@@ -1,7 +1,8 @@
 
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/core/Providers/MyDoseProvider.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 AppBar AppBarMyDoseScreen(BuildContext context){
     return  AppBar(
         backgroundColor: Colors.purple,
@@ -9,9 +10,11 @@ AppBar AppBarMyDoseScreen(BuildContext context){
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.arrow_back),
               onPressed: () {
+                context.read<MyDoseProvider>().clearDose();
                 Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+
               },
             ),
             Container(

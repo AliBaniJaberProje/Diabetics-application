@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ali_muntaser_final_project/core/Model/EventStruct.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +23,7 @@ Future<http.Response> getAllEventInDay(DateTime dateTime)async{
 Future<int> setSelectedOfEventIForId(String idEvent) async {
  try{
    SharedPreferences prefs = await SharedPreferences.getInstance();
-
+   ///https://jaber-server.herokuapp.com
    http.Response response= await http.post(
        "https://jaber-server.herokuapp.com/event/selectEvent",
        headers: {
@@ -45,7 +44,6 @@ Future<int> setSelectedOfEventIForId(String idEvent) async {
  }
 }
 
-
 Future<EventStruct> getEventSelectedInProfile()async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
   http.Response response= await http.get(
@@ -59,8 +57,8 @@ Future<EventStruct> getEventSelectedInProfile()async{
      return  new EventStruct(
        id:result["msg"]["_id"].toString(),
        isAvailable: result["msg"]["taken"]["available"],
-       startEventTime: DateTime.parse(result["msg"]["startEventTime"]).add(Duration(hours: 2)),
-       endEventTime:  DateTime.parse(result["msg"]["endEventTime"]).add(Duration(hours: 2)),
+       startEventTime: DateTime.parse(result["msg"]["startEventTime"]).add(Duration(hours: 3)),
+       endEventTime:  DateTime.parse(result["msg"]["endEventTime"]).add(Duration(hours: 3)),
      );
    }catch(e){
      return  new EventStruct(

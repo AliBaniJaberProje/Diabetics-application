@@ -45,9 +45,13 @@ dependencies:
   cloud_firestore: ^0.14.0
   firebase_storage: "^5.0.0-dev.3"
   firebase_messaging:
+#  horizontal_data_table:
+  json_table:
   firebase_auth:
   dropdown_search: ^0.4.9
 #  flutter_zoom_drawer:
+  month_picker_dialog:
+  path:
   fancy_bottom_navigation:
   circular_profile_avatar:
   pedometer:

@@ -19,7 +19,7 @@ class BarTitles {
     getTextStyles: (value) =>
     const TextStyle(color: Colors.black87, fontSize: 10),
     rotateAngle: 90,
-    interval: BarData.interval.toDouble(),
+    interval: 5.toDouble(),
     margin: 10,
     reservedSize: 30,
     getTitles: (double value) => value == 0 ? '0' : '${value.toInt()}k',

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Data {
+class Data1 {
   // for ordering in the graph
   final int id;
   final String name;
   final double y;
   final Color color;
 
-  const Data({
+  const Data1({
     @required this.name,
     @required this.id,
     @required this.y,
@@ -18,48 +18,50 @@ class Data {
 class BarData {
   static int interval = 5;
 
-  static List<Data> barData = [
-    Data(
-      id: 0,
+  static List<Data1> barData = [
+
+    Data1(
+      id: 1,
       name: 'Mon',
       y: 15,
       color: Color(0xff19bfff),
     ),
-    Data(
+    Data1(
       name: 'Tue',
-      id: 1,
+      id: 2,
       y: 12,
       color: Color(0xffff4d94),
     ),
-    Data(
+    Data1(
       name: 'Wed',
-      id: 2,
+      id: 3,
       y: 11,
       color: Color(0xff2bdb90),
     ),
-    Data(
+    Data1(
       name: 'Thu',
-      id: 3,
+      id: 4,
       y: 10,
       color: Color(0xffffdd80),
     ),
-    Data(
+    Data1(
       name: 'Fri',
-      id: 4,
+      id: 5,
       y: 5,
       color: Color(0xff2bdb90),
     ),
-    Data(
+    Data1(
       name: 'Sat',
-      id: 5,
+      id: 6,
       y: 17,
       color: Color(0xffffdd80),
     ),
-    Data(
+    Data1(
       name: 'Sun',
-      id: 6,
+      id: 0,
       y: 5,
       color: Color(0xffff4d94),
     ),
+
   ];
 }

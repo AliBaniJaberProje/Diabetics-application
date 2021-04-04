@@ -4,8 +4,10 @@ import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart
 import 'package:ali_muntaser_final_project/core/Providers/DailyReadingProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/MessagesProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/NotificationProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 
 import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/PatientServes.dart';
+import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   FlutterLocalNotificationsPlugin fltrNotification;
-
+  String doctorName="سكرك مضبوط";
   String task="545";
   int val=0;
 
@@ -36,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
+
     var androidInitilize = new AndroidInitializationSettings('ic_launcher');
     var iOSinitilize = new IOSInitializationSettings();
     var initilizationsSettings =
@@ -44,12 +47,17 @@ class _HomeScreenState extends State<HomeScreen> {
     fltrNotification.initialize(initilizationsSettings,
         onSelectNotification: notificationSelected);
 
+
     getIdAndIdCurrentDoctor().then((value) {
       print(value);
       context.read<NotificationsProvider>().startStreamNotification(value['patientUser']["id"]);
       context.read<MessagesProvider>().getNumberOfMessagesFromDoctor(value['patientUser']["id"],value['patientUser']["currentDoctor"]);
       context.read<DailyReadingProvider>().idUser=value['patientUser']["id"];
+      context.read<ProfileProvider>().setImgUrl(value['patientUser']['imgURL']);
+      context.read<ProfileProvider>().patient.username=value['patientUser']['username'];
       context.read<DailyReadingProvider>().imgUrlDoctor=value['imgURLDoctor'];
+
+      doctorName=value['doctorName'];
 
       print(value["currentDoctor"]);
     });
@@ -119,14 +127,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: TabBarView(
           children: [
-            BodyHonePage(),
+            BodyHonePage(doctorName: this.doctorName),
             NotificationsScreen(),
             PersonChatScreen(),
             //  PersonalScreen(),
           ],
-        ),
-      ),
-    );
+        ),),
+      );
   }
 
   Future notificationSelected(String payload) async {

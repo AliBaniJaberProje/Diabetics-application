@@ -30,7 +30,7 @@ class FoodDetailsProvider with ChangeNotifier{
   void sendRequestToGetDetails(String fcdId)async{
     loading=true;
     component.clear();
-    String url="http://192.168.0.112:3000/food/";
+    String url="https://jaber-server.herokuapp.com/food/";
     if(categoryName=="فواكه"){
       url+="fruits/";
     }

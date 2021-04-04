@@ -20,6 +20,22 @@ String formatDate(DateTime d) {
 }
 
 class _StepsNumberState extends State<NumberOfStep> {
+
+
+  @override
+  void initState() {
+
+    context.read<NumberOfStepProvider>().feachThisWeek();
+
+
+
+
+
+    super.initState();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     NumberOfStepProvider _numberOfStepProviderRead =
@@ -312,7 +328,7 @@ class BardChatWidget extends StatelessWidget{
       BarChartData(
         alignment: BarChartAlignment.center,
         maxY: 20,
-        minY: -2,
+        minY: 0,
         groupsSpace: 12,
         barTouchData: BarTouchData(enabled: true),
         titlesData: FlTitlesData(
@@ -322,7 +338,7 @@ class BardChatWidget extends StatelessWidget{
           rightTitles: BarTitles.getSideTitles(),
         ),
         gridData: FlGridData(
-          checkToShowHorizontalLine: (value) => value % BarData.interval == 0,
+          checkToShowHorizontalLine: (value) => value % 5 == 0,
           getDrawingHorizontalLine: (value) {
             if (value == 0) {
               return FlLine(
@@ -337,7 +353,7 @@ class BardChatWidget extends StatelessWidget{
             }
           },
         ),
-        barGroups: BarData.barData
+        barGroups: context.read<NumberOfStepProvider>().barData
             .map(
               (data) => BarChartGroupData(
             x: data.id,

@@ -11,11 +11,13 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
+  ///https://jaber-server.herokuapp.com/auth/patient/signIn
   String _urlSignIn ="https://jaber-server.herokuapp.com/auth/patient/signIn";
   String _jwt;
 
   String userId;
   String password;
+
 
 
   String get jwt => _jwt;
@@ -35,38 +37,7 @@ class Auth with ChangeNotifier {
     print(response.body);
     if (response.statusCode == 200) {
       final patientData = jsonDecode(response.body);
-       this.userId=id;
-
-      // List<dynamic> lastdoctor = patientData["patient"]["lastDoctor"] as List;
-      //
-      // List<dynamic> lastDoctorsList = lastdoctor.toList();
-      // for (int i = 1; i < lastDoctorsList.length; i++) {
-      //   lastDoctorsList[i - 1] = lastDoctorsList[i];
-      //
-      // }
-      //
-      // Patient patient = Patient(
-      //   id: patientData["patient"]["id"],
-      //   username: patientData["patient"]["username"],
-      //   idCurantDoctur: patientData["patient"]["currentDoctor"],
-      //   imgurl: patientData["patient"]["imgURL"],
-      //   phoneNumber: patientData["patient"]["phoneNumber"],
-      //   location: patientData["patient"]["location"],
-      //   length: double.parse(patientData["patient"]["length"].toString()),
-      //   weight: double.parse(patientData["patient"]["weight"].toString()),
-      //   dateBirth: Timestamp.fromMicrosecondsSinceEpoch(
-      //       int.parse(patientData["patient"]["birthDate"].toString()),),
-      //   diabtesType: patientData["patient"]["diabetesType"],
-      //   lastDoctor: lastDoctorsList,
-      //   diagnosisYear: Timestamp.fromMicrosecondsSinceEpoch(
-      //       int.parse(patientData["patient"]["diagnosisYear"]),),
-      //   injectionType: patientData["patient"]["injectionType"],
-      //   capsuleType: patientData["patient"]["capsuleType"],
-      // );
-
-     // return_data["status"] = "yes";
-    //  return_data["patient"] = patient;
-    //   print(patient);
+      this.userId=id;
 
       this._jwt = patientData["token"];
       SharedPreferences prefs = await SharedPreferences.getInstance();
