@@ -63,7 +63,7 @@ class MyDoseProvider with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
 
-    String url = "https://jaber-server.herokuapp.com/dose";
+    String url = "https://jaber-server.herokuapp.com/dose/${this.idUser}";
    http.Response response=await http.get(url,headers: {"x-auth-token":prefs.getString('jwt')});
    if(response.statusCode==200){
      var result=jsonDecode(response.body);
@@ -78,7 +78,6 @@ class MyDoseProvider with ChangeNotifier {
 
 
    }
-
 
   }
 

@@ -19,6 +19,9 @@ class DoseHistoryProvider with ChangeNotifier{
       jsonSample=response.body;
       json=jsonDecode(jsonSample);
       notifyListeners();
+    }else{
+      json="";
+      jsonSample="";
     }
 
 

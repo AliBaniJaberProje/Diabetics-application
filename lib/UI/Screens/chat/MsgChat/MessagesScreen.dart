@@ -276,7 +276,7 @@ class _NewMessageState extends State<NewMessage> {
                           child: ListTile(
                               trailing: Icon(Icons.camera_alt),
                               title: Text(
-                                "الكميرا",
+                                "الكاميرا",
                                 textAlign: TextAlign.end,
                               ),
                               onTap: () {
