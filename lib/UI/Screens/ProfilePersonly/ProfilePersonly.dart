@@ -93,7 +93,7 @@ class ContainerData extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         child: Container(
             color: Colors.white,
-            height: 50,
+            height: 70,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -109,7 +109,7 @@ class ContainerData extends StatelessWidget {
                   Container(
                     color: Colors.purple,
                     width: 40,
-                    height: 50,
+                    height: 70,
                     child: Icon(icon, color: Colors.white),
                   ),
                 ],
