@@ -1,3 +1,4 @@
+import 'package:ali_muntaser_final_project/UI/Screens/history/suqar_reding_history.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/login/loginScreen.dart';
 import 'package:ali_muntaser_final_project/core/Providers/DailyReadingProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
@@ -109,6 +110,7 @@ class MyApp extends StatelessWidget {
         EventTimeScreen.routeName:(context)=>EventTimeScreen(),
         FoodScreen2.routeName:(context)=>FoodScreen2(),
         DoseHistoryDose.routeName:(context)=>DoseHistoryDose(),
+        SuqarRedingHistory.routName:(context)=>SuqarRedingHistory(),
       },
     );
   }

@@ -11,17 +11,19 @@ class DoseHistoryProvider with ChangeNotifier{
   bool loading=false;
   void fetchData(int month, int year)async{
     loading=true;
-
+    notifyListeners();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
+///
     http.Response response=await http.get("https://jaber-server.herokuapp.com/doseHistory/$month/$year",headers: {"x-auth-token":prefs.getString('jwt')});
     if(response.statusCode==200){
       jsonSample=response.body;
       json=jsonDecode(jsonSample);
       notifyListeners();
     }else{
+      loading=false;
       json="";
       jsonSample="";
+      notifyListeners();
     }
 
 

@@ -125,7 +125,7 @@ class _DoseHistoryDoseState extends State<DoseHistoryDose> {
 
                     context: context,
                     firstDate: DateTime(DateTime.now().year - 1, 5),
-                    lastDate: DateTime(DateTime.now().year + 1, 9),
+                    lastDate: DateTime.now(),
                     initialDate: DateTime.now(),
                     // locale: Locale("es"),
                   ).then((date) {
@@ -144,31 +144,7 @@ class _DoseHistoryDoseState extends State<DoseHistoryDose> {
           ),
         ),
       ),
-      // floatingActionButton: Builder(
-      //
-      //   builder: (context) => FloatingActionButton(
-      //     onPressed: () {
-      //       showMonthPicker(
-      //
-      //         context: context,
-      //         firstDate: DateTime(DateTime.now().year - 1, 5),
-      //         lastDate: DateTime(DateTime.now().year + 1, 9),
-      //         initialDate: DateTime.now(),
-      //         // locale: Locale("es"),
-      //       ).then((date) {
-      //         if (date != null) {
-      //           context.read<DoseHistoryProvider>().fetchData(date.month,date.year);
-      //           print(date.month);
-      //           setState(() {
-      //             selectedDate = date;
-      //           });
-      //         }
-      //       });
-      //     },
-      //     child: Icon(Icons.calendar_today),
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
 
     );
   }

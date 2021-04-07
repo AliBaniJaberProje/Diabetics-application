@@ -58,7 +58,7 @@ class NotificationStruct {
     _body = json["body"];
     _title = json["title"];
     _status = json["status"];
-    _timeSend = Timestamp.fromMicrosecondsSinceEpoch(json["timestamp"]);
+    _timeSend = Timestamp.fromMillisecondsSinceEpoch(json["timestamp"]);
   }
 
   Map<String, dynamic> toJson() {

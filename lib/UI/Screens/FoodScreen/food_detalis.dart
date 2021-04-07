@@ -20,131 +20,13 @@ class FoodDetails extends StatefulWidget {
 }
 
 class _FoodDetailsState extends State<FoodDetails> {
-  TextEditingController _textFieldGram = TextEditingController();
 
   _displayDialog(BuildContext context,Color color,Color co) {
     showDialog(
         context: context,
 
 
-        child:AlertDialog(
-
-          titlePadding:   EdgeInsets.all(0),
-          contentPadding: EdgeInsets.all(0),
-          title:Image.network("https://zovon.s3.amazonaws.com/wp-content/uploads/2018/07/img-diabetes-diet-what-to-follow-2018-08.gif",
-                    fit: BoxFit.fill,
-                  ),
-              content: Container(
-                height: MediaQuery.of(context).size.height * .2,
-                decoration: new BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: const Color(0xFFFFFF),
-                  borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
-                ),
-                child: Column(
-                  children: [
-                    Text("كمية الطعام المتناولة بالغرام ؟",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                    Container(
-                      width: 150,
-                      height: 60,
-
-                      margin: EdgeInsets.symmetric(horizontal: 40),
-                     child:  TextFormField(
-                        showCursor:true ,
-                       cursorColor: Colors.deepPurple,
-                       cursorHeight: 25,
-                       textAlign: TextAlign.end,
-                       maxLength: 5,
-
-                       keyboardType: TextInputType.datetime,
-                       style: TextStyle(fontSize: 25,),
-                       controller: _textFieldGram,
-
-                       decoration: InputDecoration(
-                         filled: true,
-                         fillColor:color,
-                         hintStyle: TextStyle(
-                           color:
-                           Colors.purpleAccent.withOpacity(.3),
-                           fontSize: 25,
-                         ),
-
-                         focusedBorder:OutlineInputBorder(
-                           gapPadding: 10,
-
-                           borderSide:  BorderSide(color: co, width: 1),
-                           //borderRadius: BorderRadius.circular(25.0),
-                         ),
-                         enabledBorder: OutlineInputBorder(
-                           gapPadding: 10,
-                           borderSide:  BorderSide(color: co, width: 1),
-                           //borderRadius: BorderRadius.circular(25.0),
-                         ),
-                       ),
-                     ),
-                    ),
-                    SizedBox(height: 20,),
-
-                    RaisedButton(
-
-                      shape: StadiumBorder(),
-                      color: Colors.green,
-                      onPressed: () {
-                        if(_textFieldGram.text.isEmpty) return;
-                        print(_textFieldGram.text);
-                        _textFieldGram.text="";
-                      },
-                      child: Text("حفظ",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 25),),
-                    )
-                    // Container(
-                    //   height: 50.0,
-                    //   margin: EdgeInsets.symmetric(horizontal: 50,),
-                    //   child: GestureDetector(
-                    //     onTap: () {
-                    //       if(_textFieldGram.text.isEmpty) return;
-                    //            print(_textFieldGram.text);
-                    //       _textFieldGram.text="";
-                    //     },
-                    //     child: Container(
-                    //       //color: Colors.white60,
-                    //       decoration: BoxDecoration(
-                    //         border: Border.all(
-                    //           color:Colors.green,
-                    //           style: BorderStyle.solid,
-                    //           width: 1.0,
-                    //         ),
-                    //         color: Colors.transparent,
-                    //         borderRadius: BorderRadius.circular(30.0),
-                    //       ),
-                    //       child: Row(
-                    //         mainAxisAlignment: MainAxisAlignment.center,
-                    //         children: <Widget>[
-                    //           Center(
-                    //             child: Text(
-                    //               "حفظ",
-                    //               style: TextStyle(
-                    //                 color: Colors.green,
-                    //                 fontFamily: 'Montserrat',
-                    //                 fontSize: 20,
-                    //                 fontWeight: FontWeight.w600,
-                    //                 letterSpacing: 1,
-                    //               ),
-                    //             ),
-                    //           )
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // )
-
-                  ],
-                ),
-              ),
-
-
-
-
-    ));
+        child:AlertInputGram(color: color,co: co),);
   }
 
   @override
@@ -235,12 +117,7 @@ class _FoodDetailsState extends State<FoodDetails> {
                                   margin: EdgeInsets.symmetric(
                                       horizontal: 10, vertical: 5),
                                   height: 70,
-                                  // shape: StadiumBorder(
-                                  //   side: BorderSide(
-                                  //     color:(widget.foodInfo.borderColor).withOpacity(.9),
-                                  //     width: 2.0,
-                                  //   ),
-                                  // ),
+
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -326,6 +203,96 @@ class _FoodDetailsState extends State<FoodDetails> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       drawerScrimColor: Colors.black,
+    );
+  }
+}
+
+class AlertInputGram extends StatelessWidget {
+
+  TextEditingController _textFieldGram = TextEditingController();
+  final Color color;
+  final Color co;
+  AlertInputGram({
+      this.color,
+      this.co,
+  });
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+
+      titlePadding:   EdgeInsets.all(0),
+      contentPadding: EdgeInsets.all(0),
+      title:Image.network("https://zovon.s3.amazonaws.com/wp-content/uploads/2018/07/img-diabetes-diet-what-to-follow-2018-08.gif",
+                fit: BoxFit.fill,
+              ),
+     content: Container(
+            height: MediaQuery.of(context).size.height * .2,
+            decoration: new BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: const Color(0xFFFFFF),
+              borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+            ),
+            child: Column(
+              children: [
+                Text("كمية الطعام المتناولة بالغرام ؟",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                Container(
+                  width: 150,
+                  height: 60,
+
+                  margin: EdgeInsets.symmetric(horizontal: 40),
+                 child:  TextFormField(
+                    showCursor:true ,
+                   cursorColor: Colors.deepPurple,
+                   cursorHeight: 25,
+                   textAlign: TextAlign.end,
+                   maxLength: 5,
+
+                   keyboardType: TextInputType.datetime,
+                   style: TextStyle(fontSize: 25,),
+                   controller: _textFieldGram,
+
+                   decoration: InputDecoration(
+                     filled: true,
+                     fillColor:color,
+                     hintStyle: TextStyle(
+                       color:
+                       Colors.purpleAccent.withOpacity(.3),
+                       fontSize: 25,
+                     ),
+
+                     focusedBorder:OutlineInputBorder(
+                       gapPadding: 10,
+
+                       borderSide:  BorderSide(color: co, width: 1),
+                       //borderRadius: BorderRadius.circular(25.0),
+                     ),
+                     enabledBorder: OutlineInputBorder(
+                       gapPadding: 10,
+                       borderSide:  BorderSide(color: co, width: 1),
+                       //borderRadius: BorderRadius.circular(25.0),
+                     ),
+                   ),
+                 ),
+                ),
+                SizedBox(height: 20,),
+                RaisedButton(
+
+                  shape: StadiumBorder(),
+                  color: Colors.green,
+                  onPressed: () {
+                    if(_textFieldGram.text.isEmpty) return;
+                    print(_textFieldGram.text);
+                    _textFieldGram.text="";
+                  },
+                  child: Text("حفظ",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 25),),
+                )
+              ],
+            ),
+          ),
+
     );
   }
 }

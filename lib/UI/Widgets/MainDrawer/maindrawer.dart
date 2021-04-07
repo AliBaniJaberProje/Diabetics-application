@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 import 'package:ali_muntaser_final_project/UI/Screens/history/dose_history_dose.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/history/suqar_reding_history.dart';
 import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawerController.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
@@ -159,7 +160,11 @@ class _MainDrawer extends State<MainDrawer> {
               size: 20,
               color: Colors.lightGreen,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacementNamed(context,SuqarRedingHistory.routName);
+
+
+            },
           ),
 
           SizedBox(
