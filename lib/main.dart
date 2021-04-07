@@ -33,6 +33,7 @@ import './core/Providers/NumberOfStepProvider.dart';
 import 'core/Providers/dose_history_provider.dart';
 import 'core/Providers/food_details.dart';
 import 'core/Providers/food_provider.dart';
+import 'core/Providers/suqar_reding_historyProvider.dart';
 import 'core/Servies_api/nodeServers/auth.dart';
 import "./UI/Screens/todoy's meals/Today's_MealsScreen.dart";
 
@@ -65,7 +66,9 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: FoodProvider2()),
         ChangeNotifierProvider.value(value: FoodDetailsProvider()),
         ChangeNotifierProvider.value(value: DoseHistoryProvider()),
+        ChangeNotifierProvider.value(value: SuqarReadingHistoryProvider()),
 
+        //SuqarReadingHistoryProvider
       ],
       child: MyApp(),
     );

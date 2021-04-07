@@ -39,6 +39,9 @@ class Auth with ChangeNotifier {
       final patientData = jsonDecode(response.body);
       this.userId=id;
 
+      print("\n\n\n\n\n\n\n\n\n");
+      print( patientData["token"]);
+      print("\n\n\n\n\n\n\n\n\n");
       this._jwt = patientData["token"];
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('jwt', this._jwt);

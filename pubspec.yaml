@@ -55,6 +55,7 @@ dependencies:
   flutter_switch:
   circular_check_box: ^1.0.4
   fradio: ^1.0.1
+  fab_circular_menu: ^1.0.0
 
   syncfusion_flutter_datagrid:
   responsive_table: ^0.1.1+8
