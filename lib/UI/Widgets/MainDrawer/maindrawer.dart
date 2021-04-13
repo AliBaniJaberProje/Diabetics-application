@@ -1,7 +1,7 @@
-
 import 'dart:ui';
 
 import 'package:ali_muntaser_final_project/UI/Screens/history/dose_history_dose.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/history/food_history.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/history/suqar_reding_history.dart';
 import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawerController.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
@@ -28,9 +28,6 @@ class _MainDrawer extends State<MainDrawer> {
     return Drawer(
       child: ListView(
         children: [
-
-
-
           ClipPath(
             clipper: WaveClipperTwo(),
             child: Container(
@@ -47,7 +44,7 @@ class _MainDrawer extends State<MainDrawer> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                         // "علي بني جابر",
+                          // "علي بني جابر",
                           context.watch<ProfileProvider>().getUserName(),
                           style: TextStyle(
                               fontSize: 20,
@@ -60,7 +57,7 @@ class _MainDrawer extends State<MainDrawer> {
                           // margin: EdgeInsets.only(top: 0, left: 75, right: 75),
                           child: CircularProfileAvatar(
                             context.watch<ProfileProvider>().getImgUrl(),
-                           // "https://play-images-prod-cms.tech.tvnz.co.nz/api/v1/web/image/content/dam/images/entertainment/shows/p/person-of-interest/personofinterest_coverimg.png.2017-03-08T11:21:33+13:00.jpg?width=960&height=540" //context.watch<ProfileProvider>().getImgUrl(),
+                            // "https://play-images-prod-cms.tech.tvnz.co.nz/api/v1/web/image/content/dam/images/entertainment/shows/p/person-of-interest/personofinterest_coverimg.png.2017-03-08T11:21:33+13:00.jpg?width=960&height=540" //context.watch<ProfileProvider>().getImgUrl(),
                             //,
                             errorWidget: (context, url, error) => Container(
                               child: Icon(Icons.error),
@@ -122,10 +119,10 @@ class _MainDrawer extends State<MainDrawer> {
               color: Colors.lightBlueAccent,
             ),
             onTap: () {
-              Navigator.pushReplacementNamed(context,DoseHistoryDose.routeName);
+              Navigator.pushReplacementNamed(
+                  context, DoseHistoryDose.routeName);
             },
           ),
-
           SizedBox(
             height: 10,
           ),
@@ -161,12 +158,10 @@ class _MainDrawer extends State<MainDrawer> {
               color: Colors.lightGreen,
             ),
             onTap: () {
-              Navigator.pushReplacementNamed(context,SuqarRedingHistory.routName);
-
-
+              Navigator.pushReplacementNamed(
+                  context, SuqarRedingHistory.routName);
             },
           ),
-
           SizedBox(
             height: 10,
           ),
@@ -203,7 +198,6 @@ class _MainDrawer extends State<MainDrawer> {
             ),
             onTap: () {},
           ),
-
           SizedBox(
             height: 10,
           ),
@@ -236,9 +230,10 @@ class _MainDrawer extends State<MainDrawer> {
               size: 20,
               color: Colors.tealAccent,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacementNamed(context, FoodHistory.routName);
+            },
           ),
-
           SizedBox(
             height: 10,
           ),
@@ -273,7 +268,6 @@ class _MainDrawer extends State<MainDrawer> {
             ),
             onTap: () {},
           ),
-
           SizedBox(
             height: 10,
           ),
@@ -391,7 +385,6 @@ class _MainDrawer extends State<MainDrawer> {
               ),
             ],
           ),
-
           SizedBox(
             height: 10,
           ),
@@ -426,10 +419,6 @@ class _MainDrawer extends State<MainDrawer> {
             ),
             onTap: () {},
           ),
-
-
-
-
         ],
       ),
     );

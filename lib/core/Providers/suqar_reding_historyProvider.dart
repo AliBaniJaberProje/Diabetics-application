@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,14 +11,18 @@ class SalesData {
 }
 
 class SuqarReadingHistoryProvider with ChangeNotifier {
+
   int month = 4;
   int year = 2021;
-  String url = "http://localhost:3000/dailyReading/";
+
+  String url = "https://jaber-server.herokuapp.com/dailyReading/";
   String titleTable = "فحوصات السكري لشهر  2021-1";
+
   List<SalesData> arr1 = [];
   List<SalesData> arr2 = [];
   List<SalesData> arr3 = [];
   List<SalesData> arr4 = [];
+
   List<Map<String, dynamic>> temps = List<Map<String, dynamic>>();
 
   Future<void> fetchData() async {
@@ -28,7 +31,7 @@ class SuqarReadingHistoryProvider with ChangeNotifier {
 
     titleTable = "${d.year}-${d.month}فحوصات السكري لشهر ";
     http.Response response = await http.get(
-        "http://192.168.0.112:3000/dailyReading/${d.year}/${d.month}",
+        "https://jaber-server.herokuapp.com/dailyReading/${d.year}/${d.month}",
         headers: {'x-auth-token': prefs.get('jwt')});
     if (response.statusCode == 200) {
       var result = jsonDecode(response.body);
@@ -66,8 +69,6 @@ class SuqarReadingHistoryProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
-
   void clearData(){
     arr1.clear();
     arr2.clear();
@@ -84,7 +85,7 @@ class SuqarReadingHistoryProvider with ChangeNotifier {
 
     titleTable = "$year-$monthفحوصات السكري لشهر ";
     http.Response response = await http.get(
-        "http://192.168.0.112:3000/dailyReading/${this.year}/${this.month}",
+        "https://jaber-server.herokuapp.com/dailyReading/${this.year}/${this.month}",
         headers: {'x-auth-token': prefs.get('jwt')});
     if (response.statusCode == 200) {
       var result = jsonDecode(response.body);
@@ -118,4 +119,5 @@ class SuqarReadingHistoryProvider with ChangeNotifier {
 
 
   }
+
 }

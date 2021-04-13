@@ -18,6 +18,7 @@ import 'UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 import 'UI/Screens/doctor_appointments/Doctor_appointmentScreen.dart';
 import 'UI/Screens/doctor_appointments/EventTimeScreen.dart';
 import 'UI/Screens/history/dose_history_dose.dart';
+import 'UI/Screens/history/food_history.dart';
 import "UI/Screens/todoy's meals/FoodScreen.dart";
 import 'core/Providers/EventDateTimeProvier.dart';
 import 'core/Providers/EventProvider.dart';
@@ -114,6 +115,9 @@ class MyApp extends StatelessWidget {
         FoodScreen2.routeName:(context)=>FoodScreen2(),
         DoseHistoryDose.routeName:(context)=>DoseHistoryDose(),
         SuqarRedingHistory.routName:(context)=>SuqarRedingHistory(),
+        FoodHistory.routName:(context)=>FoodHistory(),
+
+
       },
     );
   }

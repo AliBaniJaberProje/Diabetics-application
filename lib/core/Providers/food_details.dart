@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -30,7 +31,7 @@ class FoodDetailsProvider with ChangeNotifier{
   void sendRequestToGetDetails(String fcdId)async{
     loading=true;
     component.clear();
-    String url="https://jaber-server.herokuapp.com/food/";
+    String url="http://192.168.0.112:3000/food/";
     if(categoryName=="فواكه"){
       url+="fruits/";
     }
@@ -87,7 +88,7 @@ class FoodDetailsProvider with ChangeNotifier{
 
       component.add(new FoodDetailItem(
           nameFoodItem:"الكربوهيدرات " ,
-          value:resultToProcess['Carbohydrate']['value'] ,
+          value:"${resultToProcess['Carbohydrate']['value']}" ,
           otherDetails:"لالالالال" ,
           unit: resultToProcess['Carbohydrate']['unit']
       ));
@@ -99,6 +100,20 @@ class FoodDetailsProvider with ChangeNotifier{
     else{
       loading=false;
     }
+  }
+
+
+  Future<void> eatFood(String id ,String amount)async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    http.Response response =await http.post("http://192.168.0.112:3000/foodHistory",headers: {"x-auth-token":prefs.getString('jwt')},body: {
+      "id":id,
+      "amount":amount
+    });
+    if(response.statusCode==200){
+      print(jsonDecode(response.body));
+    }
+    return;
+
   }
 
 }

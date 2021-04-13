@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FoodItem2 {
   String id;
@@ -245,7 +246,7 @@ class FoodProvider2 with ChangeNotifier {
     print("sendRequestAndGetFoodList");
     loadingState = true;
     notifyListeners();
-    String url = "https://jaber-server.herokuapp.com/food/";
+    String url = "http://192.168.0.112:3000/food/";
     if (value == "منتجات الألبان والبيض") {
       url += "eggs_and_milk";
     } else if (value == "فواكه") {
@@ -268,8 +269,8 @@ class FoodProvider2 with ChangeNotifier {
       this.foodList.clear();
       notifyListeners();
     }
-
-    http.Response response = await http.get(url);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    http.Response response = await http.get(url,headers: {"x-auth-token":prefs.getString('jwt')});
     if (response.statusCode == 200) {
       foodList.clear();
       final resultResponse = jsonDecode(response.body) as List;
@@ -289,4 +290,6 @@ class FoodProvider2 with ChangeNotifier {
       notifyListeners();
     }
   }
+
+
 }

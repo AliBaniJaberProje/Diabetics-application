@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:ali_muntaser_final_project/UI/Screens/MyDoseScreen/widgets/IdDoseContainer.dart';
 import 'package:ali_muntaser_final_project/core/Providers/food_details.dart';
 import 'package:ali_muntaser_final_project/core/Providers/food_provider.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,21 +13,15 @@ import 'package:provider/provider.dart';
 
 class FoodDetails extends StatefulWidget {
   FoodItem2 foodInfo;
-
   FoodDetails({this.foodInfo});
-
   @override
   _FoodDetailsState createState() => _FoodDetailsState();
 }
-
 class _FoodDetailsState extends State<FoodDetails> {
-
   _displayDialog(BuildContext context,Color color,Color co) {
     showDialog(
         context: context,
-
-
-        child:AlertInputGram(color: color,co: co),);
+        child:AlertInputGram(color: color,co: co,idFood: widget.foodInfo.id,),);
   }
 
   @override
@@ -168,7 +163,7 @@ class _FoodDetailsState extends State<FoodDetails> {
             ),
           )
 
-          // Container(width: MediaQuery.of(context).size.width,color: Colors.amberAccent,child: Text("dfghghgfhd"),)
+
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -177,9 +172,10 @@ class _FoodDetailsState extends State<FoodDetails> {
           Icons.add,
           size: 20,
         ),
-        onPressed: () {
-          _displayDialog(context,widget.foodInfo.color,widget.foodInfo.borderColor);
 
+        onPressed: () {
+          _displayDialog(context,widget.foodInfo.color,widget.foodInfo.borderColor, );
+          //print("aliiiiiiiiiiiii"+textFieldGram.text);
           // AwesomeDialog(
           //     context: context,
           //     dialogType: DialogType.WARNING,
@@ -209,12 +205,16 @@ class _FoodDetailsState extends State<FoodDetails> {
 
 class AlertInputGram extends StatelessWidget {
 
-  TextEditingController _textFieldGram = TextEditingController();
+  final TextEditingController textFieldGram = TextEditingController();
   final Color color;
   final Color co;
+  final String idFood;
+
+
   AlertInputGram({
       this.color,
       this.co,
+    this.idFood
   });
 
 
@@ -252,7 +252,7 @@ class AlertInputGram extends StatelessWidget {
 
                    keyboardType: TextInputType.datetime,
                    style: TextStyle(fontSize: 25,),
-                   controller: _textFieldGram,
+                   controller: textFieldGram,
 
                    decoration: InputDecoration(
                      filled: true,
@@ -283,9 +283,27 @@ class AlertInputGram extends StatelessWidget {
                   shape: StadiumBorder(),
                   color: Colors.green,
                   onPressed: () {
-                    if(_textFieldGram.text.isEmpty) return;
-                    print(_textFieldGram.text);
-                    _textFieldGram.text="";
+                    if(textFieldGram.text.isEmpty) return;
+
+                    Navigator.pop(context);
+                    context.read<FoodDetailsProvider>().eatFood(this.idFood,this.textFieldGram.text);
+
+                    // AwesomeDialog(
+                    //   context: context,
+                    //   animType: AnimType.SCALE,
+                    //   dialogType: DialogType.SUCCES,
+                    //   body: Center(child: Text(
+                    //     'صحة وعافية',
+                    //     style: TextStyle(fontStyle: FontStyle.italic),
+                    //   ),),
+                    //   title: 'صحة وعافية',
+                    //  btnOkText: "شكرا",
+                    //  // desc:   'This is also Ignored',
+                    //   btnOkOnPress: () {},
+                    // )..show();
+
+                   print(textFieldGram.text);
+                    textFieldGram.text="";
                   },
                   child: Text("حفظ",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 25),),
                 )

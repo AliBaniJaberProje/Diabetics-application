@@ -52,7 +52,7 @@ class DailyReadingProvider with ChangeNotifier{
       "body": body,
       "imgsender": imgsender,
       'status':'notseen',
-      "timestamp": Timestamp.now().microsecondsSinceEpoch,
+      "timestamp": Timestamp.now().millisecondsSinceEpoch,
       "title": "type"
     });
     showNotification=true;

@@ -7,7 +7,23 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:responsive_table/DatatableHeader.dart';
 import 'package:responsive_table/ResponsiveDatatable.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
+Widget fabsinglemenu(IconData icon, Function onPressFunction) {
+  return SizedBox(
+      width: 75,
+      height: 75,
+      child: RaisedButton(
+        color: Colors.white,
+        child: Icon(
+          icon,
+          color: Colors.deepPurpleAccent,
+          size: 40,
+        ),
+        onPressed: onPressFunction,
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(60.0),
+        ),
+      ));
+}
 
 class CircularButton extends StatelessWidget {
   final double width;
@@ -52,23 +68,7 @@ class _SuqarRedingHistoryState extends State<SuqarRedingHistory> {
   int tableVScHART = 1;
   bool groupValue_3 = true;
 
-  Widget fabsinglemenu(IconData icon, Function onPressFunction) {
-    return SizedBox(
-        width: 75,
-        height: 75,
-        child: RaisedButton(
-          color: Colors.white,
-          child: Icon(
-            icon,
-            color: Colors.deepPurpleAccent,
-            size: 40,
-          ),
-          onPressed: onPressFunction,
-          shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(60.0),
-          ),
-        ));
-  }
+
 
   @override
   void initState() {
@@ -124,6 +124,7 @@ class _SuqarRedingHistoryState extends State<SuqarRedingHistory> {
                           series: <CartesianSeries>[
                             LineSeries<SalesData, String>(
                                 legendItemText: "قبل الافطار",
+                                name:"قبل الافطار",
                                 enableTooltip: true,
                                 isVisibleInLegend: true,
                                 color: Colors.green,
