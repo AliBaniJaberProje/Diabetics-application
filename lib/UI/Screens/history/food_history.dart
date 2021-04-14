@@ -403,22 +403,30 @@ class CombonentFoodItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: this.color,
-      ),
-      padding: EdgeInsets.all(5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(this.title + ":" + "${this.amount}".padLeft(20, " "),
-              style: TextStyle(fontSize: 17),
-              textDirection: ui.TextDirection.rtl)
-        ],
-      ),
-      height: 50,
-      width: 220,
+    return   Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: this.color,
+          ),
+          padding: EdgeInsets.all(5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+
+
+              Text("${this.amount}",
+                  style: TextStyle(fontSize: 17),
+                  textDirection: ui.TextDirection.rtl),
+              Text(this.title ,
+                  style: TextStyle(fontSize: 17),
+                  textDirection: ui.TextDirection.rtl),
+            ],
+          ),
+          height: 50,
+          width: 220,
+
+
+
     );
   }
 }
