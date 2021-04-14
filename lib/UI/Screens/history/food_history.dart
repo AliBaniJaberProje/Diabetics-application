@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/history/suqar_reding_history.dart';
+import 'package:ali_muntaser_final_project/core/Providers/food-history-provider.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:provider/provider.dart';
 
 import 'dart:ui' as ui;
 
@@ -18,23 +22,64 @@ class FoodHistory extends StatefulWidget {
 
 class _FoodHistoryState extends State<FoodHistory> {
   int tableChar = 0;
-  List<ChartData> chartData = [
-    ChartData("كربوهيدرات", 100, Colors.purple.shade300),
-    ChartData("دهون", 38, Colors.amber.shade300),
-    ChartData("بروتين", 34, Colors.green.shade300),
-  ];
+  int init=1;
+
+
+
+  Future<DateTime> selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020, 8),
+      lastDate: DateTime.now(),
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light().copyWith(
+              primary: Colors.purple,
+              secondary: Colors.amber
+            ),
+          ),
+          child: child,
+        );
+      },
+    );
+    return picked;
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    var foodHistoryProviderWatch=context.watch<FoodHistoryProvider>();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
+            context.read<FoodHistoryProvider>().clearData();
             Navigator.pushReplacementNamed(context, HomeScreen.routeName);
           },
         ),
+        title:TextLiquidFill(
+          text: 'الأطعمة التي تناولتها سابقا',
+          waveColor: Colors.white,
+          boxBackgroundColor: Colors.purple,
+          waveDuration: Duration(seconds: 1),
+          textStyle: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+
+        ),
+
+        //Text("الأطعمة التي تناولتها سابقا",textDirection: ui.TextDirection.rtl,),
+        centerTitle: true,
+
       ),
-      body: tableChar == 0
+      body:
+
+      tableChar == 0
           ? FoodHistoryTable()
           : ListView(
               children: [
@@ -49,7 +94,7 @@ class _FoodHistoryState extends State<FoodHistory> {
 
                   child: Center(
                     child: Text(
-                      "رسم بياني لمكوانات الطعام المتناول في 1-1-2020",
+                      context.watch<FoodHistoryProvider>().initTextChart,
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -57,6 +102,7 @@ class _FoodHistoryState extends State<FoodHistory> {
                     ),
                   ),
                 ),
+                context.watch<FoodHistoryProvider>().loading?Center(child: CircularProgressIndicator(),) :
                 Container(
                   height: MediaQuery.of(context).size.height * .7,
                   child: SfCircularChart(
@@ -83,7 +129,7 @@ class _FoodHistoryState extends State<FoodHistory> {
                       PieSeries<ChartData, String>(
                         explode: true,
                         enableSmartLabels: true,
-                        dataSource: chartData,
+                        dataSource: foodHistoryProviderWatch.chartData,
                         pointColorMapper: (ChartData data, _) => data.color,
                         xValueMapper: (ChartData data, _) => data.text,
                         yValueMapper: (ChartData data, _) => data.data,
@@ -100,6 +146,7 @@ class _FoodHistoryState extends State<FoodHistory> {
                 ),
               ],
             ),
+
       primary: true,
       drawerEnableOpenDragGesture: true,
       resizeToAvoidBottomInset: true,
@@ -126,57 +173,91 @@ class _FoodHistoryState extends State<FoodHistory> {
                 tableChar = 0;
               });
             }),
-            Theme(
-                data: Theme.of(context).copyWith(
-                  primaryColor: Colors.purple,
-                ),
-                child: fabsinglemenu(Icons.date_range_sharp, () {
-                  showDatePicker(
-                    context: context,
-                    firstDate: DateTime(DateTime.now().year - 1, 5),
-                    lastDate: DateTime.now(),
-                    initialDate: DateTime.now(),
-                    //useRootNavigator: true,
-                    // locale: Locale("es"),
-                  ).then((date) {
-                    if (date != null) {
-                      print(date);
-                    }
-                  });
-                }))
-          ]),
+            fabsinglemenu(Icons.date_range_sharp, ()async {
+
+                 selectDate(context).then(( date){
+
+                   if(date==null){
+                     print("NUll Date ");
+                     return ;
+                   }else{
+                     context.read<FoodHistoryProvider>().setNewDateAndSendRequest(year: "${date.year}" ,month: "${date.month}", day: "${date.day}");
+
+                   }
+
+                 });
+
+                },)
+          ],),
     );
   }
 }
 
-class ChartData {
-  final String text;
-  final int data;
-  final Color color;
-  ChartData(this.text, this.data, this.color);
-}
-
 class FoodHistoryTable extends StatelessWidget {
-  const FoodHistoryTable({
-    Key key,
-  }) : super(key: key);
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 10,
+    var providerFoodHistory=context.watch<FoodHistoryProvider>();
+    return Column(
 
-      itemBuilder: (ctx, index) => FoodHistoryItem(
-        ch: 100.0,
-        proten: 150.0,
-        fat: 70.0,
-        foodAmount: 980.5,
-        foodName: "اناناس",
-        image:
-            "https://jaber-server.herokuapp.com/images/Fruits/%D8%A7%D9%86%D9%86%D8%A7%D8%B3.png",
-      ),
-      //
+      children: [
+        Container(
+          margin: EdgeInsets.all(10),
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              color: Colors.purple.shade100,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.purple,width: 3)
+          ),
+
+          child: Center(
+            child: Text(
+              context.watch<FoodHistoryProvider>().initTitle,
+              style: TextStyle(
+                fontSize: 18,
+              ),
+              textDirection: ui.TextDirection.rtl,
+            ),
+          ),
+        ),
+       context.watch<FoodHistoryProvider>().loading?Center(
+         child: CircularProgressIndicator(),
+       ): Expanded(
+          child:ListView.builder(
+              itemCount: providerFoodHistory.foodHistoryDataTable.length,
+
+              itemBuilder: (ctx, index) {
+                var foodItem=providerFoodHistory.foodHistoryDataTable[index];
+
+
+                return  FoodHistoryItem(
+                  ch:foodItem.ch,
+                  proten: foodItem.proten,
+                  fat: foodItem.fat,
+                  foodAmount: foodItem.amount,
+                  foodName: foodItem.name,
+                  image: foodItem.img,
+                  color: foodItem.color,
+                  shadowColor: foodItem.shadowColor,
+                );
+
+              }
+
+            //
+          ),
+        ),
+
+      ],
+
     );
+
+
+
   }
 }
 
@@ -186,21 +267,25 @@ class FoodHistoryItem extends StatelessWidget {
   final double proten;
   final double fat;
   final String foodName;
-  final double foodAmount;
-
+  final int foodAmount;
+  final Color color;
+  final Color shadowColor;
   FoodHistoryItem(
       {this.image,
       this.ch,
       this.proten,
       this.fat,
       this.foodName,
-      this.foodAmount});
+      this.foodAmount,
+      this.color,
+      this.shadowColor
+      });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.amber, width: 1),
+        border: Border.all(color:this.color, width: 1),
       ),
       margin: EdgeInsets.all(5),
       padding: EdgeInsets.all(5),
@@ -220,7 +305,7 @@ class FoodHistoryItem extends StatelessWidget {
                   CombonentFoodItem(
                     color: Colors.purple.shade100,
                     title: " كربوهيدرات",
-                    amount: 95.0,
+                    amount: this.ch,
                   ),
                   SizedBox(
                     height: 5,
@@ -228,7 +313,7 @@ class FoodHistoryItem extends StatelessWidget {
                   CombonentFoodItem(
                     color: Colors.amber.shade100,
                     title: "دهون",
-                    amount: 70.5,
+                    amount: this.fat,
                   ),
                   SizedBox(
                     height: 5,
@@ -236,7 +321,7 @@ class FoodHistoryItem extends StatelessWidget {
                   CombonentFoodItem(
                     color: Colors.green.shade100,
                     title: "بروتين",
-                    amount: 80.5,
+                    amount: this.proten,
                   ),
                   SizedBox(
                     height: 5,
@@ -245,12 +330,12 @@ class FoodHistoryItem extends StatelessWidget {
               ),
               Card(
                 margin: EdgeInsets.all(15),
-                color: Colors.amber.shade100,
+                color: this.shadowColor,
                 elevation: 1,
                 shape: BeveledRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                   side: BorderSide(
-                    color: Colors.amber,
+                    color:this.color,
                     width: 1,
                   ),
                 ),
@@ -266,12 +351,18 @@ class FoodHistoryItem extends StatelessWidget {
                             ImageChunkEvent loadingProgress) {
                           if (loadingProgress == null) return child;
                           return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes
-                                  : null,
-                            ),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 40,vertical: 45),
+                              color: this.shadowColor,
+                              height: 120,
+                              width: MediaQuery.of(context).size.width * .33,
+                              child:  CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes
+                                    : null,
+                              ),
+                            )
                           );
                         },
                       ),

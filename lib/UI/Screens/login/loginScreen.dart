@@ -174,7 +174,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                     onSaved: (val) => _userId = val,
                                     keyboardType: TextInputType.datetime,
                                     style: TextStyle(fontSize: 25),
-                                    controller: idController..text="789789789",
+                                    controller: idController,//..text="789789789",
                                     textAlign: TextAlign.end,
                                     decoration: InputDecoration(
                                       filled: true,
@@ -239,7 +239,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                           .watch<LoginProvider>()
                                           .visibilStatePassword(),
                                       textAlign: TextAlign.end,
-                                      controller: passwordController..text="0123456789",
+                                      controller: passwordController,//..text="0123456789",
                                       decoration: InputDecoration(
                                         filled: true,
                                         fillColor: Colors.grey[300],

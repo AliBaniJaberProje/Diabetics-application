@@ -248,7 +248,7 @@ class _EventTimeScreenState extends State<EventTimeScreen> {
         child: Icon(Icons.close),
         onPressed: () {
 
-            Navigator.of(context).pop();
+         //   Navigator.of(context).pop();
 
         },
       ),

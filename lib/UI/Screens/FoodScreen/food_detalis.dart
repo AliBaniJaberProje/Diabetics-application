@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:ali_muntaser_final_project/UI/Screens/MyDoseScreen/widgets/IdDoseContainer.dart';
 import 'package:ali_muntaser_final_project/core/Providers/food_details.dart';
 import 'package:ali_muntaser_final_project/core/Providers/food_provider.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -21,7 +23,7 @@ class _FoodDetailsState extends State<FoodDetails> {
   _displayDialog(BuildContext context,Color color,Color co) {
     showDialog(
         context: context,
-        child:AlertInputGram(color: color,co: co,idFood: widget.foodInfo.id,),);
+        child:AlertInputGram(color: color,co: co,idFood: widget.foodInfo.id,foodName: widget.foodInfo.name,),);
   }
 
   @override
@@ -209,12 +211,14 @@ class AlertInputGram extends StatelessWidget {
   final Color color;
   final Color co;
   final String idFood;
+  String foodName;
 
 
   AlertInputGram({
       this.color,
       this.co,
-    this.idFood
+    this.idFood,
+    this.foodName,
   });
 
 
@@ -225,6 +229,10 @@ class AlertInputGram extends StatelessWidget {
 
       titlePadding:   EdgeInsets.all(0),
       contentPadding: EdgeInsets.all(0),
+      // actions: [
+      //   Icon(Icons.close)
+      //
+      // ],
       title:Image.network("https://zovon.s3.amazonaws.com/wp-content/uploads/2018/07/img-diabetes-diet-what-to-follow-2018-08.gif",
                 fit: BoxFit.fill,
               ),
@@ -285,8 +293,65 @@ class AlertInputGram extends StatelessWidget {
                   onPressed: () {
                     if(textFieldGram.text.isEmpty) return;
 
-                    Navigator.pop(context);
-                    context.read<FoodDetailsProvider>().eatFood(this.idFood,this.textFieldGram.text);
+                   // Navigator.pop(context);
+                    context.read<FoodDetailsProvider>().eatFood(this.idFood,this.textFieldGram.text).then((value){
+                      print("Aliiiiiiiiiiiiiiiii");
+                      if(value["result"]=="operation error"){
+                        AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.ERROR,
+                            headerAnimationLoop: true,
+                            animType: AnimType.TOPSLIDE,
+                            showCloseIcon: true,
+                            closeIcon: Icon(Icons.clear),
+                           // dialogBackgroundColor: Colors.red.shade300,
+
+                            title: 'تحذير',
+                            desc: 'قم بتقليل الكمية او استبدلها بطعام اخر',
+                            aligment: Alignment.center,
+                            //btnCancelText: "الغاء",
+                            btnOkText: "حسناً",
+                            body: Text(
+                              "تناولك طعام ال${this.foodName} بكمية ${this.textFieldGram.text} قد يلحق ضرارا بوضعك الصحي",
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ,),textAlign: TextAlign.center,
+                            ),
+
+                            // btnCancelOnPress: () {},
+                            btnOkOnPress: () {})
+                          ..show();
+                        textFieldGram.text="";
+
+                      }else{
+
+                          Flushbar(
+                            duration: Duration(seconds: 4),
+                            flushbarPosition: FlushbarPosition.TOP,
+                            mainButton: FlatButton(
+                              child: Icon(Icons.close),
+                              onPressed: () {
+
+                                //   Navigator.of(context).pop();
+
+                              },
+                            ),
+                            icon: Icon(Icons.error_outline),
+                            backgroundColor: Colors.green.shade100,
+                            message: "pppppp",
+                            messageText: Text(
+                              "تم تخزين الطعام لحسباب ما تبقى لك خلال اليوم",
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ).show(context);
+                        }
+
+                      print(value.toString());
+                      print("Aliiiiiiiiiiiiiiiii");
+                     //Navigator.pop(context);
+                    });
 
                     // AwesomeDialog(
                     //   context: context,
@@ -303,7 +368,7 @@ class AlertInputGram extends StatelessWidget {
                     // )..show();
 
                    print(textFieldGram.text);
-                    textFieldGram.text="";
+
                   },
                   child: Text("حفظ",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 25),),
                 )

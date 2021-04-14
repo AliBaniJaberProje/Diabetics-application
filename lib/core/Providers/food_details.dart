@@ -103,16 +103,14 @@ class FoodDetailsProvider with ChangeNotifier{
   }
 
 
-  Future<void> eatFood(String id ,String amount)async{
+  Future<dynamic> eatFood(String id ,String amount)async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     http.Response response =await http.post("http://192.168.0.112:3000/foodHistory",headers: {"x-auth-token":prefs.getString('jwt')},body: {
       "id":id,
       "amount":amount
     });
-    if(response.statusCode==200){
-      print(jsonDecode(response.body));
-    }
-    return;
+
+    return(jsonDecode(response.body));
 
   }
 

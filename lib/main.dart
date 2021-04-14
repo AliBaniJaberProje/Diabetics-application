@@ -4,7 +4,6 @@ import 'package:ali_muntaser_final_project/core/Providers/DailyReadingProvider.d
 import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'UI/Screens/FoodScreen/food_detalis.dart';
 import 'UI/Screens/FoodScreen/food_screen.dart';
 import 'UI/Screens/HomeScreen/HomeScreen.dart';
 import 'UI/Screens/MyDoseScreen/MyDoseScreen.dart';
@@ -13,8 +12,6 @@ import 'UI/Screens/StepCount/StepScreen.dart';
 import 'UI/Screens/TestCard.dart';
 import 'UI/Screens/chat/MsgChat/MessagesScreen.dart';
 import 'UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
-
-
 import 'UI/Screens/doctor_appointments/Doctor_appointmentScreen.dart';
 import 'UI/Screens/doctor_appointments/EventTimeScreen.dart';
 import 'UI/Screens/history/dose_history_dose.dart';
@@ -32,11 +29,14 @@ import 'package:firebase_core/firebase_core.dart';
 import './core/Model/messageStruct.dart';
 import './core/Providers/NumberOfStepProvider.dart';
 import 'core/Providers/dose_history_provider.dart';
+import './core/Providers/food-history-provider.dart';
 import 'core/Providers/food_details.dart';
 import 'core/Providers/food_provider.dart';
 import 'core/Providers/suqar_reding_historyProvider.dart';
 import 'core/Servies_api/nodeServers/auth.dart';
 import "./UI/Screens/todoy's meals/Today's_MealsScreen.dart";
+
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,8 +68,8 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: FoodDetailsProvider()),
         ChangeNotifierProvider.value(value: DoseHistoryProvider()),
         ChangeNotifierProvider.value(value: SuqarReadingHistoryProvider()),
+        ChangeNotifierProvider.value(value: FoodHistoryProvider()),
 
-        //SuqarReadingHistoryProvider
       ],
       child: MyApp(),
     );
@@ -80,19 +80,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
-      // supportedLocales: [
-      //   Locale('en'),
-      //   Locale('zh'),
-      //   Locale('fr'),
-      //   Locale('es'),
-      //   Locale('de'),
-      //   Locale('ru'),
-      //   Locale('ja'),
-      //   Locale('ar'),
-      //   Locale('fa'),
-      //   Locale("es"),
-      // ],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
@@ -100,6 +87,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.purpleAccent,
       ),
       routes: {
+
         LoginScreen.routeName: (context) => LoginScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         DailyReadingScreen.routeName: (context) => DailyReadingScreen(),
@@ -116,7 +104,6 @@ class MyApp extends StatelessWidget {
         DoseHistoryDose.routeName:(context)=>DoseHistoryDose(),
         SuqarRedingHistory.routName:(context)=>SuqarRedingHistory(),
         FoodHistory.routName:(context)=>FoodHistory(),
-
 
       },
     );
