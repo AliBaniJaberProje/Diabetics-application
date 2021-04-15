@@ -16,6 +16,7 @@ import 'UI/Screens/doctor_appointments/Doctor_appointmentScreen.dart';
 import 'UI/Screens/doctor_appointments/EventTimeScreen.dart';
 import 'UI/Screens/history/dose_history_dose.dart';
 import 'UI/Screens/history/food_history.dart';
+import 'UI/Screens/history/number_steps_history.dart';
 import "UI/Screens/todoy's meals/FoodScreen.dart";
 import 'core/Providers/EventDateTimeProvier.dart';
 import 'core/Providers/EventProvider.dart';
@@ -32,6 +33,7 @@ import 'core/Providers/dose_history_provider.dart';
 import './core/Providers/food-history-provider.dart';
 import 'core/Providers/food_details.dart';
 import 'core/Providers/food_provider.dart';
+import 'core/Providers/histry_number_of_stepProvider.dart';
 import 'core/Providers/suqar_reding_historyProvider.dart';
 import 'core/Servies_api/nodeServers/auth.dart';
 import "./UI/Screens/todoy's meals/Today's_MealsScreen.dart";
@@ -69,7 +71,9 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: DoseHistoryProvider()),
         ChangeNotifierProvider.value(value: SuqarReadingHistoryProvider()),
         ChangeNotifierProvider.value(value: FoodHistoryProvider()),
+        ChangeNotifierProvider.value(value: NumberOfStepHistory()),
 
+        // NumberOfStepHistory
       ],
       child: MyApp(),
     );
@@ -104,7 +108,7 @@ class MyApp extends StatelessWidget {
         DoseHistoryDose.routeName:(context)=>DoseHistoryDose(),
         SuqarRedingHistory.routName:(context)=>SuqarRedingHistory(),
         FoodHistory.routName:(context)=>FoodHistory(),
-
+        NumberStepsHistory.routeName:(context)=>NumberStepsHistory()
       },
     );
   }

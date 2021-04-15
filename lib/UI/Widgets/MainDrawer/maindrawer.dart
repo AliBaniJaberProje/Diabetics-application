@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:ali_muntaser_final_project/UI/Screens/history/dose_history_dose.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/history/food_history.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/history/number_steps_history.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/history/suqar_reding_history.dart';
 import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawerController.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
@@ -13,7 +14,7 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:getwidget/components/toggle/gf_toggle.dart';
 import 'package:getwidget/types/gf_toggle_type.dart';
 import 'package:provider/provider.dart';
-
+import '../../Screens/login/loginScreen.dart';
 class MainDrawer extends StatefulWidget {
   _MainDrawer createState() => _MainDrawer();
 }
@@ -196,7 +197,10 @@ class _MainDrawer extends State<MainDrawer> {
               size: 20,
               color: Colors.purpleAccent,
             ),
-            onTap: () {},
+            onTap: () {
+
+              Navigator.pushReplacementNamed(context, NumberStepsHistory.routeName);
+            },
           ),
           SizedBox(
             height: 10,
@@ -267,6 +271,48 @@ class _MainDrawer extends State<MainDrawer> {
               color: Colors.deepPurple,
             ),
             onTap: () {},
+          ),
+          SizedBox(
+            height: 10,
+          ),
+
+
+          ListTile(
+            selectedTileColor: Colors.purple,
+            focusColor: Colors.purple,
+            trailing: Container(
+              margin: EdgeInsets.all(0),
+              child: Icon(
+                Icons.thermostat_outlined,
+                color: Colors.white,
+              ),
+              width: 30,
+              height: 70,
+              decoration: BoxDecoration(
+                color: Colors.amberAccent,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+            ),
+            title: Text(
+              "السكري التراكمي",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.end,
+            ),
+            leading: Icon(
+              Icons.arrow_back_ios_outlined,
+              size: 20,
+              color: Colors.amberAccent,
+            ),
+            onTap: () {
+
+
+
+            },
           ),
           SizedBox(
             height: 10,
@@ -417,7 +463,10 @@ class _MainDrawer extends State<MainDrawer> {
               size: 20,
               color: Colors.redAccent,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacementNamed(
+                  context, LoginScreen.routeName);
+            },
           ),
         ],
       ),

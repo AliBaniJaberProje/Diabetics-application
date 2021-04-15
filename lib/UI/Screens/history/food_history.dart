@@ -11,6 +11,27 @@ import 'package:provider/provider.dart';
 
 import 'dart:ui' as ui;
 
+Future<DateTime> selectDate(BuildContext context) async {
+  final DateTime picked = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(2020, 8),
+    lastDate: DateTime.now(),
+    builder: (BuildContext context, Widget child) {
+      return Theme(
+        data: ThemeData.light().copyWith(
+          colorScheme: ColorScheme.light().copyWith(
+              primary: Colors.purple,
+              secondary: Colors.amber
+          ),
+        ),
+        child: child,
+      );
+    },
+  );
+  return picked;
+}
+
 class FoodHistory extends StatefulWidget {
   static String routName = "/FoodHistory";
 
@@ -26,26 +47,7 @@ class _FoodHistoryState extends State<FoodHistory> {
 
 
 
-  Future<DateTime> selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020, 8),
-      lastDate: DateTime.now(),
-      builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light().copyWith(
-              primary: Colors.purple,
-              secondary: Colors.amber
-            ),
-          ),
-          child: child,
-        );
-      },
-    );
-    return picked;
-  }
+
 
 
   @override
@@ -304,6 +306,7 @@ class FoodHistoryItem extends StatelessWidget {
                   ),
                   CombonentFoodItem(
                     color: Colors.purple.shade100,
+                    border: Colors.purple,
                     title: " كربوهيدرات",
                     amount: this.ch,
                   ),
@@ -312,6 +315,7 @@ class FoodHistoryItem extends StatelessWidget {
                   ),
                   CombonentFoodItem(
                     color: Colors.amber.shade100,
+                    border: Colors.amber,
                     title: "دهون",
                     amount: this.fat,
                   ),
@@ -320,6 +324,7 @@ class FoodHistoryItem extends StatelessWidget {
                   ),
                   CombonentFoodItem(
                     color: Colors.green.shade100,
+                    border: Colors.green,
                     title: "بروتين",
                     amount: this.proten,
                   ),
@@ -396,10 +401,11 @@ class FoodHistoryItem extends StatelessWidget {
 
 class CombonentFoodItem extends StatelessWidget {
   final Color color;
+  final Color border;
   final String title;
   final double amount;
 
-  const CombonentFoodItem({this.color, this.title, this.amount});
+  const CombonentFoodItem({this.color, this.title, this.amount,this.border});
 
   @override
   Widget build(BuildContext context) {
@@ -407,6 +413,12 @@ class CombonentFoodItem extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: this.color,
+
+                border: Border.all(
+                    color: border,
+                    width: 1.5
+                )
+
           ),
           padding: EdgeInsets.all(5),
           child: Row(

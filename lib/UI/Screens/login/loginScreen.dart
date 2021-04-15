@@ -174,7 +174,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                     onSaved: (val) => _userId = val,
                                     keyboardType: TextInputType.datetime,
                                     style: TextStyle(fontSize: 25),
-                                    controller: idController,//..text="789789789",
+                                    controller: idController..text="123123123",
                                     textAlign: TextAlign.end,
                                     decoration: InputDecoration(
                                       filled: true,
@@ -227,19 +227,16 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                 children: <Widget>[
                                   Expanded(
                                     child: TextFormField(
-
-
                                       key: ValueKey('password'),
                                       onSaved: (val) => _password = val,
                                       cursorColor: Colors.deepPurple,
-
                                       cursorHeight: 25,
                                       style: TextStyle(fontSize: 25),
                                       obscureText: !context
                                           .watch<LoginProvider>()
                                           .visibilStatePassword(),
                                       textAlign: TextAlign.end,
-                                      controller: passwordController,//..text="0123456789",
+                                      controller: passwordController..text="0123456789",
                                       decoration: InputDecoration(
                                         filled: true,
                                         fillColor: Colors.grey[300],
