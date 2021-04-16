@@ -1,4 +1,5 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/setting/resat_password.dart';
 import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/auth.dart';
@@ -319,14 +320,20 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             SizedBox(
               height: 20,
             ),
-            Text(
-              "هل نسيت كلمة السر ؟",
-              style: TextStyle(
-                  color: Colors.purple,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15),
-              textAlign: TextAlign.center,
-            ),
+            FlatButton(
+              child: Text(
+                "هل نسيت كلمة السر ؟",
+                style: TextStyle(
+                    color: Colors.purple,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+                textAlign: TextAlign.center,
+              ),
+              onPressed: (){
+                Navigator.pushReplacementNamed(context, ResatPassword.routeName);
+                print("error");
+              },
+            )
           ],
         ),
       ),

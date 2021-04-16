@@ -40,7 +40,7 @@ class Auth with ChangeNotifier {
       this.userId=id;
 
       print("\n\n\n\n\n\n\n\n\n");
-      print( patientData["token"]);
+      print( patientData);
       print("\n\n\n\n\n\n\n\n\n");
       this._jwt = patientData["token"];
       SharedPreferences prefs = await SharedPreferences.getInstance();

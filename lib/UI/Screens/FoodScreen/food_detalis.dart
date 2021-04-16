@@ -243,85 +243,86 @@ class AlertInputGram extends StatelessWidget {
               color: const Color(0xFFFFFF),
               borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
             ),
-            child: Column(
-              children: [
-                Text("كمية الطعام المتناولة بالغرام ؟",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                Container(
-                  width: 150,
-                  height: 60,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text("كمية الطعام المتناولة بالغرام ؟",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                  Container(
+                    width: 150,
+                    height: 60,
 
-                  margin: EdgeInsets.symmetric(horizontal: 40),
-                 child:  TextFormField(
-                    showCursor:true ,
-                   cursorColor: Colors.deepPurple,
-                   cursorHeight: 25,
-                   textAlign: TextAlign.end,
-                   maxLength: 5,
+                    margin: EdgeInsets.symmetric(horizontal: 40),
+                    child:  TextFormField(
+                      showCursor:true ,
+                      cursorColor: Colors.deepPurple,
+                      cursorHeight: 25,
+                      textAlign: TextAlign.end,
+                      maxLength: 5,
 
-                   keyboardType: TextInputType.datetime,
-                   style: TextStyle(fontSize: 25,),
-                   controller: textFieldGram,
+                      keyboardType: TextInputType.datetime,
+                      style: TextStyle(fontSize: 25,),
+                      controller: textFieldGram,
 
-                   decoration: InputDecoration(
-                     filled: true,
-                     fillColor:color,
-                     hintStyle: TextStyle(
-                       color:
-                       Colors.purpleAccent.withOpacity(.3),
-                       fontSize: 25,
-                     ),
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor:color,
+                        hintStyle: TextStyle(
+                          color:
+                          Colors.purpleAccent.withOpacity(.3),
+                          fontSize: 25,
+                        ),
 
-                     focusedBorder:OutlineInputBorder(
-                       gapPadding: 10,
+                        focusedBorder:OutlineInputBorder(
+                          gapPadding: 10,
 
-                       borderSide:  BorderSide(color: co, width: 1),
-                       //borderRadius: BorderRadius.circular(25.0),
-                     ),
-                     enabledBorder: OutlineInputBorder(
-                       gapPadding: 10,
-                       borderSide:  BorderSide(color: co, width: 1),
-                       //borderRadius: BorderRadius.circular(25.0),
-                     ),
-                   ),
-                 ),
-                ),
-                SizedBox(height: 20,),
-                RaisedButton(
+                          borderSide:  BorderSide(color: co, width: 1),
+                          //borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          gapPadding: 10,
+                          borderSide:  BorderSide(color: co, width: 1),
+                          //borderRadius: BorderRadius.circular(25.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  RaisedButton(
 
-                  shape: StadiumBorder(),
-                  color: Colors.green,
-                  onPressed: () {
-                    if(textFieldGram.text.isEmpty) return;
+                    shape: StadiumBorder(),
+                    color: Colors.green,
+                    onPressed: () {
+                      if(textFieldGram.text.isEmpty) return;
 
-                   // Navigator.pop(context);
-                    context.read<FoodDetailsProvider>().eatFood(this.idFood,this.textFieldGram.text).then((value){
-                      print("Aliiiiiiiiiiiiiiiii");
-                      if(value["result"]=="operation error"){
-                        AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.ERROR,
-                            headerAnimationLoop: true,
-                            animType: AnimType.TOPSLIDE,
-                            showCloseIcon: true,
-                            closeIcon: Icon(Icons.clear),
-                           // dialogBackgroundColor: Colors.red.shade300,
+                      // Navigator.pop(context);
+                      context.read<FoodDetailsProvider>().eatFood(this.idFood,this.textFieldGram.text).then((value){
+                        print("Aliiiiiiiiiiiiiiiii");
+                        if(value["result"]=="operation error"){
+                          AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.ERROR,
+                              headerAnimationLoop: true,
+                              animType: AnimType.TOPSLIDE,
+                              showCloseIcon: true,
+                              closeIcon: Icon(Icons.clear),
+                              // dialogBackgroundColor: Colors.red.shade300,
 
-                            title: 'تحذير',
-                            desc: 'قم بتقليل الكمية او استبدلها بطعام اخر',
-                            aligment: Alignment.center,
-                            //btnCancelText: "الغاء",
-                            btnOkText: "حسناً",
-                            body: Text(
-                              "تناولك طعام ال${this.foodName} بكمية ${this.textFieldGram.text} قد يلحق ضرارا بوضعك الصحي",
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ,),textAlign: TextAlign.center,
-                            ),
+                              title: 'تحذير',
+                              desc: 'قم بتقليل الكمية او استبدلها بطعام اخر',
+                              aligment: Alignment.center,
+                              //btnCancelText: "الغاء",
+                              btnOkText: "حسناً",
+                              body: Text(
+                                "تناولك طعام ال${this.foodName} بكمية ${this.textFieldGram.text} قد يلحق ضرارا بوضعك الصحي",
+                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ,),textAlign: TextAlign.center,
+                              ),
 
-                            // btnCancelOnPress: () {},
-                            btnOkOnPress: () {})
-                          ..show();
-                        textFieldGram.text="";
+                              // btnCancelOnPress: () {},
+                              btnOkOnPress: () {})
+                            ..show();
+                          textFieldGram.text="";
 
-                      }else{
+                        }else{
 
                           Flushbar(
                             duration: Duration(seconds: 4),
@@ -348,31 +349,32 @@ class AlertInputGram extends StatelessWidget {
                           ).show(context);
                         }
 
-                      print(value.toString());
-                      print("Aliiiiiiiiiiiiiiiii");
-                     //Navigator.pop(context);
-                    });
+                        print(value.toString());
+                        print("Aliiiiiiiiiiiiiiiii");
+                        //Navigator.pop(context);
+                      });
 
-                    // AwesomeDialog(
-                    //   context: context,
-                    //   animType: AnimType.SCALE,
-                    //   dialogType: DialogType.SUCCES,
-                    //   body: Center(child: Text(
-                    //     'صحة وعافية',
-                    //     style: TextStyle(fontStyle: FontStyle.italic),
-                    //   ),),
-                    //   title: 'صحة وعافية',
-                    //  btnOkText: "شكرا",
-                    //  // desc:   'This is also Ignored',
-                    //   btnOkOnPress: () {},
-                    // )..show();
+                      // AwesomeDialog(
+                      //   context: context,
+                      //   animType: AnimType.SCALE,
+                      //   dialogType: DialogType.SUCCES,
+                      //   body: Center(child: Text(
+                      //     'صحة وعافية',
+                      //     style: TextStyle(fontStyle: FontStyle.italic),
+                      //   ),),
+                      //   title: 'صحة وعافية',
+                      //  btnOkText: "شكرا",
+                      //  // desc:   'This is also Ignored',
+                      //   btnOkOnPress: () {},
+                      // )..show();
 
-                   print(textFieldGram.text);
+                      print(textFieldGram.text);
 
-                  },
-                  child: Text("حفظ",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 25),),
-                )
-              ],
+                    },
+                    child: Text("حفظ",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 25),),
+                  )
+                ],
+              ),
             ),
           ),
 

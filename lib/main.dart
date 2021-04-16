@@ -15,8 +15,12 @@ import 'UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 import 'UI/Screens/doctor_appointments/Doctor_appointmentScreen.dart';
 import 'UI/Screens/doctor_appointments/EventTimeScreen.dart';
 import 'UI/Screens/history/dose_history_dose.dart';
+import 'UI/Screens/history/events_history.dart';
 import 'UI/Screens/history/food_history.dart';
+import 'UI/Screens/history/grp_history.dart';
 import 'UI/Screens/history/number_steps_history.dart';
+import 'UI/Screens/setting/resat_password.dart';
+import 'UI/Screens/setting/update_password.dart';
 import "UI/Screens/todoy's meals/FoodScreen.dart";
 import 'core/Providers/EventDateTimeProvier.dart';
 import 'core/Providers/EventProvider.dart';
@@ -108,7 +112,12 @@ class MyApp extends StatelessWidget {
         DoseHistoryDose.routeName:(context)=>DoseHistoryDose(),
         SuqarRedingHistory.routName:(context)=>SuqarRedingHistory(),
         FoodHistory.routName:(context)=>FoodHistory(),
-        NumberStepsHistory.routeName:(context)=>NumberStepsHistory()
+        NumberStepsHistory.routeName:(context)=>NumberStepsHistory(),
+        EventsHistory.routeName:(context)=>EventsHistory(),
+        GrpHistory.routeName:(context)=>GrpHistory(),
+        UpdatePassword.routeName:(context)=>UpdatePassword(),
+        ResatPassword.routeName:(context)=>ResatPassword(),
+        // ResatPassword
       },
     );
   }

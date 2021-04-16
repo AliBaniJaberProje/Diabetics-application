@@ -1,9 +1,12 @@
 import 'dart:ui';
 
 import 'package:ali_muntaser_final_project/UI/Screens/history/dose_history_dose.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/history/events_history.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/history/food_history.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/history/grp_history.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/history/number_steps_history.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/history/suqar_reding_history.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/setting/update_password.dart';
 import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawerController.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
@@ -270,7 +273,10 @@ class _MainDrawer extends State<MainDrawer> {
               size: 20,
               color: Colors.deepPurple,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacementNamed(context, EventsHistory.routeName);
+
+            },
           ),
           SizedBox(
             height: 10,
@@ -309,8 +315,8 @@ class _MainDrawer extends State<MainDrawer> {
               color: Colors.amberAccent,
             ),
             onTap: () {
-
-
+              Navigator.pushReplacementNamed(context, GrpHistory.routeName);
+//
 
             },
           ),
@@ -382,7 +388,10 @@ class _MainDrawer extends State<MainDrawer> {
                   size: 15,
                   color: Colors.lightBlueAccent,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, UpdatePassword.routeName);
+                  //UpdatePassword
+                },
               ),
               SizedBox(
                 height: 10,

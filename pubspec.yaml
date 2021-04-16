@@ -67,7 +67,7 @@ dependencies:
   http:
   syncfusion_flutter_charts:
   animated_text_kit:
-
+  otp_screen:
   awesome_dialog: ^1.3.2
   giffy_dialog:
   fl_chart:

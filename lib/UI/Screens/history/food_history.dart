@@ -413,7 +413,6 @@ class CombonentFoodItem extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: this.color,
-
                 border: Border.all(
                     color: border,
                     width: 1.5

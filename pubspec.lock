@@ -455,6 +455,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttertoast:
+    dependency: transitive
+    description:
+      name: fluttertoast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.1"
   folding_cell:
     dependency: "direct main"
     description:
@@ -623,6 +630,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0"
+  otp_screen:
+    dependency: "direct main"
+    description:
+      name: otp_screen
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   page_view_indicator:
     dependency: "direct main"
     description:

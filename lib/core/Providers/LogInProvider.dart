@@ -7,6 +7,8 @@ class LoginProvider with ChangeNotifier {
   String _password;
   bool _visibil=false;
   bool _lodingLoginStatus=false;
+  String doctorName="";
+
 
   void setid(String id) {
     this._id = id;
