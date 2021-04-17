@@ -2,6 +2,7 @@
 
 import 'package:ali_muntaser_final_project/UI/Screens/MyDoseScreen/widgets/AppBarMyDoseScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/MyDoseScreen/widgets/MyDoseBody.dart';
+import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
 import 'package:ali_muntaser_final_project/core/Providers/MyDoseProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,16 +17,9 @@ class MyDoseScreen extends StatelessWidget {
     print("88");
     return  Scaffold(
         appBar: AppBarMyDoseScreen(context),
-        endDrawer: Drawer(),
+        endDrawer:  MainDrawer(),
         body: MyDoseBody(),
-      //   floatingActionButton: FloatingActionButton(
-      //     child: Icon(Icons.add),
-      //     onPressed: () {
-      //       Provider.of<MyDoseProvider>(context, listen: false)
-      //           .addDoseToListProvider();
-      //     },
-      //
-      // ),
+
     );
   }
 }

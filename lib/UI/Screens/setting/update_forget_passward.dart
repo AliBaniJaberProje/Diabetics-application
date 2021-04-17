@@ -1,20 +1,20 @@
-import 'dart:convert';
-
-import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/login/loginScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/setting/rest_password_secren1.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/setting/verfiy.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui' as ui;
-import 'package:http/http.dart' as http;
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-class UpdatePassword extends StatefulWidget {
-  static String routeName="/UpdatePassword";
-  UpdatePassword({Key key}) : super(key: key);
+import 'dart:ui' as ui;
+
+class UpdateForgetPassward extends StatefulWidget {
+  static String routeName="/UpdateForgetPassward";
+
+  UpdateForgetPassward({Key key}) : super(key: key);
 
   @override
-  _UpdatePasswordState createState() => _UpdatePasswordState();
+  _UpdateForgetPasswardState createState() => _UpdateForgetPasswardState();
 }
 
-class _UpdatePasswordState extends State<UpdatePassword> {
+class _UpdateForgetPasswardState extends State<UpdateForgetPassward> {
   var idController = TextEditingController();
   var passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -40,13 +40,15 @@ class _UpdatePasswordState extends State<UpdatePassword> {
 
   @override
   Widget build(BuildContext context) {
+   final args =
+    ModalRoute.of(context).settings.arguments as Map<String ,dynamic>;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+            Navigator.pushReplacementNamed(context, LoginScreen.routeName);
           },
         ),
         title: Text(
@@ -81,28 +83,8 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
 
-                        TextFormField(
-                          decoration: InputDecoration(
-                            hintText: 'كلمة السر السابقة',
+                        SizedBox(height: MediaQuery.of(context).size.height * .1,),
 
-                            fillColor: Colors.purple.shade100,
-                            prefixIcon:  Icon(Icons.person,size: 30,) ,
-                            filled: true,
-                            isDense: true,
-
-                          ),
-                          cursorHeight: 30,
-                          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),
-                          textDirection: ui.TextDirection.ltr,
-                          textAlign: TextAlign.end,
-                          controller: _prevesPassController,
-                          keyboardType: TextInputType.visiblePassword,
-                          autocorrect: false,
-
-
-                          validator: _validPrevesPass,
-                        ),
-                        SizedBox(height: 30,),
 
                         TextFormField(
                           decoration: InputDecoration(
@@ -187,23 +169,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
 
 
 
-  String _validPrevesPass(String value) {
-    if (value == null || value == '') {
-      return 'مطلوب كلمة السر السابقة';
-    }
-    else if(value.length <8){
-      return "يجب ادخال كلمة المرور الصحيحة";
-    }
-    else{
 
-
-
-
-    }
-
-
-    return null;
-  }
 
   void _validateFormAndLogin() {
     var formState = _formKey.currentState;

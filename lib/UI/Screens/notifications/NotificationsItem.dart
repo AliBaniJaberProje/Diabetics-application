@@ -67,34 +67,33 @@ class NotificationWidget extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
+                child:
                     Text(
                       body,
                       style: new TextStyle(fontSize: 18, color: Colors.black),
                       textAlign: TextAlign.end,
                     ),
-                    SizedBox(
-                      height: 2,
-                    ),
-                  ],
-                ),
+
+
+
               ),
               new Padding(
                 padding: new EdgeInsets.only(left: 10.0, right: 10.0),
-                child: CircularProfileAvatar(
-                  this.imgurl,
-                  radius: 25,
-                  placeHolder: (context, url) => Container(
-                    width: 100,
-                    height: 100,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 5,
+                child: CircleAvatar(
+                  radius: 26,
+                  backgroundColor: Colors.purple,
+                  child: CircularProfileAvatar(
+                    this.imgurl,
+                    radius: 25,
+                    placeHolder: (context, url) => Container(
+                      width: 100,
+                      height: 100,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 5,
+                      ),
                     ),
                   ),
-                ),
+                )
               ),
             ],
           ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:json_table/json_table.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -45,9 +46,11 @@ class _DoseHistoryDoseState extends State<DoseHistoryDose> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer:MainDrawer(),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("الجراعات الطبية السابقة"),
+        title: Text("الجراعات الطبية السابقة" ,     style: TextStyle(
+            fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -108,42 +111,47 @@ class _DoseHistoryDoseState extends State<DoseHistoryDose> {
               )),
 
 
-      bottomSheet: Container(
-        child: ClipPath(
-          clipper: WaveClipperTwo(reverse: true),
-          child: Container(
-            height: 120,
-            color: Colors.amber,
-            child: Center(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
 
-              child:Container(
-                margin: EdgeInsets.all(20),
-              child:  FloatingActionButton(
+        onPressed: () {
+          showMonthPicker(
 
-                onPressed: () {
-                  showMonthPicker(
-
-                    context: context,
-                    firstDate: DateTime(DateTime.now().year - 1, 5),
-                    lastDate: DateTime.now(),
-                    initialDate: DateTime.now(),
-                    // locale: Locale("es"),
-                  ).then((date) {
-                    if (date != null) {
-                      context.read<DoseHistoryProvider>().fetchData(date.month,date.year);
-                      print(date.month);
-                      setState(() {
-                        selectedDate = date;
-                      });
-                    }
-                  });
-                },
-                child: Icon(Icons.calendar_today),
-              ), ),
-             )
-          ),
-        ),
+            context: context,
+            firstDate: DateTime(DateTime.now().year - 1, 5),
+            lastDate: DateTime.now(),
+            initialDate: DateTime.now(),
+            // locale: Locale("es"),
+          ).then((date) {
+            if (date != null) {
+              context.read<DoseHistoryProvider>().fetchData(date.month,date.year);
+              print(date.month);
+              setState(() {
+                selectedDate = date;
+              });
+            }
+          });
+        },
+        icon: Icon(Icons.calendar_today),
+        label: Text("معرفة الجرعات السابقة"),
       ),
+
+      // bottomSheet: Container(
+      //   child: ClipPath(
+      //     clipper: WaveClipperTwo(reverse: true),
+      //     child: Container(
+      //       height: 130,
+      //       color: Colors.amber,
+      //       child: Center(
+      //
+      //         child:Container(
+      //           margin: EdgeInsets.all(20),
+      //         padding: EdgeInsets.only(top: 30),
+      //           ),
+      //        )
+      //     ),
+      //   ),
+      // ),
 
 
     );

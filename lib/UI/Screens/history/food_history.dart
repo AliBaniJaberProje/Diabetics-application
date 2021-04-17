@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/history/suqar_reding_history.dart';
+import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
 import 'package:ali_muntaser_final_project/core/Providers/food-history-provider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
@@ -55,6 +56,7 @@ class _FoodHistoryState extends State<FoodHistory> {
     var foodHistoryProviderWatch=context.watch<FoodHistoryProvider>();
 
     return Scaffold(
+      endDrawer:MainDrawer(),
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -63,12 +65,11 @@ class _FoodHistoryState extends State<FoodHistory> {
             Navigator.pushReplacementNamed(context, HomeScreen.routeName);
           },
         ),
-        title:TextLiquidFill(
-          text: 'الأطعمة التي تناولتها سابقا',
-          waveColor: Colors.white,
-          boxBackgroundColor: Colors.purple,
-          waveDuration: Duration(seconds: 1),
-          textStyle: TextStyle(
+        title:Text(
+           'الأطعمة التي تناولتها سابقا',
+
+
+          style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),

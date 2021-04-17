@@ -6,25 +6,22 @@ import 'package:provider/provider.dart';
 AppBar AppBarMyDoseScreen(BuildContext context){
     return  AppBar(
         backgroundColor: Colors.purple,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                context.read<MyDoseProvider>().clearDose();
-                Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        leading:IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            context.read<MyDoseProvider>().clearDose();
+            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
 
-              },
-            ),
-            Container(
-              child: Text(
-                "جدول الجرعات",
-              ),
-              padding: EdgeInsets.all(10),
-            ),
-          ],
+          },
         ),
+        title: Text(
+                "جدول الجرعات",
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+      centerTitle: true,
+
+
 
     );
   }

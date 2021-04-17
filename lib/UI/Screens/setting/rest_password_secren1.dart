@@ -1,39 +1,34 @@
-import 'dart:convert';
-
-import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/login/loginScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/setting/verfiy.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
-import 'package:http/http.dart' as http;
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-class UpdatePassword extends StatefulWidget {
-  static String routeName="/UpdatePassword";
-  UpdatePassword({Key key}) : super(key: key);
 
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+
+class RestPasswordSecren1 extends StatefulWidget {
+
+  static String routeName="/RestPasswordSecren1";
   @override
-  _UpdatePasswordState createState() => _UpdatePasswordState();
+  _RestPasswordSecren1State createState() => _RestPasswordSecren1State();
 }
 
-class _UpdatePasswordState extends State<UpdatePassword> {
-  var idController = TextEditingController();
-  var passwordController = TextEditingController();
+class _RestPasswordSecren1State extends State<RestPasswordSecren1> {
+
+
   final _formKey = GlobalKey<FormState>();
 
 
   bool _obscurePassword;
-  TextEditingController _prevesPassController;
-  TextEditingController _newePass1;
-  TextEditingController _newPass2;
+  TextEditingController _idController;
+  TextEditingController _phoneNumberController;
 
   @override
   void initState() {
     super.initState();
-    _obscurePassword = true;
-    _prevesPassController = TextEditingController();
-    _newPass2 = TextEditingController();
-    _newePass1=TextEditingController();
+    _obscurePassword = false;
+    _phoneNumberController = TextEditingController();
+    _idController=TextEditingController();
   }
-
 
 
 
@@ -46,11 +41,11 @@ class _UpdatePasswordState extends State<UpdatePassword> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+            Navigator.pushReplacementNamed(context, LoginScreen.routeName);
           },
         ),
         title: Text(
-          "  تغير كلمة السر ",
+          "  استرجاع الحساب ",
           style: TextStyle(
               fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
           textDirection: ui.TextDirection.rtl,
@@ -59,6 +54,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
       ),
       body: ListView(
         children: [
+
           ClipPath(
             clipper: WaveClipperTwo(),
             child: Container(
@@ -67,6 +63,8 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               child: Center(),
             ),
           ),
+
+          SizedBox(height: MediaQuery.of(context).size.height * .1,),
 
           Container(
             height: 500,
@@ -81,34 +79,12 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
 
-                        TextFormField(
-                          decoration: InputDecoration(
-                            hintText: 'كلمة السر السابقة',
-
-                            fillColor: Colors.purple.shade100,
-                            prefixIcon:  Icon(Icons.person,size: 30,) ,
-                            filled: true,
-                            isDense: true,
-
-                          ),
-                          cursorHeight: 30,
-                          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),
-                          textDirection: ui.TextDirection.ltr,
-                          textAlign: TextAlign.end,
-                          controller: _prevesPassController,
-                          keyboardType: TextInputType.visiblePassword,
-                          autocorrect: false,
-
-
-                          validator: _validPrevesPass,
-                        ),
-                        SizedBox(height: 30,),
 
                         TextFormField(
                           decoration: InputDecoration(
-                            hintText: 'كلمة السر الجديدة',
+                            hintText: 'رقم الهوية',
                             fillColor: Colors.purple.shade100,
-                            prefixIcon:  Icon(Icons.visibility_off,size: 30,) ,
+                            prefixIcon:  Icon(Icons.person,size: 30,),
                             filled: true,
                             isDense: true,
 
@@ -118,19 +94,19 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                           style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),
                           textDirection: ui.TextDirection.ltr,
 
-                          controller: _newePass1,
-                          keyboardType: TextInputType.emailAddress,
+                          controller: _idController,
+                          keyboardType: TextInputType.number,
                           autocorrect: false,
-                          validator: _validatePass1,
+                          validator: _vaildatId,
                         ),
                         SizedBox(height: 30,),
 
 
                         TextFormField(
                           decoration: InputDecoration(
-                            hintText: 'تاكيد كلمة السر',
+                            hintText: 'اخر اربع ارقام من رقمك الهاتف',
                             fillColor: Colors.purple.shade100,
-                            prefixIcon:  Icon(Icons.visibility_off,size: 30,) ,
+                            prefixIcon:  Icon(Icons.phone,size: 30,) ,
                             filled: true,
                             isDense: true,
                           ),
@@ -138,9 +114,10 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                           style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),
                           textDirection: ui.TextDirection.ltr,
                           obscureText: _obscurePassword,
+                          keyboardType: TextInputType.number,
                           autocorrect: false,
-                          controller: _newPass2,
-                          validator: (val) => _validateRequired(val, _newePass1.text),
+                          controller: _phoneNumberController,
+                          validator: (val) => _validateRequired(val, _idController.text),
                         ),
                         SizedBox(height: 30,),
 
@@ -149,8 +126,8 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                             textColor: Colors.white,
                             padding: const EdgeInsets.all(10),
                             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(8.0)),
-                            child: Text('  تغير كلمة السر',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.white),),
-                            onPressed: _validateFormAndLogin),
+                            child: Text('ارسال كود',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.white),),
+                            onPressed:()=> _validateFormAndLogin(context)),
 
                       ],
                     ),
@@ -173,51 +150,31 @@ class _UpdatePasswordState extends State<UpdatePassword> {
     );
   }
 
-  String _validatePass1(String value) {
-    if (value == null || value == '') {
-      return 'يجب ادخال كلمة المرور';
+  String _vaildatId(String value) {
+    if (value.length!=9) {
+      return 'رقم الهوية خاطىْ';
     }
 
-
-    if (value.length<8) {
-      return 'يجب ان تكون كلمة السر من 8';
-    }
     return null;
   }
 
 
-
-  String _validPrevesPass(String value) {
-    if (value == null || value == '') {
-      return 'مطلوب كلمة السر السابقة';
-    }
-    else if(value.length <8){
-      return "يجب ادخال كلمة المرور الصحيحة";
-    }
-    else{
-
-
-
-
-    }
-
-
-    return null;
-  }
-
-  void _validateFormAndLogin() {
+  void _validateFormAndLogin(BuildContext context) {
     var formState = _formKey.currentState;
     if (formState.validate()) {
+      Navigator.pushReplacementNamed(context,ResatPassword.routeName,arguments: {"phone":_phoneNumberController.text});
       print('Form is valid');
     } else {
 
     }
   }
+
   String _validateRequired(String val1, val2) {
-    if (val1 != val2) {
-      return  "كلمة المرور مختلفة";
+    if (val1.length!=4) {
+      return  "ادخل اخر اربع ارقام من رقم الجوال ";
     }
     return null;
   }
+
 
 }

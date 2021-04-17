@@ -82,38 +82,38 @@ class PersonCardChat extends StatelessWidget {
                 ),
                 Container(
                   //  color: Colors.pinkAccent.withOpacity(.2),
-                  margin: EdgeInsets.only(left: 15),
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    padding: EdgeInsets.all(5),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 35,
-                      child: ClipOval(
-                        child: Image.network(
-                          _doctorChat.imgUrl,
-                          fit: BoxFit.fill,
-                          width: 100,
-                          height: 100,
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes
-                                    : null,
-                              ),
-                            );
-                          },
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: CircleAvatar(
+                      radius: 36,
+                      backgroundColor: Colors.purple,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 35,
+                        child: ClipOval(
+                          child: Image.network(
+                            _doctorChat.imgUrl,
+                            fit: BoxFit.fill,
+                            width: 100,
+                            height: 100,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                      null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes
+                                      : null,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ),
+                    )
                   ),
-                ),
+
               ],
             ),
           ),

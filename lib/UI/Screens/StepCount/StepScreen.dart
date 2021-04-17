@@ -1,11 +1,12 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/NumberOfStepProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
 
-import 'bar_data.dart';
 import 'bar_titles.dart';
 
 class NumberOfStep extends StatefulWidget {
@@ -28,9 +29,6 @@ class _StepsNumberState extends State<NumberOfStep> {
     context.read<NumberOfStepProvider>().feachThisWeek();
 
 
-
-
-
     super.initState();
   }
 
@@ -44,36 +42,30 @@ class _StepsNumberState extends State<NumberOfStep> {
         context.watch<NumberOfStepProvider>();
 
     return Scaffold(
+      endDrawer:  MainDrawer(),
       appBar: AppBar(
-        elevation: 50,
-        title: Container(
-          margin: EdgeInsets.only(right: 30),
-          child: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-              size: 20,
-            ),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-            },
+
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+            size: 20,
           ),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          },
         ),
-        actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "الرياضة",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ],
+        title: Text(
+          "النشاط الرياضي",
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+          textDirection: ui.TextDirection.rtl,
+        ),
+        centerTitle: true,
+
+
+
+
       ),
       body: Container(
         color: Colors.amber.shade50,

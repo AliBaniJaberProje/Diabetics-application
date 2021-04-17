@@ -1,4 +1,5 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'dart:ui' as ui;
@@ -17,6 +18,7 @@ class _EventsHistoryState extends State<EventsHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer:MainDrawer(),
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),

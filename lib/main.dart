@@ -19,7 +19,9 @@ import 'UI/Screens/history/events_history.dart';
 import 'UI/Screens/history/food_history.dart';
 import 'UI/Screens/history/grp_history.dart';
 import 'UI/Screens/history/number_steps_history.dart';
-import 'UI/Screens/setting/resat_password.dart';
+import 'UI/Screens/setting/verfiy.dart';
+import 'UI/Screens/setting/rest_password_secren1.dart';
+import 'UI/Screens/setting/update_forget_passward.dart';
 import 'UI/Screens/setting/update_password.dart';
 import "UI/Screens/todoy's meals/FoodScreen.dart";
 import 'core/Providers/EventDateTimeProvier.dart';
@@ -41,7 +43,7 @@ import 'core/Providers/histry_number_of_stepProvider.dart';
 import 'core/Providers/suqar_reding_historyProvider.dart';
 import 'core/Servies_api/nodeServers/auth.dart';
 import "./UI/Screens/todoy's meals/Today's_MealsScreen.dart";
-
+import './UI/Screens/grp_reading/grp_reading.dart';
 
 
 void main() {
@@ -117,6 +119,11 @@ class MyApp extends StatelessWidget {
         GrpHistory.routeName:(context)=>GrpHistory(),
         UpdatePassword.routeName:(context)=>UpdatePassword(),
         ResatPassword.routeName:(context)=>ResatPassword(),
+        RestPasswordSecren1.routeName:(context)=>RestPasswordSecren1(),
+        UpdateForgetPassward.routeName:(context)=>UpdateForgetPassward(),
+        GrpReading.routeName:(context)=>GrpReading(),
+
+        // RestPasswordSecren1
         // ResatPassword
       },
     );

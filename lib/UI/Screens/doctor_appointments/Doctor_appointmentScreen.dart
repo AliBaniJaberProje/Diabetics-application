@@ -1,6 +1,7 @@
 
 
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
 import 'package:ali_muntaser_final_project/core/Model/EventStruct.dart';
 import 'package:ali_muntaser_final_project/core/Providers/EventDateTimeProvier.dart';
 import 'package:ali_muntaser_final_project/core/Providers/EventProvider.dart';
@@ -101,11 +102,13 @@ class _DoctorAppointmentsState extends State<DoctorAppointmentsScreen> {
   Widget build(BuildContext context) {
     var eventProviderWatch = context.watch<EventProvider>();
     return Scaffold(
+        endDrawer:  MainDrawer(),
       appBar: AppBar(
         elevation: 0,
         title: Text(
           "حجز موعد لزيارة الطبيب ",
-          style: TextStyle(fontSize: 20, color: Colors.white),
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
         leading: IconButton(

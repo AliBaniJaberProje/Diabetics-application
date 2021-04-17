@@ -16,7 +16,8 @@ AppBar MyAppBar(BuildContext context) {
           ),
 
         title:Container(
-              child: Text("سجل القرأت اليومية",),
+              child: Text("سجل القرأت اليومية",style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
               padding: EdgeInsets.all(10),
 
         ),

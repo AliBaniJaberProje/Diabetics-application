@@ -7,7 +7,7 @@ import 'package:ali_muntaser_final_project/core/Constant/HomePageConstant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "../../todoy's meals/Today's_MealsScreen.dart";
-
+import '../../../Screens/grp_reading/grp_reading.dart';
 class HeaderContainer extends StatelessWidget {
   final bool showname;
   final String doctorName;
@@ -95,17 +95,18 @@ class MyGridTitle extends StatelessWidget {
                 // int x=55;
                 // print(res);
                 print("هل هذا صحي لي ؟");
-
                 Navigator.pushReplacementNamed(context, FoodScreen2.routeName);
+
               } else if (data['title'] == MainFeture[3]['title']) {
+
                 print("وجبتي هذا اليوم");
-                Navigator.pushReplacementNamed(context, TodayMeals.routeName);
+                Navigator.pushReplacementNamed(context, DoctorAppointmentsScreen.routeName);
               } else if (data['title'] == MainFeture[4]['title']) {
                 //  Navigator.pushReplacementNamed(context, TestScreen.routName);
-                Navigator.pushReplacementNamed(context, DoctorAppointmentsScreen.routeName);
+                Navigator.pushReplacementNamed(context, NumberOfStep.routeName);
                 print('حجز موعد');
               } else if (data['title'] == MainFeture[5]['title']) {
-                Navigator.pushReplacementNamed(context, NumberOfStep.routeName);
+                Navigator.pushReplacementNamed(context, GrpReading.routeName);
 
                 print("عدد الخطوات ");
               } else if (data['title'] == MainFeture[6]['title']) {

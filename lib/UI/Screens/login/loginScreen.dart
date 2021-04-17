@@ -1,5 +1,6 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
-import 'package:ali_muntaser_final_project/UI/Screens/setting/resat_password.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/setting/verfiy.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/setting/rest_password_secren1.dart';
 import 'package:ali_muntaser_final_project/core/Providers/LogInProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/auth.dart';
@@ -330,7 +331,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 textAlign: TextAlign.center,
               ),
               onPressed: (){
-                Navigator.pushReplacementNamed(context, ResatPassword.routeName);
+                Navigator.pushReplacementNamed(context, RestPasswordSecren1.routeName);
                 print("error");
               },
             )

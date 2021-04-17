@@ -1,4 +1,5 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
 import '../../../core/Providers/food_details.dart';
 import 'package:ali_muntaser_final_project/core/Providers/food_provider.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -19,28 +20,31 @@ class FoodScreen2 extends StatefulWidget {
 }
 
 class _FoodScreen2State extends State<FoodScreen2> {
-
-  _openDetail(context,foodInfo) {
+  _openDetail(context, foodInfo) {
     final route = MaterialPageRoute(
-      builder: (context) => FoodDetails(foodInfo:foodInfo,),
+      builder: (context) => FoodDetails(
+        foodInfo: foodInfo,
+      ),
     );
     Navigator.push(context, route);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer:  MainDrawer(),
       appBar: AppBar(
-        leading:
-          IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-            },
-          ),
-
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          },
+        ),
+        title: Text(
+          "الوجبات الغذائية",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        centerTitle: true,
       ),
       body: Column(
         children: [
@@ -82,12 +86,11 @@ class _FoodScreen2State extends State<FoodScreen2> {
                 "فواكه",
                 "خضروات",
                 "المشروبات",
-                "البقوليات والمكسرات",//
-                "النشويات",//
-                "الحلويات",//
-                "الورقيات",//
+                "البقوليات والمكسرات", //
+                "النشويات", //
+                "الحلويات", //
+                "الورقيات", //
                 //"وجبات خفيفة",//
-
               ],
               label: "صنف الطعام ",
               showSearchBox: true,
@@ -95,7 +98,7 @@ class _FoodScreen2State extends State<FoodScreen2> {
               showSelectedItem: true,
               onChanged: (val) {
                 context.read<FoodProvider2>().sendRequestAndGetFoodList(val);
-                context.read<FoodDetailsProvider>().categoryName=val;
+                context.read<FoodDetailsProvider>().categoryName = val;
               },
             ),
           ),
@@ -122,12 +125,15 @@ class _FoodScreen2State extends State<FoodScreen2> {
                         return Hero(
                           tag: "$index",
                           child: InkWell(
-                            onTap: ()=>_openDetail(context,context.read<FoodProvider2>().foodList[index]),
+                            onTap: () => _openDetail(context,
+                                context.read<FoodProvider2>().foodList[index]),
                             child: AnimationConfiguration.staggeredGrid(
                               position: index,
                               duration: const Duration(milliseconds: 600),
-                              columnCount:
-                              context.watch<FoodProvider2>().foodList.length,
+                              columnCount: context
+                                  .watch<FoodProvider2>()
+                                  .foodList
+                                  .length,
                               child: ScaleAnimation(
                                 child: FadeInAnimation(
                                   child: Card(
@@ -167,12 +173,12 @@ class _FoodScreen2State extends State<FoodScreen2> {
                                             return Center(
                                               child: CircularProgressIndicator(
                                                 value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                    null
+                                                            .expectedTotalBytes !=
+                                                        null
                                                     ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes
                                                     : null,
                                               ),
                                             );
@@ -186,7 +192,8 @@ class _FoodScreen2State extends State<FoodScreen2> {
                                               .foodList[index]
                                               .name,
                                           style: TextStyle(
-                                              fontSize: 20, color: Colors.purple),
+                                              fontSize: 20,
+                                              color: Colors.purple),
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
@@ -205,9 +212,4 @@ class _FoodScreen2State extends State<FoodScreen2> {
       ),
     );
   }
-
-
-
-
 }
-

@@ -59,7 +59,11 @@ dependencies:
 
   syncfusion_flutter_datagrid:
   responsive_table: ^0.1.1+8
+  #/////
+  firebase_ml_vision:
 
+  #camera:
+  #////
   fancy_bottom_navigation:
   circular_profile_avatar:
   pedometer:
@@ -141,3 +145,4 @@ flutter:
     - assets/images/p12.png
     - assets/images/p13.png
     - assets/images/doctor.png
+    - assets/images/GRP.png

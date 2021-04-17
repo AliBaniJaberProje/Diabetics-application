@@ -1,4 +1,5 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
 import 'package:ali_muntaser_final_project/core/Providers/suqar_reding_historyProvider.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +8,14 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:responsive_table/DatatableHeader.dart';
 import 'package:responsive_table/ResponsiveDatatable.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'dart:ui' as ui;
+
 Widget fabsinglemenu(IconData icon, Function onPressFunction) {
   return SizedBox(
       width: 75,
       height: 75,
       child: RaisedButton(
+
         color: Colors.white,
         child: Icon(
           icon,
@@ -86,21 +90,47 @@ class _SuqarRedingHistoryState extends State<SuqarRedingHistory> {
     print("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 
     return Scaffold(
+      endDrawer:MainDrawer(),
       appBar: AppBar(
+
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            context.read<SuqarReadingHistoryProvider>().clearData();
             Navigator.pushReplacementNamed(context, HomeScreen.routeName);
           },
         ),
+        title: Text(
+          " فحوصات السكري السابقة",
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+          textDirection: ui.TextDirection.rtl,
+        ),
+        centerTitle: true,
       ),
       body: loading?Center(child: CircularProgressIndicator(),) :SingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(),
           child:  Column(
             children: [
+              Container(
+                margin: EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Colors.purple.shade100,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.purple,width: 3)
+                ),
 
+                child: Center(
+                  child: Text(
+                    context.read<SuqarReadingHistoryProvider>().titleTable,
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                    textDirection: ui.TextDirection.ltr,
+                  ),
+                ),
+              ),
               tableVScHART == 1
                   ? Container(
                       height: 650,
@@ -120,7 +150,7 @@ class _SuqarRedingHistoryState extends State<SuqarRedingHistory> {
                           borderColor: Colors.black,
                           plotAreaBackgroundColor: Colors.purple.shade50,
                           primaryXAxis: CategoryAxis(),
-                          title: ChartTitle(text: context.read<SuqarReadingHistoryProvider>().titleTable,textStyle: TextStyle(color: Colors.purple)),
+                       //   title: ChartTitle(text: context.read<SuqarReadingHistoryProvider>().titleTable,textStyle: TextStyle(color: Colors.purple)),
                           series: <CartesianSeries>[
                             LineSeries<SalesData, String>(
                                 legendItemText: "قبل الافطار",
@@ -405,17 +435,17 @@ class _TableAllDalySuqarReadingState extends State<TableAllDalySuqarReading> {
               shadowColor: Colors.black,
               child: ResponsiveDatatable(
                 autoHeight: true,
-                title: Text(
-                 "\t"+context.watch<SuqarReadingHistoryProvider>().titleTable,
-                  style: TextStyle(
-                    fontSize: 20,
-
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                actions: [
-
-                ],
+                // title: Text(
+                //  "\t"+context.watch<SuqarReadingHistoryProvider>().titleTable,
+                //   style: TextStyle(
+                //     fontSize: 20,
+                //
+                //   ),
+                //   textAlign: TextAlign.center,
+                // ),
+                // actions: [
+                //
+                // ],
                 headers: _headers,
                 source: context.watch<SuqarReadingHistoryProvider>().temps,
                 selecteds: null,
@@ -439,53 +469,54 @@ class _TableAllDalySuqarReadingState extends State<TableAllDalySuqarReading> {
                 sortAscending: _sortAscending,
                 sortColumn: _sortColumn,
                 isLoading: _isLoading,
+
                 footers: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Text("عدد الصفحات:"),
-                  ),
-                  if (_perPages != null)
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: DropdownButton(
-                          value: _currentPerPage,
-                          items: _perPages
-                              .map((e) => DropdownMenuItem(
-                                    child: Text("$e"),
-                                    value: e,
-                                  ))
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _currentPerPage = value;
-                            });
-                          }),
-                    ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Text("$_currentPage   of $_total"),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      size: 16,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _currentPage = _currentPage >= 2 ? _currentPage - 1 : 1;
-                      });
-                    },
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.arrow_forward_ios, size: 16),
-                    onPressed: () {
-                      setState(() {
-                        _currentPage++;
-                      });
-                    },
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                  )
+                  // Container(
+                  //   padding: EdgeInsets.symmetric(horizontal: 15),
+                  //   child: Text("عدد الصفحات:"),
+                  // ),
+                  // if (_perPages != null)
+                  //   Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 15),
+                  //     child: DropdownButton(
+                  //         value: _currentPerPage,
+                  //         items: _perPages
+                  //             .map((e) => DropdownMenuItem(
+                  //                   child: Text("$e"),
+                  //                   value: e,
+                  //                 ))
+                  //             .toList(),
+                  //         onChanged: (value) {
+                  //           setState(() {
+                  //             _currentPerPage = value;
+                  //           });
+                  //         }),
+                  //   ),
+                  // Container(
+                  //   padding: EdgeInsets.symmetric(horizontal: 15),
+                  //   child: Text("$_currentPage   of $_total"),
+                  // ),
+                  // IconButton(
+                  //   icon: Icon(
+                  //     Icons.arrow_back_ios,
+                  //     size: 16,
+                  //   ),
+                  //   onPressed: () {
+                  //     setState(() {
+                  //       _currentPage = _currentPage >= 2 ? _currentPage - 1 : 1;
+                  //     });
+                  //   },
+                  //   padding: EdgeInsets.symmetric(horizontal: 15),
+                  // ),
+                  // IconButton(
+                  //   icon: Icon(Icons.arrow_forward_ios, size: 16),
+                  //   onPressed: () {
+                  //     setState(() {
+                  //       _currentPage++;
+                  //     });
+                  //   },
+                  //   padding: EdgeInsets.symmetric(horizontal: 15),
+                  // )
                 ],
               ),
             ),

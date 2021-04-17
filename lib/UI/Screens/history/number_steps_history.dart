@@ -1,4 +1,5 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
 
 import 'package:ali_muntaser_final_project/core/Providers/food-history-provider.dart';
 
@@ -37,6 +38,7 @@ class _NumberStepsHistoryState extends State<NumberStepsHistory> {
 
 
     return Scaffold(
+      endDrawer:MainDrawer(),
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
