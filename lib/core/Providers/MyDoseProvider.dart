@@ -25,28 +25,32 @@ class MyDoseProvider with ChangeNotifier {
   }
   Color getColorDose(String time){
     switch (time){
-      case "قبل الافطار" : return Colors.green;
-      case "بعد العشاء" : return Colors.blue;
-      case "بعد الافطار": return Colors.yellow;
-      case "بعد الغداء":return Colors.red;
+      case "قبل الفطور" : return Colors.amber;
+
+      case "قبل النوم" :return Colors.blue;
+
+
+      case "قبل العشاء": return Colors.pink;
+      case "قبل الغداء":return Colors.purple;
+
     }
-    return Colors.deepOrange;
+    return Colors.purple;
   }
 
 
   void process(dynamic data, String id){
 
     if(data['flag']=="0"){
-      addDoseToListProvider(id: indexInList.toString() ,color: Colors.green, doseTitle:(" IU ${data['amountOfinj']}"+data['typeOfinj']).padLeft(20, " ") ,timeDose: data['dateOfMed']);
+      addDoseToListProvider(id: indexInList.toString() ,color:getColorDose(data['dateOfMed']),  doseTitle: "\وحدة دولية\t"+"${data['amountOfinj']}" +"\t${data['typeOfinj']}\t",  timeDose: data['dateOfMed']);
       indexInList++;
     }else if(data['flag']=="1")
     {
-      addDoseToListProvider(id: indexInList.toString() ,color: Colors.blue, doseTitle:("${data['typeOfBill']} "+data['typeOfinj']).padLeft(20, " ")  ,timeDose: data['dateOfMed']);
+      addDoseToListProvider(id: indexInList.toString() ,color:getColorDose(data['dateOfMed']), doseTitle:"\tحبة\t"+"${data['amountOfBill']}" +"\t${data['typeOfBill']}\t",timeDose: data['dateOfMed']);
       indexInList++;
     }else if(data['flag']=="2"){
-      addDoseToListProvider(id: indexInList.toString() ,color: Colors.yellow, doseTitle:("${data['amountOfBill']} "+data['typeOfBill']).padLeft(20, " ") ,timeDose: data['dateOfMed']);
+      addDoseToListProvider(id: indexInList.toString() ,color:getColorDose(data['dateOfMed']), doseTitle:"\tحبة\t"+"${data['amountOfBill']}"  +"\t${data['typeOfBill']}\t",timeDose: data['dateOfMed']);
       indexInList++;
-      addDoseToListProvider(id: indexInList.toString() ,color: Colors.deepOrange, doseTitle:(" IU ${data['amountOfinj']}  ${data['typeOfinj']} ").padLeft(20, " ")  ,timeDose: data['dateOfMed']);
+      addDoseToListProvider(id: indexInList.toString() ,color:getColorDose(data['dateOfMed']),  doseTitle: "\وحدة دولية\t"+"${data['amountOfinj']}" +"\t${data['typeOfinj']}\t",timeDose: data['dateOfMed']);
       indexInList++;
     }
     print(data.toString());

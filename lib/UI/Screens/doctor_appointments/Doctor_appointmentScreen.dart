@@ -241,7 +241,7 @@ class _DoctorAppointmentsState extends State<DoctorAppointmentsScreen> {
                               },);
 
 
-                              Navigator.pop(context);
+                             // Navigator.pop(context);
 
 
 

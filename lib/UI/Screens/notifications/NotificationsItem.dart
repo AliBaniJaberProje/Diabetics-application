@@ -50,20 +50,24 @@ class NotificationWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Container(
-                padding: new EdgeInsets.only(left: 10.0, right: 10.0),
-
+                padding: new EdgeInsets.all(8),
+                margin: EdgeInsets.only(left: 8),
+                width: 100,
                 decoration: BoxDecoration(
-                  color: Colors.yellow.withOpacity(.3),
+
+                  borderRadius: BorderRadius.circular(10),
+
+                  border: Border.all(
+                    color: Colors.purple,
+                    width: 1
+                  )
 
                 ),
-                child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    new Text(
+                child :Text(
                       getTimeSendFormat(timestamp),
                       style: new TextStyle(fontSize: 14.0, color: Colors.black),
-                    ),
-                  ],
+                  textAlign: TextAlign.center,
+
                 ),
               ),
               Expanded(
@@ -77,7 +81,7 @@ class NotificationWidget extends StatelessWidget {
 
 
               ),
-              new Padding(
+              Padding(
                 padding: new EdgeInsets.only(left: 10.0, right: 10.0),
                 child: CircleAvatar(
                   radius: 26,

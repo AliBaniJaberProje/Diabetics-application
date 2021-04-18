@@ -1,6 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
-
+import 'dart:ui' as ui;
 class TitleDoseContainer extends StatelessWidget {
   final String _title;
 
@@ -15,7 +15,10 @@ class TitleDoseContainer extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w300,
+
             ),
+            textAlign: TextAlign.justify,
+            textDirection: ui.TextDirection.ltr,
             //textAlign: TextAlign.start,
           ),
 

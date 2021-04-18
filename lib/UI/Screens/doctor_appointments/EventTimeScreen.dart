@@ -199,7 +199,7 @@ class _EventTimeScreenState extends State<EventTimeScreen> {
                                       Navigator.pop(ctx);
 
                                       if (result == -1) {
-                                        showResultOfBuckenig(context: context,ctx: ctx,color: Colors.red.shade300,text:" قم باعادة عملية الحجز " );
+                                        showResultOfBuckenig(context: context,ctx: ctx,color: Colors.red.shade300,text:" قم بالغاء عملية عملية الحجز " );
                                       } else if (result == 0) {
                                         showResultOfBuckenig(context: context,ctx: ctx,color: Colors.red.shade300,text:"الموعد تم اختياره من مريض اخر قم باعدت تحميل الصفحة" );
                                       } else if (result == 1) {
