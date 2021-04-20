@@ -11,8 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:ui';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Widgets/HeaderLogin.dart';
 import '../../../core/Providers/MyDoseProvider.dart';
+
+
+
+
+
 class LoginFormWidget extends StatefulWidget {
   @override
   _LoginFormWidgetState createState() => _LoginFormWidgetState();
@@ -80,8 +86,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
       //   context.read<ChatProvider>().imgUrlPatient=userPatient.imgurl;
 ///-----------------------------------------------------------------------------
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-
-
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('id', _userId);
+        await prefs.setString('password', _password);
       } else {
         errorLogin("لا يوجد مستخدم بالبيانات المدخلة");
         print("no");
@@ -176,7 +183,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                     onSaved: (val) => _userId = val,
                                     keyboardType: TextInputType.datetime,
                                     style: TextStyle(fontSize: 25),
-                                    controller: idController..text="123123123",
+                                    controller: idController,//..text="123123123",
                                     textAlign: TextAlign.end,
                                     decoration: InputDecoration(
                                       filled: true,
@@ -238,7 +245,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                           .watch<LoginProvider>()
                                           .visibilStatePassword(),
                                       textAlign: TextAlign.end,
-                                      controller: passwordController..text="0123456789",
+                                      controller: passwordController,//..text="0123456789",
                                       decoration: InputDecoration(
                                         filled: true,
                                         fillColor: Colors.grey[300],
@@ -341,15 +348,46 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     );
   }
 }
+// SharedPreferences prefs = await SharedPreferences.getInstance();
+// await prefs.setString('id', _userId);
+// await prefs.setString('password', _password);
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static final String routeName = "/";
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
 
+class _LoginScreenState extends State<LoginScreen> {
+  Auth usersNodeServer = new Auth();
+  bool loading=true;
+  @override
+  void initState() {
+    SharedPreferences.getInstance().then((prefs){
+
+      if(prefs.getString("id")!=null && prefs.getString("password")!=null){
+        usersNodeServer.isAuthorizedPatient(prefs.getString("id"),prefs.getString("password")).then((val){
+
+            if(val){
+              Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+            }
+        });
+      }else{
+        setState(() {
+          this.loading=false;
+        });
+      }
+
+
+    });
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+      body:this.loading?Center(child: CircularProgressIndicator(),): SingleChildScrollView(
         child: Container(
           child: Column(
             children: [
@@ -362,3 +400,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
+
+

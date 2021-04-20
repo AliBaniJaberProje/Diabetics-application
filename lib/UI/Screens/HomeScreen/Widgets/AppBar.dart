@@ -1,6 +1,7 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/Widgets/normal_icon.dart';
 import 'package:ali_muntaser_final_project/core/Providers/MessagesProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/NotificationProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/chatProvider.dart';
 import 'package:flutter/material.dart';
 import 'icon_with_number.dart';
@@ -29,12 +30,11 @@ import 'package:provider/provider.dart';
             // ),
           ],
         ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text("أهلا بك يا محمد  "),
-          ],
-        ),
+        title:
+            Text("أهلا بك يا ${context.read<ProfileProvider>().patient.username.split(" ")[0]}  ",),
+        centerTitle: true,
+
+
 
       );
 

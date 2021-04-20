@@ -1,10 +1,11 @@
 import 'package:ali_muntaser_final_project/UI/Screens/login/loginScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/setting/rest_password_secren1.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/setting/verfiy.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'dart:ui' as ui;
-
+import 'package:http/http.dart' as http;
 class UpdateForgetPassward extends StatefulWidget {
   static String routeName="/UpdateForgetPassward";
 
@@ -36,11 +37,11 @@ class _UpdateForgetPasswardState extends State<UpdateForgetPassward> {
 
 
 
-
+  var args;
 
   @override
   Widget build(BuildContext context) {
-   final args =
+    args =
     ModalRoute.of(context).settings.arguments as Map<String ,dynamic>;
     return Scaffold(
       appBar: AppBar(
@@ -171,9 +172,40 @@ class _UpdateForgetPasswardState extends State<UpdateForgetPassward> {
 
 
 
-  void _validateFormAndLogin() {
+  void _validateFormAndLogin() async{
     var formState = _formKey.currentState;
     if (formState.validate()) {
+      print(args.toString());
+     http.Response response=await http.patch("https://jaber-server.herokuapp.com/password/updatePassword",body: {"id":args["id"],"phoneNumber":args["phone"],"pinCode":args["code"],"password":_newePass1.text});
+     if(response.statusCode==200){
+       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+
+       Flushbar(
+         duration: Duration(seconds: 4),
+         flushbarPosition: FlushbarPosition.TOP,
+         mainButton: FlatButton(
+           child: Icon(Icons.close),
+           onPressed: () {
+
+             //   Navigator.of(context).pop();
+
+           },
+         ),
+         icon: Icon(Icons.error_outline),
+         backgroundColor: Colors.green.shade300,
+         message: "pppppp",
+         messageText: Text(
+           "تم تغير كلمة السر بنجاح",
+           textAlign: TextAlign.end,
+           style: TextStyle(
+             fontSize: 18,
+             color: Colors.black87,
+           ),
+         ),
+       ).show(context);
+
+       print("update passDone ");
+     }
       print('Form is valid');
     } else {
 

@@ -37,7 +37,7 @@ class NumberOfStepHistory with ChangeNotifier{
       total=0;
       isEmpty=false;
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      http.Response response=await http.get("http://192.168.0.112:3000/steps/$year/$month",headers: {"x-auth-token":prefs.getString('jwt')});
+      http.Response response=await http.get("https://jaber-server.herokuapp.com/steps/$year/$month",headers: {"x-auth-token":prefs.getString('jwt')});
       print(jsonDecode(response.body));
       var resultData=(jsonDecode(response.body))["msg"];
       totalTitel="المجموع لشهر $month-$year";

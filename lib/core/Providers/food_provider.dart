@@ -249,7 +249,7 @@ class FoodProvider2 with ChangeNotifier {
     print("sendRequestAndGetFoodList");
     loadingState = true;
     notifyListeners();
-    String url = "http://192.168.0.112:3000/food/";
+    String url = "https://jaber-server.herokuapp.com/food/";
     if (value == "منتجات الألبان والبيض") {
       url += "eggs_and_milk";
     } else if (value == "فواكه") {

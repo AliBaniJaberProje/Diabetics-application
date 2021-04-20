@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Patient {
   String _id;
-  String _username;
+  String _username=". .";
   String gender;
   String location;
   DateTime _dateBirth;

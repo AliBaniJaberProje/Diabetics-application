@@ -31,7 +31,7 @@ class FoodDetailsProvider with ChangeNotifier{
   void sendRequestToGetDetails(String fcdId)async{
     loading=true;
     component.clear();
-    String url="http://192.168.0.112:3000/food/";
+    String url="https://jaber-server.herokuapp.com/food/";
     if(categoryName=="فواكه"){
       url+="fruits/";
     }
@@ -105,7 +105,7 @@ class FoodDetailsProvider with ChangeNotifier{
 
   Future<dynamic> eatFood(String id ,String amount)async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    http.Response response =await http.post("http://192.168.0.112:3000/foodHistory",headers: {"x-auth-token":prefs.getString('jwt')},body: {
+    http.Response response =await http.post("https://jaber-server.herokuapp.com/foodHistory",headers: {"x-auth-token":prefs.getString('jwt')},body: {
       "id":id,
       "amount":amount
     });

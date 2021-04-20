@@ -4,9 +4,10 @@ import 'package:ali_muntaser_final_project/UI/Screens/StepCount/StepScreen.dart'
 import 'package:ali_muntaser_final_project/UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/doctor_appointments/Doctor_appointmentScreen.dart';
 import 'package:ali_muntaser_final_project/core/Constant/HomePageConstant.dart';
+import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import "../../todoy's meals/Today's_MealsScreen.dart";
+import 'package:provider/provider.dart';
 import '../../../Screens/grp_reading/grp_reading.dart';
 class HeaderContainer extends StatelessWidget {
   final bool showname;
@@ -33,7 +34,7 @@ class HeaderContainer extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      context.watch<ProfileProvider>().loadingNameInHome?CircularProgressIndicator() :Text(
                         " د. ${doctorName}",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 25),

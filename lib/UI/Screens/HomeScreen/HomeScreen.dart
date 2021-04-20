@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String doctorName="سكرك مضبوط";
   String task="545";
   int val=0;
-
+  bool loading=true;
 
 
 
@@ -60,6 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
       doctorName=value['doctorName'];
 
       print(value["currentDoctor"]);
+      setState(() {
+        context.read<ProfileProvider>().loadingNameInHome=false;
+      });
     });
 
 
@@ -116,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
       length: 3,
       child: Scaffold(
         endDrawer:MainDrawer(),
-        appBar: AppBarHomePage(
+        appBar:context.watch<ProfileProvider>().loadingNameInHome?AppBar(title: CircularProgressIndicator(),centerTitle: true,): AppBarHomePage(
           context
           // actions: [
           //   IconButton(
@@ -124,6 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
           //     onPressed: _showNotification,
           //   ),
           // ],
+
         ),
         body: TabBarView(
           children: [

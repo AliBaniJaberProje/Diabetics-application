@@ -17,6 +17,7 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:getwidget/components/toggle/gf_toggle.dart';
 import 'package:getwidget/types/gf_toggle_type.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Screens/login/loginScreen.dart';
 class MainDrawer extends StatefulWidget {
   _MainDrawer createState() => _MainDrawer();
@@ -472,7 +473,12 @@ class _MainDrawer extends State<MainDrawer> {
               size: 20,
               color: Colors.redAccent,
             ),
-            onTap: () {
+            onTap: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.remove("jwt");
+              prefs.remove("id");
+              prefs.remove("password");
+              context.read<ProfileProvider>().loadingNameInHome=true;
               Navigator.pushReplacementNamed(
                   context, LoginScreen.routeName);
             },

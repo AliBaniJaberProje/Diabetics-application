@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:ali_muntaser_final_project/UI/Screens/login/loginScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/setting/verfiy.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
-
+import 'package:http/http.dart'as http;
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 class RestPasswordSecren1 extends StatefulWidget {
@@ -30,8 +33,36 @@ class _RestPasswordSecren1State extends State<RestPasswordSecren1> {
     _idController=TextEditingController();
   }
 
+  Center buildCenterFlushbar(String message) {
+    Flushbar(
+      duration: Duration(seconds: 4),
+      flushbarPosition: FlushbarPosition.BOTTOM,
+      mainButton: FlatButton(
+        child: Icon(Icons.close),
+        onPressed: () {
+          setState(() {
+            Navigator.of(context).pop();
+          });
+        },
+      ),
+      icon: Icon(Icons.error_outline),
+      backgroundColor: Colors.redAccent,
+      message: "الرجاء المحاولة مرة اخرى ",
+      messageText: Text(
+        message,
+        textAlign: TextAlign.end,
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.white70,
+        ),
+      ),
+    ).show(context);
+  }
 
+  void errorLogin(String message) {
+    buildCenterFlushbar(message);
 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +135,7 @@ class _RestPasswordSecren1State extends State<RestPasswordSecren1> {
 
                         TextFormField(
                           decoration: InputDecoration(
-                            hintText: 'اخر اربع ارقام من رقمك الهاتف',
+                            hintText: 'رقم الهاتف',
                             fillColor: Colors.purple.shade100,
                             prefixIcon:  Icon(Icons.phone,size: 30,) ,
                             filled: true,
@@ -159,10 +190,18 @@ class _RestPasswordSecren1State extends State<RestPasswordSecren1> {
   }
 
 
-  void _validateFormAndLogin(BuildContext context) {
+  void _validateFormAndLogin(BuildContext context)async {
     var formState = _formKey.currentState;
     if (formState.validate()) {
-      Navigator.pushReplacementNamed(context,ResatPassword.routeName,arguments: {"phone":_phoneNumberController.text});
+      http.Response response=await http.patch("https://jaber-server.herokuapp.com/password/sendCodePatient",body: {"id":_idController.text,"phoneNumber":_phoneNumberController.text});
+      if(response.statusCode==200){
+
+        var result=jsonDecode(response.body);
+        Navigator.pushReplacementNamed(context,ResatPassword.routeName,arguments: {"phone":_phoneNumberController.text,"id":_idController.text,"code":result["code"].toString()});
+
+      }else if(response.statusCode==201){
+        errorLogin("البانات المدخلة خاظئة");
+      }
       print('Form is valid');
     } else {
 
@@ -170,8 +209,8 @@ class _RestPasswordSecren1State extends State<RestPasswordSecren1> {
   }
 
   String _validateRequired(String val1, val2) {
-    if (val1.length!=4) {
-      return  "ادخل اخر اربع ارقام من رقم الجوال ";
+    if (val1.length!=10) {
+      return  "رقم الجوال خاطىء ";
     }
     return null;
   }

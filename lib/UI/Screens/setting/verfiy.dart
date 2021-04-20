@@ -19,7 +19,9 @@ class _ResatPasswordState extends State<ResatPassword> {
 
   Future<String> validateOtp(String otp) async {
     await Future.delayed(Duration(milliseconds: 2000));
-    if (otp == "12345") {
+    print("wwwwwwwwwwwwwwwwwwwwww");
+    print(args.toString());
+    if (otp == args["code"]) {
       Navigator.pushReplacementNamed(context,UpdateForgetPassward.routeName);
       return null;
     } else {
@@ -32,7 +34,7 @@ class _ResatPasswordState extends State<ResatPassword> {
   }
 
   void moveToNextScreen(context) {
-    Navigator.pushReplacementNamed(context,UpdateForgetPassward.routeName,arguments: {"phone":args["phone"]});
+    Navigator.pushReplacementNamed(context,UpdateForgetPassward.routeName,arguments: {"phone":args["phone"],"id":args["id"],"code":args["code"]});
   }
  var  args ;
   @override
@@ -65,7 +67,7 @@ class _ResatPasswordState extends State<ResatPassword> {
         themeColor: Colors.white,
         titleColor: Colors.white,
         title: "مصداقة الحساب ",
-        subTitle: "ادخل الكود المرسل الى \n ...${args["phone"]}",
+        subTitle: "ادخل الكود المرسل الى \n ${args["phone"]}",
         icon: Icon(Icons.phone),
       ),
     );
