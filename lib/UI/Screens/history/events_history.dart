@@ -1,9 +1,11 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawer.dart';
+import 'package:ali_muntaser_final_project/core/Model/EventHistoryModel.dart';
+import 'package:ali_muntaser_final_project/core/Providers/event_history.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'dart:ui' as ui;
-
+import 'package:provider/provider.dart';
 import 'food_history.dart';
 
 class EventsHistory extends StatefulWidget {
@@ -23,6 +25,7 @@ class _EventsHistoryState extends State<EventsHistory> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
+            context.read<EventHistory>().clearData();
             Navigator.pushReplacementNamed(context, HomeScreen.routeName);
           },
         ),
@@ -45,7 +48,7 @@ class _EventsHistoryState extends State<EventsHistory> {
                 border: Border.all(color: Colors.purple, width: 3)),
             child: Center(
               child: Text(
-                "المواعيد الطبية خلال شهر 1-1-2021",
+                context.watch<EventHistory>().titleMont,
                 style: TextStyle(
                   fontSize: 18,
                 ),
@@ -54,18 +57,21 @@ class _EventsHistoryState extends State<EventsHistory> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: 4,
+            child:context.watch<EventHistory>().loading?Center(child: CircularProgressIndicator(),):
+            context.watch<EventHistory>().eventHistoryData.isEmpty?
+    Center(child:Text(context.watch<EventHistory>().titleMont!="قم باختيار الشهر لمعرفة مراجعاتك خلاله"?"لم تقم بزيارة الطبيب بهذا الشهر":"",style: TextStyle(color: Colors.purple,fontSize: 20,fontWeight: FontWeight.bold),),)
+            :ListView.builder(
+              itemCount: context.watch<EventHistory>().eventHistoryData.length,
               itemBuilder: (ctx, index) {
+                EventHistoryModel eventhistory=   context.watch<EventHistory>().eventHistoryData[index];
                 return CardEventHistory(
-                  border: Colors.amber,
-                  eventTime: "2021-1-19 \t\t",
-                  idEvent: "111478",
-                  imgDoctor:
-                      "https://scontent.fjrs13-1.fna.fbcdn.net/v/t1.6435-9/117613790_294791471973076_6768546932360132835_n.jpg?_nc_cat=108&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=QYLTISzFCvkAX8G8B08&_nc_ht=scontent.fjrs13-1.fna&oh=08b2f69e606355e0399822ac358883cb&oe=609FEB92",
-                  nameDocotr: "احمد بني جابر",
-                  note: "يبسلللللللل بليايب يبلايلب يبلايبلا يبلايب يبلايب ",
-                  shadoColro: Colors.amber.shade100,
+                  border: eventhistory.boderColor,
+                  eventTime: eventhistory.dateEventTime+"\t\t",
+                  idEvent:eventhistory.id,
+                  imgDoctor:eventhistory.doctorImg,
+                  nameDocotr: eventhistory.doctorName,
+                  note: eventhistory.note,
+                  shadoColro: eventhistory.shadowColor,
                 );
               },
             ),
@@ -85,7 +91,7 @@ class _EventsHistoryState extends State<EventsHistory> {
             // locale: Locale("es"),
           ).then((date) {
             if (date != null) {
-
+              context.read<EventHistory>().sendHttpRequestToGetHistory(date.year.toString(),date.month.toString());
 
               print(date.month);
 
@@ -160,10 +166,13 @@ class CardEventHistory extends StatelessWidget {
                         backgroundColor: this.border,
                         child: CircleAvatar(
                           radius: 39,
+                          backgroundColor: this.shadoColro,
                           backgroundImage: NetworkImage(
                             this.imgDoctor,
                             //
+
                           ),
+
                         ),
                       ),
                     ),

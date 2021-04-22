@@ -7,10 +7,20 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../core/Providers/ProfileProvider.dart';
+import 'img_view.dart';
 
 Color colorOne = Colors.purple.withOpacity(.02);
 Color colorTwo = Colors.purple[300];
 Color colorThree = Colors.purple[100];
+
+
+
+
+
+
+
+
+
 
 final appTheme = ThemeData(
   primarySwatch: Colors.purple,
@@ -163,7 +173,12 @@ class _HomePageState extends State<MyPersonScreen> {
     });
     super.initState();
   }
-
+  _openDetail(context, index) {
+    final route = MaterialPageRoute(
+      builder: (context) => ImgView(index: index),
+    );
+    Navigator.push(context, route);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -197,39 +212,39 @@ class _HomePageState extends State<MyPersonScreen> {
               HeaderContainer(
                 showname: false,
               ),
-              Container(
-                margin: EdgeInsets.only(top: 0, left: 140),
-                width: 150,
-                height: 150,
-                child: CircularProfileAvatar(
-                  context.watch<ProfileProvider>().getImgUrl(),
-                  errorWidget: (context, url, error) => Container(
-                    child: Icon(Icons.error),
-                  ),
-                  placeHolder: (context, url) => Container(
-                    width: 100,
-                    height: 100,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 10,
+
+               Container(
+                  margin: EdgeInsets.only(top: 0, left: 140),
+                  width: 150,
+                  height: 150,
+                  child: Hero(
+                    tag:"sdfgdsf",
+                    child:  CircularProfileAvatar(
+                      context.watch<ProfileProvider>().getImgUrl(),
+                      errorWidget: (context, url, error) => Container(
+                        child: Icon(Icons.error),
+                      ),
+                      placeHolder: (context, url) => Container(
+                        width: 100,
+                        height: 100,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 10,
+                        ),
+                      ),
+                      radius: 90,
+                      backgroundColor: Colors.transparent,
+                      borderWidth: 3,
+
+
+                      borderColor: Colors.purple.withOpacity(.3),
+                      elevation: 5.0,
+                      onTap:  ()=>_openDetail(context, context.read<ProfileProvider>().getImgUrl()),
+                      cacheImage: true,
+                      showInitialTextAbovePicture: true,
                     ),
                   ),
-                  radius: 90,
-                  backgroundColor: Colors.transparent,
-                  borderWidth: 3,
-
-//                  initialsText: Text(
-//                    "AD",
-//                    style: TextStyle(fontSize: 40, color: Colors.white),
-//                  ),
-                  borderColor: Colors.purple.withOpacity(.3),
-                  elevation: 5.0,
-                  onTap: () {
-                    print('adil');
-                  },
-                  cacheImage: true,
-                  showInitialTextAbovePicture: true,
                 ),
-              ),
+
             ],
           ),
           SizedBox(

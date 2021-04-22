@@ -1,4 +1,5 @@
 import 'package:ali_muntaser_final_project/UI/Screens/HomeScreen/HomeScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/ProfilePersonly/img_view.dart';
 import 'package:ali_muntaser_final_project/core/Model/messageStruct.dart';
 import 'package:ali_muntaser_final_project/core/Providers/MessagesProvider.dart';
 import 'package:ali_muntaser_final_project/core/Providers/doctorChatProvider.dart';
@@ -17,7 +18,12 @@ class BubbleMessage extends StatelessWidget {
   MessageStruct msg;
 
   BubbleMessage({this.msg});
-
+  _openDetail(context, index) {
+    final route = MaterialPageRoute(
+      builder: (context) => ImgView(index: index),
+    );
+    Navigator.push(context, route);
+  }
   @override
   Widget build(BuildContext context) {
     return msg.isMe
@@ -38,25 +44,29 @@ class BubbleMessage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         msg.isImageMessage()
-                            ? Image.network(
-                                msg.data,
-                                loadingBuilder: (BuildContext context,
-                                    Widget child,
-                                    ImageChunkEvent loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      value: loadingProgress
-                                                  .expectedTotalBytes !=
-                                              null
-                                          ? loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                              loadingProgress.expectedTotalBytes
-                                          : null,
-                                    ),
-                                  );
-                                },
-                              )
+                            ? InkWell(child: Hero(
+                          tag: msg.id,
+                          child: Image.network(
+                            msg.data,
+                            loadingBuilder: (BuildContext context,
+                                Widget child,
+                                ImageChunkEvent loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress
+                                      .expectedTotalBytes !=
+                                      null
+                                      ? loadingProgress
+                                      .cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes
+                                      : null,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        onTap: ()=>_openDetail(context, msg.data),)
                             : Text(
                                 msg.data,
                                 style: TextStyle(
@@ -126,24 +136,30 @@ class BubbleMessage extends StatelessWidget {
                   child: Column(
                     children: [
                       msg.isImageMessage()
-                          ? Image.network(
-                              msg.data,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes
-                                        : null,
-                                  ),
-                                );
-                              },
-                            )
+                          ? InkWell(
+                        child: Hero(
+                          child: Image.network(
+                            msg.data,
+                            loadingBuilder: (BuildContext context,
+                                Widget child,
+                                ImageChunkEvent loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                      null
+                                      ? loadingProgress
+                                      .cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes
+                                      : null,
+                                ),
+                              );
+                            },
+                          ),
+                          tag: msg.id,
+                        ),
+                        onTap: ()=>_openDetail(context, msg.data) ,
+                      )
                           : Text(
                               msg.data,
                               style:
@@ -185,49 +201,6 @@ class _NewMessageState extends State<NewMessage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              reverse: true,
-              child: new TextField(
-                textAlign: TextAlign.end,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                controller: meesageController,
-                onTap: () =>
-                    context.read<MessagesProvider>().updateAccessTimePatient(),
-                onChanged: (val) {
-                  setState(() {
-                    msgToSendText = val.trim();
-                  });
-                },
-                decoration: new InputDecoration.collapsed(
-                    hintText: 'اكتب رسالة... ', hintStyle: TextStyle()),
-              ),
-            ),
-          ),
-          Container(
-            child: FlatButton.icon(
-              label: Text(""),
-              onPressed: msgToSendText.isEmpty
-                  ? null
-                  : () {
-                      chatProvider.sendMessage(
-                        data: msgToSendText,
-                        type: "text",
-                      );
-
-                      meesageController.clear();
-                      msgToSendText = "";
-                    },
-              icon: Icon(
-                Icons.send,
-                size: 25,
-                color: Colors.purple,
-              ),
-              //backgroundColor: Colors.purple,
-            ),
-          ),
           Container(
             child: FlatButton.icon(
               label: Text(""),
@@ -306,6 +279,50 @@ class _NewMessageState extends State<NewMessage> {
               //backgroundColor: Colors.purple,
             ),
           ),
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              reverse: true,
+              child: new TextField(
+                textAlign: TextAlign.end,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                controller: meesageController,
+                onTap: () =>
+                    context.read<MessagesProvider>().updateAccessTimePatient(),
+                onChanged: (val) {
+                  setState(() {
+                    msgToSendText = val.trim();
+                  });
+                },
+                decoration: new InputDecoration.collapsed(
+                    hintText: '...اكتب رسالة', hintStyle: TextStyle(),),
+              ),
+            ),
+          ),
+          Container(
+            child: FlatButton.icon(
+              label: Text(""),
+              onPressed: msgToSendText.isEmpty
+                  ? null
+                  : () {
+                      chatProvider.sendMessage(
+                        data: msgToSendText,
+                        type: "text",
+                      );
+
+                      meesageController.clear();
+                      msgToSendText = "";
+                    },
+              icon: Icon(
+                Icons.send,
+                size: 25,
+                color: Colors.purple,
+              ),
+              //backgroundColor: Colors.purple,
+            ),
+          ),
+
         ],
       ),
     );
@@ -386,7 +403,7 @@ class _MessagesScreen extends State<MessagesScreen> {
                     ),
                     onPressed: () {
                       Navigator.pushReplacementNamed(
-                          context, HomeScreen.routeName,arguments: {"index":2});
+                          context, HomeScreen.routeName);
                       context.read<MessagesProvider>().clearChatWhenClose();
                     },
                   ),

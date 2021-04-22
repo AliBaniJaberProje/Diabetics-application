@@ -96,6 +96,7 @@ class _SuqarRedingHistoryState extends State<SuqarRedingHistory> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
+            context.read<SuqarReadingHistoryProvider>().clearData();
             Navigator.pushReplacementNamed(context, HomeScreen.routeName);
           },
         ),

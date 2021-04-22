@@ -370,6 +370,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
             if(val){
               Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+            }else{
+              Navigator.pushReplacementNamed(
+                  context, LoginScreen.routeName);
             }
         });
       }else{

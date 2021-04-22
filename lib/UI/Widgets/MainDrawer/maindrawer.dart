@@ -1,3 +1,4 @@
+
 import 'dart:ui';
 
 import 'package:ali_muntaser_final_project/UI/Screens/history/dose_history_dose.dart';
@@ -9,6 +10,7 @@ import 'package:ali_muntaser_final_project/UI/Screens/history/suqar_reding_histo
 import 'package:ali_muntaser_final_project/UI/Screens/setting/update_password.dart';
 import 'package:ali_muntaser_final_project/UI/Widgets/MainDrawer/maindrawerController.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
+import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/PatientServes.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,16 @@ class MainDrawer extends StatefulWidget {
 
 class _MainDrawer extends State<MainDrawer> {
   bool status = false;
+
+  @override
+  void initState() {
+    SharedPreferences.getInstance().then((pref){
+      setState(() {
+        status=pref.getBool("active");
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -428,10 +440,13 @@ class _MainDrawer extends State<MainDrawer> {
                   disabledTrackColor: Colors.grey,
                   enabledTrackColor: Colors.purple,
                   enabledThumbColor: Colors.grey,
-                  onChanged: (value) {
+                  onChanged: (value) async{
                     print("VALUE : $value");
+                  await  sendUpdateProfilePatientRequest(key: "isOnline",value: value);
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.setBool("active",value);
                     setState(() {
-                      status = value;
+                      status = prefs.getBool("active");
                     });
                   },
                   value: status,
@@ -478,6 +493,8 @@ class _MainDrawer extends State<MainDrawer> {
               prefs.remove("jwt");
               prefs.remove("id");
               prefs.remove("password");
+
+              await  sendUpdateProfilePatientRequest(key: "isOnline",value: false);
               context.read<ProfileProvider>().loadingNameInHome=true;
               Navigator.pushReplacementNamed(
                   context, LoginScreen.routeName);

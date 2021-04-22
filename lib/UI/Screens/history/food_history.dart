@@ -7,6 +7,7 @@ import 'package:ali_muntaser_final_project/core/Providers/food-history-provider.
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:provider/provider.dart';
 
@@ -231,28 +232,33 @@ class FoodHistoryTable extends StatelessWidget {
        context.watch<FoodHistoryProvider>().loading?Center(
          child: CircularProgressIndicator(),
        ): Expanded(
-          child:ListView.builder(
+          child:AnimationLimiter(
+            child: ListView.builder(
               itemCount: providerFoodHistory.foodHistoryDataTable.length,
-
-              itemBuilder: (ctx, index) {
+              itemBuilder: (BuildContext context, int index) {
                 var foodItem=providerFoodHistory.foodHistoryDataTable[index];
-
-
-                return  FoodHistoryItem(
-                  ch:foodItem.ch,
-                  proten: foodItem.proten,
-                  fat: foodItem.fat,
-                  foodAmount: foodItem.amount,
-                  foodName: foodItem.name,
-                  image: foodItem.img,
-                  color: foodItem.color,
-                  shadowColor: foodItem.shadowColor,
+                return AnimationConfiguration.staggeredList(
+                  position: index,
+                  duration: const Duration(milliseconds: 1200),
+                  child: SlideAnimation(
+                    verticalOffset: 50.0,
+                    child: FadeInAnimation(
+                      child:FoodHistoryItem(
+                        ch:foodItem.ch,
+                        proten: foodItem.proten,
+                        fat: foodItem.fat,
+                        foodAmount: foodItem.amount,
+                        foodName: foodItem.name,
+                        image: foodItem.img,
+                        color: foodItem.color,
+                        shadowColor: foodItem.shadowColor,
+                      ) ,
+                    ),
+                  ),
                 );
-
-              }
-
-            //
-          ),
+              },
+            ),
+          )
         ),
 
       ],

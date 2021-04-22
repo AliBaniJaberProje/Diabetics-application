@@ -70,11 +70,13 @@ class SuqarReadingHistoryProvider with ChangeNotifier {
   }
 
   void clearData(){
+    DateTime d = DateTime.now();
     arr1.clear();
     arr2.clear();
     arr3.clear();
     arr4.clear();
     temps.clear();
+    titleTable = "${d.year}-${d.month}فحوصات السكري لشهر ";
   }
 
   Future<void> reFetchData()async {

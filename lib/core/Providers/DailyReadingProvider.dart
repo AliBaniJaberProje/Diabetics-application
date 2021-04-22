@@ -13,6 +13,8 @@ class DailyReadingProvider with ChangeNotifier{
   String idUser;
   bool showNotification=false;
   String imgUrlDoctor;
+  String curantDoctorId;
+  String patientImgUrl;
   void clearListDailyReading(){
     this.listDailyReading.clear();
   }
@@ -66,6 +68,21 @@ class DailyReadingProvider with ChangeNotifier{
   }
 
   void setValueAndTake(int id, double val, Function shownotification) async{
+
+    if(val<60 || val > 400){
+      FirebaseDatabase().reference()
+          .child('notifications')
+          .child(this.curantDoctorId).child('notification').push()
+          .set({
+        "imgPatient":this.patientImgUrl,
+        "idPatient":this.idUser,
+        "isSeen":false,
+        "value":val,
+
+
+      });
+    }
+
     var fbm = await FirebaseMessaging();
     var phoneToken = await fbm.getToken();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -83,6 +100,7 @@ class DailyReadingProvider with ChangeNotifier{
              "title":"تنبيه",
               "body":"لم تنتظم بفحوصات السكري اليوم "
         });
+
          shownotification();
       }
 

@@ -37,8 +37,10 @@ import './core/Model/messageStruct.dart';
 import './core/Providers/NumberOfStepProvider.dart';
 import 'core/Providers/dose_history_provider.dart';
 import './core/Providers/food-history-provider.dart';
+import 'core/Providers/event_history.dart';
 import 'core/Providers/food_details.dart';
 import 'core/Providers/food_provider.dart';
+import 'core/Providers/grp_provider.dart';
 import 'core/Providers/histry_number_of_stepProvider.dart';
 import 'core/Providers/suqar_reding_historyProvider.dart';
 import 'core/Servies_api/nodeServers/auth.dart';
@@ -78,8 +80,9 @@ class InitProviderWidget extends StatelessWidget {
         ChangeNotifierProvider.value(value: SuqarReadingHistoryProvider()),
         ChangeNotifierProvider.value(value: FoodHistoryProvider()),
         ChangeNotifierProvider.value(value: NumberOfStepHistory()),
-
-        // NumberOfStepHistory
+        ChangeNotifierProvider.value(value: EventHistory()),
+        ChangeNotifierProvider.value(value: GRP_history_Provider()),
+        // GRP_history_Provider
       ],
       child: MyApp(),
     );

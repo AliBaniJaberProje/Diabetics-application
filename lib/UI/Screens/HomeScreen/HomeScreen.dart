@@ -54,9 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
       context.read<MessagesProvider>().getNumberOfMessagesFromDoctor(value['patientUser']["id"],value['patientUser']["currentDoctor"]);
       context.read<DailyReadingProvider>().idUser=value['patientUser']["id"];
       context.read<ProfileProvider>().setImgUrl(value['patientUser']['imgURL']);
+      context.read<DailyReadingProvider>().patientImgUrl=value['patientUser']['imgURL'];
       context.read<ProfileProvider>().patient.username=value['patientUser']['username'];
       context.read<DailyReadingProvider>().imgUrlDoctor=value['imgURLDoctor'];
-
+      context.read<DailyReadingProvider>().curantDoctorId=value['patientUser']["currentDoctor"];
       doctorName=value['doctorName'];
 
       print(value["currentDoctor"]);

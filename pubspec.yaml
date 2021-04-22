@@ -45,7 +45,7 @@ dependencies:
   cloud_firestore: ^0.14.0
   firebase_storage: "^5.0.0-dev.3"
   firebase_messaging:
-#  horizontal_data_table:
+
   json_table:
   firebase_auth:
   dropdown_search: ^0.4.9
@@ -59,7 +59,7 @@ dependencies:
 
   syncfusion_flutter_datagrid:
   responsive_table: ^0.1.1+8
-  #/////
+
   firebase_ml_vision:
 
   #camera:
