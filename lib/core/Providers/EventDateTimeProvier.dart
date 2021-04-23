@@ -28,6 +28,7 @@ class SlotDateTimeProvider with ChangeNotifier{
   Future<int> getAllEventInSelectedDateTime()async{
    // -1 == > لايوجد مواعيد
     // 0
+    listEventSloat.clear();
     print(dateTime.toString());
     http.Response response=await getAllEventInDay(DateTime(dateTime.year,dateTime.month-1,dateTime.day,0,0,0,0,0));
     var result=jsonDecode(response.body);

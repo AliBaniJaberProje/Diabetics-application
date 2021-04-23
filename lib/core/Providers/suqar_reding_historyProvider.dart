@@ -81,7 +81,7 @@ class SuqarReadingHistoryProvider with ChangeNotifier {
 
   Future<void> reFetchData()async {
     titleTable = "$year-$monthفحوصات السكري لشهر ";
-
+    temps.clear();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

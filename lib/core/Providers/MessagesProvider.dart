@@ -203,6 +203,10 @@ class MessagesProvider with ChangeNotifier {
     this._messagesSubscription.cancel();
   }
 
+  void clearChatWhenClose2() {
+    this._chat.clear();
+
+  }
   void startStreamChat() {
    // loading=true;
     _messagesSubscription= _firebaseRef
@@ -219,7 +223,7 @@ class MessagesProvider with ChangeNotifier {
         print(obj);
 
         _chat.insert(0,MessageStruct(
-            id: "event.snapshot.value[]",
+            id: Timestamp.fromMillisecondsSinceEpoch(obj["timestamp"]).toString(),
             typeMessage: obj["type"],
             isMe: obj["isPatient"],
             timeSend: Timestamp.fromMillisecondsSinceEpoch(obj["timestamp"]),
@@ -260,6 +264,22 @@ class MessagesProvider with ChangeNotifier {
       }
       notifyListeners();
     });
+  }
+
+  void createColectionToThisDoctor(String idPatent,String idDoctor){
+    _firebaseRef.child("allChat").child(idPatent).child(idDoctor).set({
+        "messages":{
+    "chat":{},
+    "countMessages":{
+    "numberFromDoctors":0,
+    "numberFromPatient":0
+    },
+    "time":{
+    "lastAccessTimeDoctor":0,
+    "lastAccessTimePatient":0
+    }
+    }}
+    );
   }
 
 }

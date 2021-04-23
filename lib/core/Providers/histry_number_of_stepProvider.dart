@@ -27,6 +27,7 @@ class NumberOfStepHistory with ChangeNotifier{
   void fetchAllInDate(String year , String month)async{
 
     try{
+
       title="رسم بياني لنشاط الرياضي في شهر $month - $year";
 
       loading=true;

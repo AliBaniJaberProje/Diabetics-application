@@ -75,6 +75,9 @@ class _DoctorAppointmentsState extends State<DoctorAppointmentsScreen> {
 
   @override
   void initState() {
+
+   context.read<EventProvider>().clearDaysNamedAndDateTime();
+
     context.read<EventProvider>().getAllWeekDay();
     getEventSelectedInProfile().then((value) {
       setState(() {

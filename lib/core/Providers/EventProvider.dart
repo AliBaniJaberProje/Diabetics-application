@@ -49,6 +49,7 @@ class EventProvider with ChangeNotifier {
   }
 
   void getAllWeekDay() {
+    daysNamedAndDateTime.clear();
     DateTime dateTime = DateTime.now();
     int numberOfDay = _mapNameDayToNumberOfAvailableDays(dateTime.weekday);
     List<String> days = _getWeekDay(numberOfDay);

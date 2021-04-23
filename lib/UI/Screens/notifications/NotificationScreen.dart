@@ -20,16 +20,21 @@ class NotificationsScreen extends StatelessWidget {
             key: Key(notification.key),
             child: InkWell(
               child: NotificationWidget(
+                isAccept: notification.isAccept,
                 mykey: notification.key,
                 title: notification.title,
                 body: notification.body,
                 timestamp: notification.timeSend,
                 status: notification.status,
                 imgurl: notification.imgSender,
+                isRequest:notification.isRequest,
+                newDoctorId: notification.idNewDoctor,
+                newDoctorName: notification.nameDoctorRequest,
               ),
               onTap: () => _notificationsProvider.updateStatusToSeen(
                   context.read<Auth>().userId, notification.key),
             ),
+
             onDismissed: (DismissDirection direction) {
               _notificationsProvider.deleteNotification(
                   context.read<Auth>().userId , notification.key);

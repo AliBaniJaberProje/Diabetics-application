@@ -21,6 +21,7 @@ class NotificationStruct {
     String body,
     String title,
     String status,
+    bool isRequest,
     Timestamp timestamp}){
     _key = key;
     _imgSender = imgsender;
@@ -28,6 +29,7 @@ class NotificationStruct {
     _title = title;
     _status = status;
     _timeSend = timestamp;
+    this.isRequest=isRequest;
   }
 
   String getformatTimeStamp(){
@@ -45,12 +47,16 @@ class NotificationStruct {
 
   String get body => _body;
 
+  bool isRequest;
+
   String get status => _status;
 
   String get imgSender => _imgSender;
 
   Timestamp get timeSend => _timeSend;
-
+  String idNewDoctor;
+  String nameDoctorRequest;
+  int isAccept;
 
   NotificationStruct.fromJson(dynamic json) {
     _key = json["key"];
@@ -58,6 +64,10 @@ class NotificationStruct {
     _body = json["body"];
     _title = json["title"];
     _status = json["status"];
+    isRequest=json["isRequestToAdd"]==null?true:false;
+    idNewDoctor=json["isRequestToAdd"]==null?"":json["idNewDoctor"];
+    nameDoctorRequest=json["isRequestToAdd"]==null?"":json["nameDoctorRequest"];
+    isAccept=json["isRequestToAdd"]==null?-1:json["isAccept"];
     _timeSend = Timestamp.fromMillisecondsSinceEpoch(json["timestamp"]);
   }
 

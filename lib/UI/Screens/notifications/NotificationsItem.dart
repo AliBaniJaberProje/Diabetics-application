@@ -1,9 +1,16 @@
+import 'package:ali_muntaser_final_project/core/Providers/DailyReadingProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/MessagesProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/NotificationProvider.dart';
+import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
+import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/PatientServes.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 class NotificationWidget extends StatelessWidget {
   String mykey;
   String title;
@@ -12,6 +19,10 @@ class NotificationWidget extends StatelessWidget {
   String body;
   String status;
   int numbernotification;
+  bool isRequest;
+  String newDoctorId;
+  String newDoctorName;
+  int isAccept;
   DateTime convertTimeStampToDateTime(Timestamp time) => time.toDate();
 
   String getTimeSendFormat(Timestamp time) {
@@ -32,6 +43,10 @@ class NotificationWidget extends StatelessWidget {
     this.timestamp,
     this.body,
     this.status,
+    this.isRequest,
+    this.newDoctorId,
+    this.newDoctorName,
+    this.isAccept
   });
 
   Widget build(BuildContext context) {
@@ -51,7 +66,7 @@ class NotificationWidget extends StatelessWidget {
             children: <Widget>[
               Container(
                 padding: new EdgeInsets.all(8),
-                margin: EdgeInsets.only(left: 8),
+              //  margin: EdgeInsets.only(left: 8),
                 width: 100,
                 decoration: BoxDecoration(
 
@@ -70,7 +85,7 @@ class NotificationWidget extends StatelessWidget {
 
                 ),
               ),
-              Expanded(
+             this.isRequest? Expanded(
                 child:
                     Text(
                       body,
@@ -80,7 +95,70 @@ class NotificationWidget extends StatelessWidget {
 
 
 
-              ),
+              ):this.isAccept==-1?Expanded(child: Row(
+               mainAxisAlignment: MainAxisAlignment.end,
+               children: [
+                 //SizedBox(width: 5,),
+                 IconButton(onPressed: ()async{
+                   SharedPreferences prefs = await SharedPreferences.getInstance();
+                   http.Response response=await http.patch("http://192.168.0.112:3000/patient/updateCurantDoctor",body: {
+                      "newDoctorId":newDoctorId
+                    },headers: {"x-auth-token":prefs.getString('jwt')});
+
+                   if(response.statusCode==200){
+                     context.read<NotificationsProvider>().updateAcceptOrRegect("",this.mykey,1);
+
+                     getIdAndIdCurrentDoctor().then((value) {
+                     //   print(value);
+                       context.read<MessagesProvider>().setReceverId(value['patientUser']["currentDoctor"]);
+                       context.read<MessagesProvider>().setSenderId(value['patientUser']["id"]);
+                       context.read<MessagesProvider>().createColectionToThisDoctor(value['patientUser']["id"],value['patientUser']["currentDoctor"]);
+                       context.read<MessagesProvider>().startListenLastAccessTimeDoctor();
+                     //   context.read<NotificationsProvider>().startStreamNotification(value['patientUser']["id"]);
+                     //   context.read<MessagesProvider>().getNumberOfMessagesFromDoctor(value['patientUser']["id"],value['patientUser']["currentDoctor"]);
+                     //   context.read<DailyReadingProvider>().idUser=value['patientUser']["id"];
+                     //   context.read<ProfileProvider>().setImgUrl(value['patientUser']['imgURL']);
+                     //   context.read<DailyReadingProvider>().patientImgUrl=value['patientUser']['imgURL'];
+                     //   context.read<ProfileProvider>().patient.username=value['patientUser']['username'];
+                     //   context.read<DailyReadingProvider>().imgUrlDoctor=value['imgURLDoctor'];
+                     //   context.read<DailyReadingProvider>().curantDoctorId=value['patientUser']["currentDoctor"];
+                     //
+                     //   print(value["currentDoctor"]);
+                     //   context.read<MessagesProvider>().getNumberOfMessagesFromDoctor(value['patientUser']["id"],value['patientUser']["currentDoctor"]);
+                     // context.read<MessagesProvider>().startListenLastAccessTimeDoctor();
+                     //   // setState(() {
+                     //   //   context.read<ProfileProvider>().loadingNameInHome=false;
+                     //   // });
+                     });
+
+
+                   }
+
+
+                   print("yes");
+                 },icon: Icon(Icons.check,size: 25,color: Colors.green,),),
+                 IconButton(onPressed: (){
+                   context.read<NotificationsProvider>().updateAcceptOrRegect("",this.mykey,0);
+                   print("no");
+                 },icon: Icon(Icons.close_sharp,size: 25,color: Colors.red,),),
+
+                 Text("طلب اضافة من د.${this.newDoctorName}",style: new TextStyle(fontSize: 15, color: Colors.black),
+                   textAlign: TextAlign.end,),
+                 //SizedBox(width: 5,),
+
+               ],
+             ),):Expanded(child: Container(
+               margin: EdgeInsets.symmetric(horizontal: 10),
+               padding: EdgeInsets.symmetric(horizontal: 10),
+               decoration: BoxDecoration(
+                 color:  this.isAccept==0?Colors.red.shade100:Colors.green.shade100,
+                 borderRadius: BorderRadius.circular(10)
+               ),
+
+               child: Text(this.isAccept==0?"تم رفض طلب ${this.newDoctorName}":"تم قبول  طلب ${this.newDoctorName}",style: new TextStyle(fontSize: 18, color: Colors.black,),
+                 textAlign: TextAlign.end,),
+             ),)
+               ,
               Padding(
                 padding: new EdgeInsets.only(left: 10.0, right: 10.0),
                 child: CircleAvatar(

@@ -71,7 +71,7 @@ class DailyReadingProvider with ChangeNotifier{
 
     if(val<60 || val > 400){
       FirebaseDatabase().reference()
-          .child('notifications')
+          .child('notifications').child("doctors")
           .child(this.curantDoctorId).child('notification').push()
           .set({
         "imgPatient":this.patientImgUrl,

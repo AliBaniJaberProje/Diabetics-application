@@ -79,6 +79,12 @@ class NotificationsProvider with ChangeNotifier {
        "status":"seen"
     });
   }
+  void updateAcceptOrRegect(String userId,String notificationId,int value){
+    _firebaseRef.child("notifications").child(this.idUser).child("notification").child(notificationId).update({
+      "isAccept":value
+    });
+    updateStatusToSeen(userId,notificationId);
+  }
 
   void deleteNotification(String userId,String notificationId){
     _firebaseRef.child("notifications").child(this.idUser).child("notification").child(notificationId).remove();

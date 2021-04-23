@@ -379,10 +379,14 @@ class _MessagesScreen extends State<MessagesScreen> {
 
   @override
   void initState() {
+    context.read<MessagesProvider>().clearChatWhenClose2();
+
     super.initState();
     context.read<MessagesProvider>().startListenLastAccessTimeDoctor();
     context.read<MessagesProvider>().startStreamChat();
   }
+  @override
+
 
   Widget build(BuildContext context) {
     var _chatProvider = context.read<MessagesProvider>();
