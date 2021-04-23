@@ -101,7 +101,7 @@ class NotificationWidget extends StatelessWidget {
                  //SizedBox(width: 5,),
                  IconButton(onPressed: ()async{
                    SharedPreferences prefs = await SharedPreferences.getInstance();
-                   http.Response response=await http.patch("http://192.168.0.112:3000/patient/updateCurantDoctor",body: {
+                   http.Response response=await http.patch("https://jaber-server.herokuapp.com/patient/updateCurantDoctor",body: {
                       "newDoctorId":newDoctorId
                     },headers: {"x-auth-token":prefs.getString('jwt')});
 
