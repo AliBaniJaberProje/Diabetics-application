@@ -55,10 +55,11 @@ class FoodHistoryProvider  with ChangeNotifier {
     notifyListeners();
     foodHistoryDataTable.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    //https://jaber-server.herokuapp.com
     http.Response response = await http.get("https://jaber-server.herokuapp.com/foodHistory/$year/$month/$day",headers: {'x-auth-token': prefs.get('jwt')});
 
     if(response.statusCode==200){
-      this.chartData.clear();
+
      var result= jsonDecode(response.body) ;
      for(int i=0;i<result["allFood"].length;i++){
        print(result);

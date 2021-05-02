@@ -14,9 +14,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Widgets/HeaderLogin.dart';
 import '../../../core/Providers/MyDoseProvider.dart';
+import 'package:http/http.dart' as http;
 
-
-
+import 'dart:convert';
 
 
 class LoginFormWidget extends StatefulWidget {
@@ -72,6 +72,9 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         var _profileProvider = context.read<ProfileProvider>();
         _profileProvider.doctorName=
         context.read<MyDoseProvider>().idUser=_userId;
+
+
+
 
 
         //_profileProvider.person=userPatient;

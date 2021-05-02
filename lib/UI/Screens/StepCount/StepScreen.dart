@@ -317,11 +317,15 @@ class BardChatWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return BarChart(
+
       BarChartData(
         alignment: BarChartAlignment.center,
         maxY: 20,
         minY: 0,
+
+
         groupsSpace: 12,
+
         barTouchData: BarTouchData(enabled: true),
         titlesData: FlTitlesData(
           topTitles: BarTitles.getTopBottomTitles(),
@@ -329,6 +333,7 @@ class BardChatWidget extends StatelessWidget{
           leftTitles: BarTitles.getSideTitles(),
           rightTitles: BarTitles.getSideTitles(),
         ),
+
         gridData: FlGridData(
           checkToShowHorizontalLine: (value) => value % 5 == 0,
           getDrawingHorizontalLine: (value) {

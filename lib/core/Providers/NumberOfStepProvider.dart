@@ -58,6 +58,7 @@ class NumberOfStepProvider with ChangeNotifier{
   ];
 
    void feachThisWeek()async{
+
      SharedPreferences prefs = await SharedPreferences.getInstance();
      String jwt= prefs.get('jwt');
      http.Response response=await http.get("https://jaber-server.herokuapp.com/steps/lastWeak",headers: {"x-auth-token":jwt});

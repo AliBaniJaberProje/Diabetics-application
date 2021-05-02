@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 
 import 'Widgets/AppBar.dart';
 import 'Widgets/body_hone_page.dart';
-
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   static final String routeName = "/HomeScreen";
@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     fltrNotification = new FlutterLocalNotificationsPlugin();
     fltrNotification.initialize(initilizationsSettings,
         onSelectNotification: notificationSelected);
+
 
 
     getIdAndIdCurrentDoctor().then((value) {

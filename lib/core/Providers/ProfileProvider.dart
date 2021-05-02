@@ -35,6 +35,7 @@ class ProfileProvider with ChangeNotifier {
   final imagePicker = ImagePicker();
   String doctorName;
   bool loadingNameInHome=true;
+  String tips="";
 
   ///----------------------------- private method-------------------------------
   bool _isValidPhoneNumber(String phoneNumber)  {

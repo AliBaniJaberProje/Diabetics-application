@@ -70,6 +70,7 @@ class MyDoseProvider with ChangeNotifier {
     String url = "https://jaber-server.herokuapp.com/dose/${this.idUser}";
    http.Response response=await http.get(url,headers: {"x-auth-token":prefs.getString('jwt')});
    if(response.statusCode==200){
+     this.clearDose();
      var result=jsonDecode(response.body);
      http.Response response2=await http.get("https://jaber-server.herokuapp.com/steps/timestamp");
      var date=jsonDecode(response2.body);

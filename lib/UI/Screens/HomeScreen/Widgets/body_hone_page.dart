@@ -3,12 +3,17 @@ import 'package:ali_muntaser_final_project/UI/Screens/MyDoseScreen/MyDoseScreen.
 import 'package:ali_muntaser_final_project/UI/Screens/StepCount/StepScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/daily_reading_screen/dailyReadingScreen.dart';
 import 'package:ali_muntaser_final_project/UI/Screens/doctor_appointments/Doctor_appointmentScreen.dart';
+import 'package:ali_muntaser_final_project/UI/Screens/information/informationScreen.dart';
 import 'package:ali_muntaser_final_project/core/Constant/HomePageConstant.dart';
 import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../Screens/grp_reading/grp_reading.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+
 class HeaderContainer extends StatelessWidget {
   final bool showname;
   final String doctorName;
@@ -112,7 +117,7 @@ class MyGridTitle extends StatelessWidget {
                 print("عدد الخطوات ");
               } else if (data['title'] == MainFeture[6]['title']) {
                 print('معلومات ونصائح ');
-
+                Navigator.pushReplacementNamed(context, InformationScreen.routeName);
 
                 //  Navigator.pushReplacementNamed(context, MyPersonScreen.routeName);
               }
@@ -128,7 +133,28 @@ class MyGridTitle extends StatelessWidget {
   }
 }
 
-class TipOfDayContainer extends StatelessWidget {
+
+
+
+class TipOfDayContainer extends StatefulWidget {
+  @override
+  _TipOfDayContainerState createState() => _TipOfDayContainerState();
+}
+
+class _TipOfDayContainerState extends State<TipOfDayContainer> {
+  String tip="الوزن الصحي يمنحك القدرة على معواجهة اي مرض بكفاء أكبر . ويساعدك في التحكم في نسبة السكر بالدم ";
+  @override
+  void initState() {
+    http.get("https://jaber-server.herokuapp.com/information/patient/getTip").then((val){
+      if(val.statusCode==200) {
+         tip = jsonDecode(val.body)["data"];
+      }
+      },);
+
+
+
+        super.initState();
+        }
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -149,7 +175,7 @@ class TipOfDayContainer extends StatelessWidget {
           margin: EdgeInsets.only(left: 25, right: 25),
           padding: EdgeInsets.all( 3),
           width: MediaQuery.of(ctx).size.width,
-          height: 120,
+          height: 160,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -159,21 +185,21 @@ class TipOfDayContainer extends StatelessWidget {
               Text(
                 " نصيحة اليوم",
                 style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black87
+                    fontSize: 25,
+                    color: Colors.black87
                 ),
               ),
               Text(
-                "الوزن الصحي يمنحك القدرة على معواجهة اي مرض بكفاء أكبر . ويساعدك في التحكم في نسبة السكر بالدم ",
+                tip,
                 textAlign: TextAlign.end,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                     color: Colors.black87
                   //fontStyle: FontStyle.italic
                 ),
-                maxLines: 2,
+                maxLines: 3,
               ),
             ],
           ),
@@ -181,7 +207,12 @@ class TipOfDayContainer extends StatelessWidget {
       ),
     );
   }
+
+
 }
+
+
+
 
 class MainFituerContainer extends StatelessWidget {
   @override

@@ -6,6 +6,6 @@ const List<Map<String, String>> MainFeture = [
   {"title": "حجز موعد", "image": "assets/images/img6.png"},
   {"title": "عدد الخطوات ", "image": "assets/images/img2.png"},
 
-  {"title": " ", "image": "assets/images/GRP.png"},
+  // {"title": " ", "image": "assets/images/GRP.png"},
   {"title": "معلومات ونصائح ", "image": "assets/images/img4.png"},
 ];

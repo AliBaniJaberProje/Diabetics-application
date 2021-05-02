@@ -185,7 +185,12 @@ class _FoodHistoryState extends State<FoodHistory> {
                      print("NUll Date ");
                      return ;
                    }else{
-                     context.read<FoodHistoryProvider>().setNewDateAndSendRequest(year: "${date.year}" ,month: "${date.month}", day: "${date.day}");
+                     try{
+                       context.read<FoodHistoryProvider>().setNewDateAndSendRequest(year: "${date.year}" ,month: "${date.month}", day: "${date.day}");
+
+                     }catch(e){
+                       print(e);
+                     }
 
                    }
 

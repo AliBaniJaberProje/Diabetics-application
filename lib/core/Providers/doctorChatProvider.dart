@@ -57,6 +57,7 @@ class DoctorChatProvider with ChangeNotifier {
       var resultDecoded=jsonDecode(response.body);
      if(response.statusCode==200){
 
+
        for(int i=0;i<(resultDecoded["doctorsInfo"] as List<dynamic>).length;i++){
          _processResult(resultDecoded["doctorsInfo"][i]);
        }

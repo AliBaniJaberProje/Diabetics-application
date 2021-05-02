@@ -8,7 +8,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-class DailyReadingProvider with ChangeNotifier{
+class DailyReadingProvider with ChangeNotifier {
 
   String idUser;
   bool showNotification=false;
@@ -67,9 +67,9 @@ class DailyReadingProvider with ChangeNotifier{
 
   }
 
-  void setValueAndTake(int id, double val, Function shownotification) async{
+  void setValueAndTake(int id, double val, Function shownotification,String patientName) async{
 
-    if(val<60 || val > 400){
+    if(val< 70 || val > 400){
       FirebaseDatabase().reference()
           .child('notifications').child("doctors")
           .child(this.curantDoctorId).child('notification').push()
@@ -78,8 +78,10 @@ class DailyReadingProvider with ChangeNotifier{
         "idPatient":this.idUser,
         "isSeen":false,
         "value":val,
-
-
+        "patientName":patientName,
+        "idReading":id,
+         "timestamp":Timestamp.now().millisecondsSinceEpoch,
+        "type":"warning",
       });
     }
 

@@ -19,6 +19,7 @@ import 'UI/Screens/history/events_history.dart';
 import 'UI/Screens/history/food_history.dart';
 import 'UI/Screens/history/grp_history.dart';
 import 'UI/Screens/history/number_steps_history.dart';
+import 'UI/Screens/information/informationScreen.dart';
 import 'UI/Screens/setting/verfiy.dart';
 import 'UI/Screens/setting/rest_password_secren1.dart';
 import 'UI/Screens/setting/update_forget_passward.dart';
@@ -125,9 +126,9 @@ class MyApp extends StatelessWidget {
         RestPasswordSecren1.routeName:(context)=>RestPasswordSecren1(),
         UpdateForgetPassward.routeName:(context)=>UpdateForgetPassward(),
         GrpReading.routeName:(context)=>GrpReading(),
-
+        InformationScreen.routeName:(context)=>InformationScreen(),
         // RestPasswordSecren1
-        // ResatPassword
+        // ResatPassword   InformationScreen
       },
     );
   }

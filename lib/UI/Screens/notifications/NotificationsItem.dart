@@ -5,6 +5,7 @@ import 'package:ali_muntaser_final_project/core/Providers/ProfileProvider.dart';
 import 'package:ali_muntaser_final_project/core/Servies_api/nodeServers/PatientServes.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -109,26 +110,25 @@ class NotificationWidget extends StatelessWidget {
                      context.read<NotificationsProvider>().updateAcceptOrRegect("",this.mykey,1);
 
                      getIdAndIdCurrentDoctor().then((value) {
-                     //   print(value);
+
                        context.read<MessagesProvider>().setReceverId(value['patientUser']["currentDoctor"]);
                        context.read<MessagesProvider>().setSenderId(value['patientUser']["id"]);
                        context.read<MessagesProvider>().createColectionToThisDoctor(value['patientUser']["id"],value['patientUser']["currentDoctor"]);
                        context.read<MessagesProvider>().startListenLastAccessTimeDoctor();
-                     //   context.read<NotificationsProvider>().startStreamNotification(value['patientUser']["id"]);
-                     //   context.read<MessagesProvider>().getNumberOfMessagesFromDoctor(value['patientUser']["id"],value['patientUser']["currentDoctor"]);
-                     //   context.read<DailyReadingProvider>().idUser=value['patientUser']["id"];
-                     //   context.read<ProfileProvider>().setImgUrl(value['patientUser']['imgURL']);
-                     //   context.read<DailyReadingProvider>().patientImgUrl=value['patientUser']['imgURL'];
-                     //   context.read<ProfileProvider>().patient.username=value['patientUser']['username'];
-                     //   context.read<DailyReadingProvider>().imgUrlDoctor=value['imgURLDoctor'];
-                     //   context.read<DailyReadingProvider>().curantDoctorId=value['patientUser']["currentDoctor"];
-                     //
-                     //   print(value["currentDoctor"]);
-                     //   context.read<MessagesProvider>().getNumberOfMessagesFromDoctor(value['patientUser']["id"],value['patientUser']["currentDoctor"]);
-                     // context.read<MessagesProvider>().startListenLastAccessTimeDoctor();
-                     //   // setState(() {
-                     //   //   context.read<ProfileProvider>().loadingNameInHome=false;
-                     //   // });
+                       FirebaseDatabase().reference()
+                           .child('notifications').child("doctors")
+                           .child(value['patientUser']["currentDoctor"]).child('notification').push()
+                           .set({
+                         "imgPatient":value['patientUser']['imgURL'],
+                         "idPatient":value['patientUser']["id"],
+                         "isSeen":false,
+                         "value":"تم قبول الطلب من ${value['patientUser']['username']} ",
+                         "patientName":value['patientUser']['username'],
+                          "type":"request",
+                         "timestamp":Timestamp.now().millisecondsSinceEpoch
+
+
+                       });
                      });
 
 
