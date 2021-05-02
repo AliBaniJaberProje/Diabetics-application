@@ -65,7 +65,7 @@ class NumberOfStepProvider with ChangeNotifier{
      if(response.statusCode==200){
        var result=jsonDecode(response.body) as List;
        for(int i=0;i<result.length;i++){
-         setValue(i,result[i]*1.0/1000.0);
+         setValue(i,result[i]*1.0/1.0);
 
        }
        notifyListeners();

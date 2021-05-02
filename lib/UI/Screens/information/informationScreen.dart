@@ -76,7 +76,7 @@ class _InformationScreenState extends State<InformationScreen> {
   @override
   void initState() {
     Random random = new Random();
-    int randomNumber = random.nextInt(all.length);
+    int randomNumber = random.nextInt(all.length-1);
     index=randomNumber;
     setState(() {
       loading=true;
@@ -138,7 +138,7 @@ class _InformationScreenState extends State<InformationScreen> {
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-              showSearch(context: context, delegate: DataSearch()).then((val) {
+              showSearch(context: context,delegate: DataSearch()).then((val) {
 
                 setState(() {
                   this.index=int.parse(val);
@@ -236,6 +236,7 @@ class DataSearch extends SearchDelegate<String> {
       IconButton(
         icon: Icon(Icons.clear),
         onPressed: () {
+          close(context, "0");
           query = "";
         },
       )
@@ -279,9 +280,9 @@ class DataSearch extends SearchDelegate<String> {
           // loading=true;
           close(context, index.toString());
         },
-        trailing: Icon(Icons.search),
+       // trailing: Icon(Icons.search),
 
-        title: RichText(
+        trailing: RichText(
           text: TextSpan(
               text: query,
               style:

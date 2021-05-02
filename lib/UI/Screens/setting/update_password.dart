@@ -47,6 +47,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
   TextEditingController _prevesPassController;
   TextEditingController _newePass1;
   TextEditingController _newPass2;
+  bool loading=false;
 
   @override
   void initState() {
@@ -207,7 +208,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                         SizedBox(
                           height: 30,
                         ),
-                        RaisedButton(
+                       loading?Center(child: CircularProgressIndicator(),): RaisedButton(
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
                             padding: const EdgeInsets.all(10),
@@ -290,7 +291,11 @@ class _UpdatePasswordState extends State<UpdatePassword> {
 
   void _validateFormAndLogin() async{
     var formState = _formKey.currentState;
+
     if (formState.validate()) {
+      setState(() {
+        loading=true;
+      });
       SharedPreferences prefs = await SharedPreferences.getInstance();
       http.Response response =await http.patch("https://jaber-server.herokuapp.com/password/forgetPassword",headers: {'x-auth-token': prefs.get('jwt')},body: {
         "password":_prevesPassController.text,
@@ -300,6 +305,9 @@ class _UpdatePasswordState extends State<UpdatePassword> {
     print(jsonDecode(response.body));
     buildCenterFlushbar(jsonDecode(response.body)["msg"],response.statusCode==200?Colors.green.shade300:Colors.red.shade300);
     if(response.statusCode==200){
+      setState(() {
+        loading=false;
+      });
       prefs.remove("id");
       prefs.remove("password");
       Navigator.pushReplacementNamed(

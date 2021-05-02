@@ -112,7 +112,9 @@ class MyGridTitle extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, NumberOfStep.routeName);
                 print('حجز موعد');
               } else if (data['title'] == MainFeture[5]['title']) {
-                Navigator.pushReplacementNamed(context, GrpReading.routeName);
+                Navigator.pushReplacementNamed(context, InformationScreen.routeName);
+
+                // Navigator.pushReplacementNamed(context, GrpReading.routeName);
 
                 print("عدد الخطوات ");
               } else if (data['title'] == MainFeture[6]['title']) {

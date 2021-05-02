@@ -38,6 +38,7 @@ class _UpdateForgetPasswardState extends State<UpdateForgetPassward> {
 
 
   var args;
+  bool loading=false;
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +128,7 @@ class _UpdateForgetPasswardState extends State<UpdateForgetPassward> {
                         ),
                         SizedBox(height: 30,),
 
-                        RaisedButton(
+                       loading?Center(child: CircularProgressIndicator(),): RaisedButton(
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
                             padding: const EdgeInsets.all(10),
@@ -175,9 +176,15 @@ class _UpdateForgetPasswardState extends State<UpdateForgetPassward> {
   void _validateFormAndLogin() async{
     var formState = _formKey.currentState;
     if (formState.validate()) {
+      setState(() {
+        loading=true;
+      });
       print(args.toString());
      http.Response response=await http.patch("https://jaber-server.herokuapp.com/password/updatePassword",body: {"id":args["id"],"phoneNumber":args["phone"],"pinCode":args["code"],"password":_newePass1.text});
      if(response.statusCode==200){
+       setState(() {
+         loading=false;
+       });
        Navigator.pushReplacementNamed(context, LoginScreen.routeName);
 
        Flushbar(

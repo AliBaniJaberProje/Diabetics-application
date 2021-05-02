@@ -50,7 +50,7 @@ class _FoodScreen2State extends State<FoodScreen2> {
         children: [
           Container(
             color: Colors.purple.shade50,
-            margin: EdgeInsets.all(20),
+            margin: EdgeInsets.symmetric(vertical: 20,horizontal: 40),
             child: DropdownSearch<String>(
               popupTitle: Card(
                 elevation: 0,
@@ -92,7 +92,8 @@ class _FoodScreen2State extends State<FoodScreen2> {
                 "الورقيات", //
                 //"وجبات خفيفة",//
               ],
-              label: "صنف الطعام ",
+              label: "  صنف الطعام    ",
+
               showSearchBox: true,
               showClearButton: true,
               showSelectedItem: true,

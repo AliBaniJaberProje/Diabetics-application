@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Widgets/HeaderLogin.dart';
 import '../../../core/Providers/MyDoseProvider.dart';
 import 'package:http/http.dart' as http;
-
+import 'dart:ui' as ui;
 import 'dart:convert';
 
 
@@ -393,7 +393,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body:this.loading?Center(child: CircularProgressIndicator(),): SingleChildScrollView(
+      body:this.loading?Center(child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("جاي مصادقة الحساب...",textAlign: TextAlign.center,textDirection: ui.TextDirection.rtl,),
+          CircularProgressIndicator()
+        ],
+      ),): SingleChildScrollView(
         child: Container(
           child: Column(
             children: [

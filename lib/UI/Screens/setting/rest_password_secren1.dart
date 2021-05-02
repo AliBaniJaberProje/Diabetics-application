@@ -64,6 +64,8 @@ class _RestPasswordSecren1State extends State<RestPasswordSecren1> {
 
   }
 
+
+  bool loading=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,7 +154,7 @@ class _RestPasswordSecren1State extends State<RestPasswordSecren1> {
                         ),
                         SizedBox(height: 30,),
 
-                        RaisedButton(
+                       this.loading?Center(child: CircularProgressIndicator(),): RaisedButton(
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
                             padding: const EdgeInsets.all(10),
@@ -193,9 +195,14 @@ class _RestPasswordSecren1State extends State<RestPasswordSecren1> {
   void _validateFormAndLogin(BuildContext context)async {
     var formState = _formKey.currentState;
     if (formState.validate()) {
+      setState(() {
+        loading=true;
+      });
       http.Response response=await http.patch("https://jaber-server.herokuapp.com/password/sendCodePatient",body: {"id":_idController.text,"phoneNumber":_phoneNumberController.text});
       if(response.statusCode==200){
-
+        setState(() {
+          loading=false;
+        });
         var result=jsonDecode(response.body);
         Navigator.pushReplacementNamed(context,ResatPassword.routeName,arguments: {"phone":_phoneNumberController.text,"id":_idController.text,"code":result["code"].toString()});
 

@@ -320,7 +320,7 @@ class BardChatWidget extends StatelessWidget{
 
       BarChartData(
         alignment: BarChartAlignment.center,
-        maxY: 20,
+        maxY: 10,
         minY: 0,
 
 
@@ -356,7 +356,7 @@ class BardChatWidget extends StatelessWidget{
             x: data.id,
             barRods: [
               BarChartRodData(
-                y: data.y,
+                y: data.y/1000,
                 width: 20,
                 colors: [data.color],
                 borderRadius: data.y > 0
